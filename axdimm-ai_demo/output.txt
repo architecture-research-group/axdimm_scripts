@@ -1,0 +1,5 @@
+[ 2527.125785] MEM INIT
+[ 2528.404366] BufferCopy Done=============================
+[ 2528.404453] NMPInst copies Done=============================
+[ 2528.404456] At copied loc: 0xdddddddd
+[ 2528.404661] Module exit
