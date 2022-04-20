@@ -1,5 +1,53 @@
-[ 3177.069252] MEM INIT
-[ 3178.356739] BufferCopy Done=============================
-[ 3178.356825] NMPInst copies Done=============================
-[ 3178.356829] At copied loc: 0x00000001
-[ 3178.357034] Module exit
+[ 1396.182693] rw_test: loading out-of-tree module taints kernel.
+[ 1396.182766] rw_test: module verification failed: signature and/or required key missing - tainting kernel
+[ 1396.183448] MEM INIT
+[ 1397.459541] BUG: unable to handle page fault for address: ffffbde8c0000100
+[ 1397.459548] #PF: supervisor write access in kernel mode
+[ 1397.459550] #PF: error_code(0x0002) - not-present page
+[ 1397.459553] PGD 105bd61067 P4D 105bd61067 PUD 0 
+[ 1397.459558] Oops: 0002 [#1] SMP PTI
+[ 1397.459563] CPU: 11 PID: 3399 Comm: rmmod Tainted: G           OE     5.4.0-48-generic #52-Ubuntu
+[ 1397.459565] Hardware name: Default string Default string/Default string, BIOS 5.11 02/08/2022
+[ 1397.459573] RIP: 0010:ax_single+0x2c/0x626 [rw_test]
+[ 1397.459577] Code: 44 00 00 55 48 89 e5 53 48 83 ec 18 0f ae f0 48 8b 05 9d 22 00 00 48 ba 00 01 00 00 28 00 00 00 48 01 c2 0f b6 05 d1 1e 00 00 <88> 02 48 c7 c7 20 61 9e c0 b8 00 00 00 00 e8 21 f7 32 df c7 05 c4
+[ 1397.459579] RSP: 0018:ffffbdc082337e98 EFLAGS: 00010286
+[ 1397.459582] RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000000
+[ 1397.459584] RDX: ffffbde8c0000100 RSI: ffffbdc082337ed8 RDI: ffffffffa12bd6a0
+[ 1397.459586] RBP: ffffbdc082337eb8 R08: 0000000000000074 R09: ffffffffa12573e0
+[ 1397.459588] R10: 0000000000000000 R11: 0000000000000000 R12: ffffffffc09e7040
+[ 1397.459590] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[ 1397.459593] FS:  00007f6dbf54c540(0000) GS:ffff9b9e1f4c0000(0000) knlGS:0000000000000000
+[ 1397.459595] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1397.459597] CR2: ffffbde8c0000100 CR3: 000000101381e005 CR4: 00000000003606e0
+[ 1397.459600] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 1397.459602] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[ 1397.459603] Call Trace:
+[ 1397.459611]  mem_exit+0x26/0x7f9 [rw_test]
+[ 1397.459621]  __x64_sys_delete_module+0x147/0x2b0
+[ 1397.459628]  ? exit_to_usermode_loop+0xea/0x160
+[ 1397.459633]  do_syscall_64+0x57/0x190
+[ 1397.459641]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[ 1397.459644] RIP: 0033:0x7f6dbf698bcb
+[ 1397.459647] Code: 73 01 c3 48 8b 0d c5 82 0c 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 b0 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 95 82 0c 00 f7 d8 64 89 01 48
+[ 1397.459649] RSP: 002b:00007ffee4694668 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0
+[ 1397.459653] RAX: ffffffffffffffda RBX: 000055d3c3a68780 RCX: 00007f6dbf698bcb
+[ 1397.459655] RDX: 000000000000000a RSI: 0000000000000800 RDI: 000055d3c3a687e8
+[ 1397.459656] RBP: 00007ffee46946c8 R08: 0000000000000000 R09: 0000000000000000
+[ 1397.459658] R10: 00007f6dbf714ac0 R11: 0000000000000206 R12: 00007ffee46948a0
+[ 1397.459660] R13: 00007ffee4695e73 R14: 000055d3c3a682a0 R15: 000055d3c3a68780
+[ 1397.459663] Modules linked in: rw_test(OE-) rpcsec_gss_krb5 auth_rpcgss nfsv4 nfs lockd grace fscache ipmi_ssif intel_rapl_msr intel_rapl_common x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel joydev input_leds kvm rapl intel_cstate mei_me mei ipmi_si ipmi_devintf ipmi_msghandler acpi_power_meter acpi_pad mac_hid sch_fq_codel parport_pc ppdev lp parport sunrpc ip_tables x_tables autofs4 hid_generic usbhid hid mxm_wmi crct10dif_pclmul crc32_pclmul ghash_clmulni_intel aesni_intel mgag200 drm_vram_helper ttm crypto_simd drm_kms_helper cryptd glue_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm igb ahci i2c_i801 libahci lpc_ich dca i2c_algo_bit wmi
+[ 1397.459706] CR2: ffffbde8c0000100
+[ 1397.459710] ---[ end trace 10bb45eebddb5f7c ]---
+[ 1397.459714] RIP: 0010:ax_single+0x2c/0x626 [rw_test]
+[ 1397.459717] Code: 44 00 00 55 48 89 e5 53 48 83 ec 18 0f ae f0 48 8b 05 9d 22 00 00 48 ba 00 01 00 00 28 00 00 00 48 01 c2 0f b6 05 d1 1e 00 00 <88> 02 48 c7 c7 20 61 9e c0 b8 00 00 00 00 e8 21 f7 32 df c7 05 c4
+[ 1397.459719] RSP: 0018:ffffbdc082337e98 EFLAGS: 00010286
+[ 1397.459722] RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000000
+[ 1397.459724] RDX: ffffbde8c0000100 RSI: ffffbdc082337ed8 RDI: ffffffffa12bd6a0
+[ 1397.459726] RBP: ffffbdc082337eb8 R08: 0000000000000074 R09: ffffffffa12573e0
+[ 1397.459727] R10: 0000000000000000 R11: 0000000000000000 R12: ffffffffc09e7040
+[ 1397.459729] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+[ 1397.459732] FS:  00007f6dbf54c540(0000) GS:ffff9b9e1f4c0000(0000) knlGS:0000000000000000
+[ 1397.459734] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 1397.459736] CR2: ffffbde8c0000100 CR3: 000000101381e005 CR4: 00000000003606e0
+[ 1397.459738] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 1397.459739] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400

@@ -24,14 +24,13 @@ module_param(offset, ulong, 0644);
 static ulong size = 0x1000000000;
 module_param(size, ulong, 0644);
 
+static ulong loc =  0x0000000000;
+
 static uint test = 0;
 module_param(test, uint, 0644);
 
-static uint nproc = 4;
-module_param(nproc, uint, 0644);
-
-static uint data[16];
-module_param_array(data, uint, NULL, 0644);
+static uint data = 1;
+module_param(data, uint,  0644);
 
 char t_2;
 
@@ -42,23 +41,10 @@ volatile void *addr1;
 volatile void *addr1_psum;
 atomic_t t = ATOMIC_INIT(0);
 
-static uint polldata0[16];
-static uint polldata1[16];
-
-static uint readdata0[16];
-static uint readdata1[16];
-static uint readdata2[16];
-static uint readdata3[16];
-static uint readdata4[16];
-static uint readdata5[16];
-static uint readdata6[16];
-static uint readdata7[16];
 
 volatile void *psum_addr;
 static uint reg_data[16];
 
-static uint Buffer[1024][16];
-static uint EmbTable[1024][16];
 static uint NMPInst[1024][16];
 
 void memcpy_avx (void *dest, void *src, size_t size)
@@ -99,7 +85,7 @@ void ax_single(void)
 	ulong i;
 
 
-	mb();memcpy((void *)(addr + 256 + 0x000000000), (void *)(&t_2),1);
+	mb();memcpy((void *)(addr + 256 + 0x2800000000), (void *)(&data),1);
 
 	printk("BufferCopy Done=============================\n");
 
@@ -148,12 +134,13 @@ void ax_single(void)
 	memcpy((void *)(addr + 0x3E1000000), (void *)reg_data, 64);
 	memcpy((void *)(addr + 0x7E1000000), (void *)reg_data, 64);
 
-	printk("At copied loc: 0x%.8x\n", *(uint*)(addr + 256 + 0x000000000) );
+	printk("At copied loc: 0x%x\n", *(unsigned*)(addr + 256 + 0x280000000) );
 }
 
-void ax_read(void)
+void ax_read(ulong loc)
 {
-	printk("READ");
+	printk("ax_read\n");
+	printk("data at %ld: %lx\n", loc, *(unsigned long*)(addr + 256 + loc));
 }
 
 static int mem_init(void)
@@ -163,6 +150,7 @@ static int mem_init(void)
 	{
 	case 0:
 	case 1:
+		//addr = memremap(0x100000000, 0x1000000000, MEMREMAP_WC);
 		addr = memremap(0x100000000, 0x800000000, MEMREMAP_WC);
 		break;
 	default:
@@ -175,14 +163,14 @@ static int mem_init(void)
 
 static void mem_exit(void)
 {
-	t_2=(char)1;
+	t_2=(char)255;
 	switch (test)
 	{
 	case 0:
 		ax_single();
 		break;
 	case 1:
-		ax_read();
+		ax_read(loc);
 		break;
 	default:
 		printk("\n\n\nWrong Test Case\n\n\n");
