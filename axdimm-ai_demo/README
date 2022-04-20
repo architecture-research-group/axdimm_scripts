@@ -20,4 +20,6 @@ it has 4 optional argument
 	  Ex : data=0x44  etc.. upto 2 inputs
 
 
-sudo ./run.sh offset=0x280000000 size=0x20000000 data=0xab
+sudo ./run.sh data=0xab
+gives:
+0x000000cc

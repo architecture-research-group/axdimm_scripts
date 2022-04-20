@@ -33,6 +33,8 @@ module_param(nproc, uint, 0644);
 static uint data[16];
 module_param_array(data, uint, NULL, 0644);
 
+char t_2;
+
 volatile void *addr;
 volatile void *addr0;
 volatile void *addr0_psum;
@@ -106,8 +108,12 @@ void ax_single(void)
 	}
 	*/
 	//mb();memcpy((void *)(addr + 256 + 0x000000000), (void *)Buffer,64);
+	/*
 	mb();memcpy((void *)(addr + 256 + 0x000000000), (void *)data,16);
 	mb();memcpy((void *)(addr + 256 + 0x000000000), (void *)data,16);
+	*/
+	mb();memcpy((void *)(addr + 256 + 0x000000000), (void *)(&t_2),1);
+	//mb();memcpy((void *)(addr + 256 + 0x000000000), (void *)data,16);
 
 	printk("BufferCopy Done=============================\n");
 
@@ -412,6 +418,7 @@ static int mem_init(void)
 
 static void mem_exit(void)
 {
+	t_2=(char)255;
 	switch (test)
 	{
 	case 0:
