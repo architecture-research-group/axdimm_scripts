@@ -112,6 +112,21 @@ void ax_single(void)
 	num_of_inst_per_rank = sizeof(NMPInst) / 8;
 
 	//getnstimeofday(&start);
+	if (num_of_inst_per_rank <= 8)
+	{
+		   memcpy((void *)(addr + 0x7C0000000), (void *)NMPInst[0], 64);
+		   memcpy((void *)(addr + 0xFC0000000), (void *)NMPInst[0], 64);
+	}
+	else
+	{
+		   for (i = 0; i < (num_of_inst_per_rank / 16); i += 1)
+		   {
+				   memcpy((void *)(addr + i * 256 + 0x3E0000000), (void *)NMPInst[2 * i], 64);
+				   memcpy((void *)(addr + i * 256 + 0x3E0000040), (void *)NMPInst[2 * i + 1], 64);
+				   memcpy((void *)(addr + i * 256 + 0x7E0000000), (void *)NMPInst[2 * i], 64);
+				   memcpy((void *)(addr + i * 256 + 0x7E0000040), (void *)NMPInst[2 * i + 1], 64);
+		   }
+	}
 
 
 	//are these addresses of registers?
