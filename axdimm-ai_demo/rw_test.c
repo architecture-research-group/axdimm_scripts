@@ -85,6 +85,7 @@ static void mem_exit(void)
 		break;
 	case 1:
 		/*call the module to test a copy to axdimm space */
+		ax_write_loc();
 		ax_read(loc);
 		break;
 	default:
