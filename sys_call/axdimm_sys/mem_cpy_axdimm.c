@@ -1,14 +1,12 @@
 #include <linux/kernel.h>
+#include <linux/module.h>
 #include <linux/syscalls.h>
+
+extern int get_axdimm_addr(void);
 
 SYSCALL_DEFINE0(mem_cpy_axdimm)
 {
     printk("axdimm memcpy\n");
-	return 0;
+	return get_axdimm_addr();
 }
 
-SYSCALL_DEFINE1(mem_read_axdimm)
-{
-    printk("axdimm memread\n");
-	return 0;
-}
