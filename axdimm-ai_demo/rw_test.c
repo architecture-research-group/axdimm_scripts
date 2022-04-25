@@ -5,6 +5,7 @@
 #include <linux/delay.h>
 #include <linux/kthread.h>
 #include <asm/atomic.h>
+#include <linux/slab.h>
 //#include <sys/time.h>
 
 /*memcpy_avx */
@@ -37,6 +38,24 @@ int copy_char(void)
 	printk("char at loc(%lu):%c", (unsigned long)addr, c);
 	return 0;
 }
+int copy_pattern(void)
+{
+	/* allocate buffer with signal */
+	char * buf = (char *)kmalloc( sizeof(char) * 3, GFP_KERNEL);
+	char _1 = (char)65535;
+	char _2 = (char)43690;
+	char _3 = (char)0;
+	buf[0]=_1;
+	buf[1]=_2;
+	buf[2]=_3;
+
+	/* copy buffer to axdimm */
+	printk("copying pattern %s", buf);
+	memcpy((void *) (addr + 256), (void *) &buf, sizeof(buf));
+	printk("pattern at loc(%lu):%s", (unsigned long)(addr+256), buf);
+
+	return 0;
+}
 static int mem_init(void)
 {
 	printk("MEM INIT");
@@ -46,7 +65,11 @@ static int mem_init(void)
 	{
 		case 0:
 			copy_char();	
+			break;
 		case 1:
+			copy_pattern();	
+			break;
+		case 2:
 		default:
 			break;
 	}
