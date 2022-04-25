@@ -1,25 +1,7 @@
-
 use run.sh script to test
 ./run.sh
 
-it has 4 optional argument
+copies single char (2 bytes) to memory at offset 256
+-- character "c" is written to the memory location
 
-1. size - size of the memory to be tested can be specified using this argument
-	  default is set to 0x40000000 that is 1G
-	  size should be specified in hexadecimal
-	  Ex: size=0x20000000 will test 512MB of memory
-
-
-2. offset - offset specifies the starting physical address of DRAM to be tested
-	    Ex : offset=0x280000000
-	    default offset is set to offset=0x880000000 that is 34G
-
-3. data - data can be used to specify the data pattern to be wrriten to memory while testing
-	  it can take maximum 16 inputs of 4 byte each seperated by comma
-	  default is set to 0
-	  Ex : data=0x44  etc.. upto 2 inputs
-
-
-sudo ./run.sh data=0xab
-gives:
-0x000000cc
+sudo ./run.sh 
