@@ -1,2 +1,4 @@
-[14295.273191] MEM INIT
-[14296.539410] Module exit
+[ 2404.028102] MEM INIT
+[ 2404.028132] copying char c
+[ 2404.028135] char at loc(18446641219980230656):c
+[ 2405.277303] Module exit
