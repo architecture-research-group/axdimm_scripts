@@ -1,0 +1,1 @@
+cmd_/home/n869p538/axdimm_modules/axdimm-ai_demo/rw_test.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000  --build-id  -T ./scripts/module-common.lds -o /home/n869p538/axdimm_modules/axdimm-ai_demo/rw_test.ko /home/n869p538/axdimm_modules/axdimm-ai_demo/rw_test.o /home/n869p538/axdimm_modules/axdimm-ai_demo/rw_test.mod.o;  true
