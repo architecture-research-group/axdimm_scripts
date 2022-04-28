@@ -33,10 +33,18 @@ int test_ax_cpy(unsigned long r_addr)
 
 unsigned long do_ax_mmap(){
 	int devfd, ret;
-	devfd = open(AX_MOD_PARAM, O_RDWR);
 	size_t u_addr;
+	char * testbuf;
+
+	testbuf= (char *)malloc(sizeof(char) * 100);
+	for (int i = 0; i < 100; i++){ 
+		sprintf(&(testbuf[i]), "%c", 'F');
+	}
+	devfd = open(AX_MOD_PARAM, O_RDWR);
 
 	u_addr = (size_t) mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED_VALIDATE, devfd, 0);
+
+	memcpy((void *)u_addr, testbuf, sizeof(testbuf));
 	printf("AxDIMM User Start: 0x%lx\n", u_addr);
 
 	if ((int)u_addr == MAP_FAILED)
@@ -50,6 +58,13 @@ unsigned long do_ax_read(){
 	int devfd = open(AX_MOD_PARAM, O_RDWR);
 	read(devfd, buf, 1);
 	printf("read: %s\n", buf);
+}
+
+unsigned long do_ax_write(){
+	int devfd = open(AX_MOD_PARAM, O_RDWR);
+	char * buf = (char *)malloc(sizeof(char));
+	sprintf(buf, "%c", 'F');
+	write(devfd, buf, 1);
 }
 
 int main()
@@ -69,6 +84,7 @@ int main()
 			break;
 		case 1:
 			/*call read test*/
+			do_ax_write();
 			do_ax_read();
 			break;
 		case 2:

@@ -42,11 +42,13 @@ atomic_t t = ATOMIC_INIT(0);
 static int mmap_mem(struct file *file, struct vm_area_struct *vma);
 static int open_mem(struct inode *inode, struct file *filp);
 static ssize_t read_mem(struct file *file, char __user *buf,size_t count, loff_t *ppos);
+static ssize_t write_mem(struct file *file, const char __user *buf,size_t count, loff_t *offset);
 
 static const struct file_operations ax_fops = {
 	.mmap	= mmap_mem,
 	.open	= open_mem,
-	.read	= read_mem
+	.read	= read_mem,
+	.write  = write_mem,
 };
 
 struct ax_dev{
@@ -59,17 +61,11 @@ static int mmap_mem(struct file *file, struct vm_area_struct *vma)
 {
 	size_t size = vma->vm_end - vma->vm_start;
 
-	/*size is less than axdimm max*/
-	phys_addr_t offset = (phys_addr_t)vma->vm_pgoff << PAGE_SHIFT;
-
-	/* Does it even fit in phys_addr_t? */
-	if (offset >> PAGE_SHIFT != vma->vm_pgoff)
-		return -EINVAL;
-
 	/* Remap-pfn-range will mark the range VM_IO */
+	printk (KERN_INFO "Performing memory mapping\n");
 	if (vm_iomap_memory(vma,
 				(phys_addr_t)addr,
-			    size)) {
+			    4096)) {
 		return -EAGAIN;
 	}
 	return 0;
@@ -91,7 +87,15 @@ static ssize_t read_mem(struct file *file, char __user *buf,size_t count, loff_t
 	if (copy_to_user(buf, (void *) ((size_t)(addr)), 1))
 		return -EFAULT;
 
-	//*offset += count;
+	//offset += count;
+	return count;
+}
+
+static ssize_t write_mem(struct file *file, const char __user *buf,size_t count, loff_t *offset)
+{
+	printk(KERN_INFO "write: at addr loc(%llu) %c", (phys_addr_t) addr, *(char *)addr);
+	copy_from_user((void *)&addr, buf, 1);
+
 	return count;
 }
 
@@ -109,7 +113,7 @@ static const struct vm_operations_struct mmap_mem_ops = {
 /*test functions */
 int copy_char(void)
 {
-	char c = 'c';
+	char c = 'F';
 	printk("copying char %c\n", c);
 	memcpy( (void *) (addr) , (void *) &c, sizeof(c));
 	printk("char at loc(%lu):%c\n", (unsigned long)addr, *(char *)addr);
@@ -154,6 +158,7 @@ static int mem_enter(void)
 	/*number of openers*/
 	axdev.openers=0;
 
+	/*create character device*/
 	cdev_init((struct cdev *)&axdev.cdev,&(ax_fops) );
 	cdev_add( &axdev.cdev, MKDEV(axdev.maj,0), 1);
 	device_create(axdev_class,NULL,MKDEV(axdev.maj,0),NULL,"ax_mem");
