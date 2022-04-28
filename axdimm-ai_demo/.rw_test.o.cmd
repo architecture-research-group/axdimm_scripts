@@ -864,6 +864,36 @@ deps_/home/n869p538/axdimm_modules/axdimm-ai_demo/rw_test.o := \
   include/linux/projid.h \
   include/uapi/linux/quota.h \
   include/linux/nfs_fs_i.h \
+  include/linux/cdev.h \
+  include/linux/device.h \
+    $(wildcard include/config/debug/devres.h) \
+    $(wildcard include/config/generic/msi/irq/domain.h) \
+    $(wildcard include/config/pinctrl.h) \
+    $(wildcard include/config/generic/msi/irq.h) \
+    $(wildcard include/config/dma/declare/coherent.h) \
+    $(wildcard include/config/dma/cma.h) \
+    $(wildcard include/config/arch/has/sync/dma/for/device.h) \
+    $(wildcard include/config/arch/has/sync/dma/for/cpu.h) \
+    $(wildcard include/config/arch/has/sync/dma/for/cpu/all.h) \
+    $(wildcard include/config/of.h) \
+    $(wildcard include/config/devtmpfs.h) \
+    $(wildcard include/config/sysfs/deprecated.h) \
+  include/linux/ioport.h \
+    $(wildcard include/config/io/strict/devmem.h) \
+  include/linux/klist.h \
+  include/linux/pm.h \
+    $(wildcard include/config/vt/console/sleep.h) \
+    $(wildcard include/config/pm.h) \
+    $(wildcard include/config/pm/clk.h) \
+    $(wildcard include/config/pm/generic/domains.h) \
+  include/linux/ratelimit.h \
+  arch/x86/include/asm/device.h \
+    $(wildcard include/config/intel/iommu.h) \
+    $(wildcard include/config/amd/iommu.h) \
+    $(wildcard include/config/sta2x11.h) \
+    $(wildcard include/config/x86/dev/dma/ops.h) \
+    $(wildcard include/config/pci/domains.h) \
+  include/linux/pm_wakeup.h \
   /usr/lib/gcc/x86_64-linux-gnu/9/include/x86intrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/9/include/ia32intrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/9/include/immintrin.h \
@@ -970,8 +1000,6 @@ deps_/home/n869p538/axdimm_modules/axdimm-ai_demo/rw_test.o := \
   include/linux/page_ref.h \
     $(wildcard include/config/debug/page/ref.h) \
   include/linux/memremap.h \
-  include/linux/ioport.h \
-    $(wildcard include/config/io/strict/devmem.h) \
   include/linux/sizes.h \
   arch/x86/include/asm/pgtable.h \
     $(wildcard include/config/debug/wx.h) \

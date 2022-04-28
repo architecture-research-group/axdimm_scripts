@@ -7,6 +7,9 @@
 #include <asm/atomic.h>
 #include <linux/slab.h>
 #include <linux/fs.h>
+#include <linux/cdev.h>
+#include <linux/device.h>
+#include <linux/kernel.h>
 //#include <sys/time.h>
 
 /*memcpy_avx */
@@ -25,20 +28,38 @@ MODULE_LICENSE("GPL");
 static ulong axdimm_addr = 0;
 module_param(axdimm_addr,  ulong , 0644);
 
-static uint test = 1;
+static uint test = 0;
 module_param(test, uint, 0644);
 
 volatile void *addr;
 
-/*char dev maj num*/
-int maj=-1;
+// sysfs class structure
+static struct class *axdev_class = NULL;
 
 atomic_t t = ATOMIC_INIT(0);
 
 /* memory map implementation ++ char dev functionality*/
+static int mmap_mem(struct file *file, struct vm_area_struct *vma);
+static int open_mem(struct inode *inode, struct file *filp);
+static ssize_t read_mem(struct file *file, char __user *buf,size_t count, loff_t *ppos);
+
+static const struct file_operations ax_fops = {
+	.mmap	= mmap_mem,
+	.open	= open_mem,
+	.read	= read_mem
+};
+
+struct ax_dev{
+	struct cdev cdev;
+	int maj;
+	int openers;
+} axdev;
+
 static int mmap_mem(struct file *file, struct vm_area_struct *vma)
 {
 	size_t size = vma->vm_end - vma->vm_start;
+
+	/*size is less than axdimm max*/
 	phys_addr_t offset = (phys_addr_t)vma->vm_pgoff << PAGE_SHIFT;
 
 	/* Does it even fit in phys_addr_t? */
@@ -47,16 +68,32 @@ static int mmap_mem(struct file *file, struct vm_area_struct *vma)
 
 	/* Remap-pfn-range will mark the range VM_IO */
 	if (vm_iomap_memory(vma,
-				axdimm_addr,
+				(phys_addr_t)addr,
 			    size)) {
 		return -EAGAIN;
 	}
 	return 0;
 }
 
-static const struct file_operations ax_fops = {
-	.mmap	= mmap_mem
-};
+static int open_mem(struct inode *inode, struct file *filp){
+	axdev.openers++;
+	printk( KERN_INFO "Num openers: %d\n", axdev.openers );
+	return 0;
+}
+
+static ssize_t read_mem(struct file *file, char __user *buf,size_t count, loff_t *offset)
+{
+
+	if (count <= 0)
+		return 0;
+
+	/* read data from my_data->buffer to user buffer */
+	if (copy_to_user(buf, (void *) ((size_t)(addr)), 1))
+		return -EFAULT;
+
+	//*offset += count;
+	return count;
+}
 
 static const struct ax_memdev {
 	const char *name;
@@ -73,9 +110,9 @@ static const struct vm_operations_struct mmap_mem_ops = {
 int copy_char(void)
 {
 	char c = 'c';
-	printk("copying char %c", c);
-	memcpy( (void *) (addr + 256) , (void *) &c, sizeof(c));
-	printk("char at loc(%lu):%c", (unsigned long)addr, c);
+	printk("copying char %c\n", c);
+	memcpy( (void *) (addr) , (void *) &c, sizeof(c));
+	printk("char at loc(%lu):%c\n", (unsigned long)addr, *(char *)addr);
 	return 0;
 }
 int copy_pattern(void)
@@ -108,24 +145,32 @@ static int mem_enter(void)
 	axdimm_addr=(ulong )addr;
 
 	/*register the character device and get a major number */
-	maj = register_chrdev(0, "ax_mem", &ax_fops);
-	if (maj < 0){
-		printk(KERN_ALERT "Registering char device failed with %d\n", maj);
-	    return maj;
+	axdev.maj = register_chrdev(0, "ax_mem", &(ax_fops));
+	if (axdev.maj < 0){
+		printk(KERN_ALERT "Registering char device failed with %d\n", axdev.maj);
+	    return axdev.maj;
 	}
 
+	/*number of openers*/
+	axdev.openers=0;
+
+	cdev_init((struct cdev *)&axdev.cdev,&(ax_fops) );
+	cdev_add( &axdev.cdev, MKDEV(axdev.maj,0), 1);
+	device_create(axdev_class,NULL,MKDEV(axdev.maj,0),NULL,"ax_mem");
+
 	printk(KERN_INFO "axdimm character device registration successful\n");
-	printk(KERN_INFO "file: /dev/%s\n major num: %d", "ax_mem", maj);
+	printk(KERN_INFO "file: /dev/%s major num: %d\n", "ax_mem", axdev.maj);
 
 	switch (test)
 	{
 		case 0:
-			copy_char();	
 			break;
 		case 1:
 			copy_pattern();	
 			break;
 		case 2:
+			copy_char();	
+			break;
 		default:
 			break;
 	}
@@ -135,9 +180,11 @@ static int mem_enter(void)
 static void mem_exit(void)
 {
 	/*unregister character device*/
-	unregister_chrdev(maj, "ax_mem");
+	unregister_chrdev(axdev.maj, "ax_mem");
+	printk(KERN_INFO "Unregistered char device\n");
 	/*unmap kernel to axdimm phys*/
 	memunmap( (void*)addr);
+	printk(KERN_INFO "Unmapped AxDIMM Phys\n");
 
 	printk("Module exit\n");
 

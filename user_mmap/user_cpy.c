@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define AX_SIZE 0x800000000
 #define AX_MOD_PARAM "/dev/ax_mem"
@@ -31,35 +32,55 @@ int test_ax_cpy(unsigned long r_addr)
 }
 
 unsigned long do_ax_mmap(){
-	int fd, ret;
-	fd = open(AX_MOD_PARAM, O_RDWR);
+	int devfd, ret;
+	devfd = open(AX_MOD_PARAM, O_RDWR);
 	size_t u_addr;
 
-	u_addr = (unsigned long) mmap(NULL, 10, PROT_READ|PROT_WRITE, MAP_SHARED_VALIDATE, devfd, offset);
+	u_addr = (size_t) mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED_VALIDATE, devfd, 0);
 	printf("AxDIMM User Start: 0x%lx\n", u_addr);
 
-	if (u_addr == MAP_FAILED)
+	if ((int)u_addr == MAP_FAILED)
 		return -1;
 	else
 		return u_addr;
 }
 
+unsigned long do_ax_read(){
+	char * buf = (char *)malloc(sizeof(char));
+	int devfd = open(AX_MOD_PARAM, O_RDWR);
+	read(devfd, buf, 1);
+	printf("read: %s\n", buf);
+}
+
 int main()
 {
-	
-	/* get ax k_addr from module param */
-	size_t u_ax;
-	u_ax = do_ax_map();
 
-	if (u_ax < 0){
-		printf("Mapping unsuccessful\n");
-		return -1;
-	}
-	/*test copy the addr*/
-	if (test_ax_cpy(u_ax) != 0)
+	int test=1;
+	size_t u_ax;
+	switch (test)
 	{
-		printf("AxDIMM test copy Failed\n");
-		return -1;
+		case 0:
+			/*call mmap test*/
+			u_ax = do_ax_mmap();
+			if (u_ax < 0){
+				printf("Mapping unsuccessful\n");
+				return -1;
+			}
+			break;
+		case 1:
+			/*call read test*/
+			do_ax_read();
+			break;
+		case 2:
+			/*test copy the addr*/
+			if (test_ax_cpy(u_ax) != 0)
+			{
+				printf("AxDIMM test copy Failed\n");
+				return -1;
+			}
+		default:
+			break;
 	}
+
 
 }
