@@ -10,7 +10,8 @@
 #include <linux/cdev.h>
 #include <linux/device.h>
 #include <linux/kernel.h>
-//#include <sys/time.h>
+
+#include "rw_test.h"
 
 /*memcpy_avx */
 #define _MM_MALLOC_H_INCLUDED 1
@@ -33,29 +34,8 @@ module_param(test, uint, 0644);
 
 volatile void *addr;
 
-// sysfs class structure
-static struct class *axdev_class = NULL;
 
 atomic_t t = ATOMIC_INIT(0);
-
-/* memory map implementation ++ char dev functionality*/
-static int mmap_mem(struct file *file, struct vm_area_struct *vma);
-static int open_mem(struct inode *inode, struct file *filp);
-static ssize_t read_mem(struct file *file, char __user *buf,size_t count, loff_t *ppos);
-static ssize_t write_mem(struct file *file, const char __user *buf,size_t count, loff_t *offset);
-
-static const struct file_operations ax_fops = {
-	.mmap	= mmap_mem,
-	.open	= open_mem,
-	.read	= read_mem,
-	.write  = write_mem,
-};
-
-struct ax_dev{
-	struct cdev cdev;
-	int maj;
-	int openers;
-} axdev;
 
 static int mmap_mem(struct file *file, struct vm_area_struct *vma)
 {
@@ -79,15 +59,18 @@ static int open_mem(struct inode *inode, struct file *filp){
 
 static ssize_t read_mem(struct file *file, char __user *buf,size_t count, loff_t *offset)
 {
-
+	/*assume enough space in physical memory
+	  and retrieve all bytes from axdimm*/
 	if (count <= 0)
 		return 0;
 
+	/* this is just dram, no need for memcpy_fromio*/
 	/* read data from my_data->buffer to user buffer */
-	if (copy_to_user(buf, (void *) ((size_t)(addr)), 1))
+
+	if (copy_to_user(buf, addr, count))
 		return -EFAULT;
 
-	//offset += count;
+	*offset += count;
 	return count;
 }
 
@@ -99,16 +82,6 @@ static ssize_t write_mem(struct file *file, const char __user *buf,size_t count,
 	return count;
 }
 
-static const struct ax_memdev {
-	const char *name;
-	umode_t mode;
-	const struct file_operations *fops;
-	fmode_t fmode;
-} ax_dev = {"ax_mem", 0, &ax_fops, FMODE_UNSIGNED_OFFSET };
-
-static const struct vm_operations_struct mmap_mem_ops = {
-	.access = generic_access_phys
-};
 
 /*test functions */
 int copy_char(void)
@@ -138,21 +111,19 @@ int copy_pattern(void)
 	return 0;
 }
 
-/*entry and exit*/
-static int mem_enter(void)
+/*set up correct permissions*/
+static int axmem_uevent(struct device *dev, struct kobj_uevent_env *env)
 {
-	printk(KERN_INFO "MEM INIT");
-	/* use memremap on BIOS skipped Axdimm addresses */
-	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WC);
+	add_uevent_var(env, "DEVMODE=%#o", 0666);
+	return 0;
+}
 
-	/*export kernel module parameter*/
-	axdimm_addr=(ulong )addr;
-
+void chardev_init(void)
+{
 	/*register the character device and get a major number */
 	axdev.maj = register_chrdev(0, "ax_mem", &(ax_fops));
 	if (axdev.maj < 0){
 		printk(KERN_ALERT "Registering char device failed with %d\n", axdev.maj);
-	    return axdev.maj;
 	}
 
 	/*number of openers*/
@@ -160,11 +131,31 @@ static int mem_enter(void)
 
 	/*create character device*/
 	cdev_init((struct cdev *)&axdev.cdev,&(ax_fops) );
+	axdev.cdev.owner = THIS_MODULE;
 	cdev_add( &axdev.cdev, MKDEV(axdev.maj,0), 1);
+
+	/* create class for sysfs*/
+	axdev_class = class_create(THIS_MODULE, "ax_mem");
+	/*set rw_access using callback*/
+	axdev_class->dev_uevent = axmem_uevent;
+	/*create /dev/ax_mem*/
 	device_create(axdev_class,NULL,MKDEV(axdev.maj,0),NULL,"ax_mem");
 
-	printk(KERN_INFO "axdimm character device registration successful\n");
-	printk(KERN_INFO "file: /dev/%s major num: %d\n", "ax_mem", axdev.maj);
+	printk(KERN_INFO "dev at: /dev/%s major num: %d\n", "ax_mem", axdev.maj);
+}
+/*entry and exit*/
+static int mem_enter(void)
+{
+	printk(KERN_INFO "MEM INIT");
+
+	/* use memremap on BIOS skipped Axdimm addresses */
+	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WC);
+
+	chardev_init();
+
+	/*set visible kernel param*/
+	axdimm_addr=(ulong )addr;
+
 
 	switch (test)
 	{
@@ -185,8 +176,13 @@ static int mem_enter(void)
 static void mem_exit(void)
 {
 	/*unregister character device*/
-	unregister_chrdev(axdev.maj, "ax_mem");
+
+	device_destroy(axdev_class, MKDEV(axdev.maj,0));
+	class_unregister(axdev_class);
+	class_destroy(axdev_class);
+	unregister_chrdev_region(MKDEV(axdev.maj, 0), MINORMASK);
 	printk(KERN_INFO "Unregistered char device\n");
+
 	/*unmap kernel to axdimm phys*/
 	memunmap( (void*)addr);
 	printk(KERN_INFO "Unmapped AxDIMM Phys\n");

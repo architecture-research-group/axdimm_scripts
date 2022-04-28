@@ -894,6 +894,7 @@ deps_/home/n869p538/axdimm_modules/axdimm-ai_demo/rw_test.o := \
     $(wildcard include/config/x86/dev/dma/ops.h) \
     $(wildcard include/config/pci/domains.h) \
   include/linux/pm_wakeup.h \
+  /home/n869p538/axdimm_modules/axdimm-ai_demo/rw_test.h \
   /usr/lib/gcc/x86_64-linux-gnu/9/include/x86intrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/9/include/ia32intrin.h \
   /usr/lib/gcc/x86_64-linux-gnu/9/include/immintrin.h \
