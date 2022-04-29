@@ -59,31 +59,18 @@ static int open_mem(struct inode *inode, struct file *filp){
 
 static ssize_t read_mem(struct file *file, char __user *buf,size_t count, loff_t *offset)
 {
-	size_t max = 30;
-	/*assume enough space in physical memory
-	  and retrieve all bytes from emul*/
-	if (count <= 0 || count > max || *offset > max)
-		return 0;
-
-	/* this is just dram, no need for memcpy_fromio*/
-	/* read data from my_data->buffer to user buffer */
 
 	if (copy_to_user(buf, addr, count))
 		return -EFAULT;
 
-	*offset += count;
+	printk(KERN_INFO "%c\n", (char)buf[0]);
 	return count;
 }
 
 static ssize_t write_mem(struct file *file, const char __user *buf,size_t count, loff_t *offset)
 {
-	size_t max = 30;
-	if (count <= 0 || count > max)
-		return 0;
 
-	printk(KERN_INFO "write: at addr loc(%llu) %c", (phys_addr_t) addr, *(char *)addr);
 	copy_from_user((void *)&addr, buf, count);
-
 	return count;
 }
 
@@ -154,7 +141,7 @@ static int mem_enter(void)
 	printk(KERN_INFO "MEM INIT");
 
 	/* use memremap on BIOS skipped Axdimm addresses */
-	addr = vmalloc(16 * 1024);
+	addr = kzalloc(64, GFP_KERNEL);
 
 	chardev_init();
 
@@ -189,7 +176,7 @@ static void mem_exit(void)
 	printk(KERN_INFO "Unregistered char device\n");
 
 	/*unmap kernel to emul phys*/
-	vfree( (void*)addr);
+	kvfree( (void*)addr);
 	printk(KERN_INFO "Unmapped AxDIMM Phys\n");
 
 	printk("Module exit\n");
