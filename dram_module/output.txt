@@ -1,0 +1,4 @@
+[11122.332669] MEM INIT
+[11122.332696] copying pattern \xff\xaa
+[11122.332699] pattern at loc(18446641219980230912):\xff\xaa
+[11123.601710] Module exit

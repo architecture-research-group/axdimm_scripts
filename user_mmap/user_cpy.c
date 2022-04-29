@@ -9,7 +9,7 @@
 #include <stdlib.h>
 
 #define AX_SIZE 0x800000000
-#define AX_MOD_PARAM "/dev/ax_mem"
+#define AX_MOD_PARAM "/dev/emul_mem"
 
 unsigned long k_addr;
 unsigned long u_addr;
