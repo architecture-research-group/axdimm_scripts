@@ -3,3 +3,7 @@
 *.swn
 *.ko
 *.o
+*.cmd
+*.order
+*.mod.c
+*.out
