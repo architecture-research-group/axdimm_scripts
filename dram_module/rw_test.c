@@ -10,6 +10,7 @@
 #include <linux/cdev.h>
 #include <linux/device.h>
 #include <linux/kernel.h>
+#include <linux/uaccess.h>
 
 #include "rw_test.h"
 
@@ -60,17 +61,18 @@ static int open_mem(struct inode *inode, struct file *filp){
 static ssize_t read_mem(struct file *file, char __user *buf,size_t count, loff_t *offset)
 {
 
-	if (copy_to_user(buf, addr, count))
+	if (copy_to_user(buf, addr, 1))
 		return -EFAULT;
 
-	printk(KERN_INFO "%c\n", (char)buf[0]);
+	printk(KERN_INFO "read:%c\n", *(char *)addr);
 	return count;
 }
 
 static ssize_t write_mem(struct file *file, const char __user *buf,size_t count, loff_t *offset)
 {
 
-	copy_from_user((void *)&addr, buf, count);
+	copy_from_user((void *)&addr, buf, 1);
+	printk(KERN_INFO "write: %c\n", *(char *)addr);
 	return count;
 }
 
