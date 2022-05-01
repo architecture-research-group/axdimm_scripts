@@ -26,17 +26,21 @@
 #include <linux/mm.h>
 MODULE_LICENSE("GPL");
 
-/*kaddr of start of AxDIMM Phyus*/
-static ulong emul_addr = 0;
+int emul_major;
+static int nr_bytes = 0;
 module_param(emul_addr,  ulong , 0644);
 
 static uint test = 0;
 module_param(test, uint, 0644);
 
-void *addr;
 
-
-atomic_t t = ATOMIC_INIT(0);
+/*file operations*/
+static const struct file_operations ax_fops = {
+	.mmap	= mmap_mem,
+	.open	= open_mem,
+	.read	= read_mem,
+	.write  = write_mem,
+};
 
 static int mmap_mem(struct file *file, struct vm_area_struct *vma)
 {
@@ -77,95 +81,55 @@ static ssize_t write_mem(struct file *file, const char __user *buf,size_t count,
 }
 
 
-/*test functions */
-int copy_char(void)
-{
-	char c = 'F';
-	printk("copying char %c\n", c);
-	memcpy( (void *) (addr) , (void *) &c, sizeof(c));
-	printk("char at loc(%lu):%c\n", (unsigned long)addr, *(char *)addr);
-	return 0;
-}
-int copy_pattern(void)
-{
-	/* allocate buffer with signal */
-	char * buf = (char *)kmalloc( sizeof(char) * 3, GFP_KERNEL);
-	char _1 = (char)65535;
-	char _2 = (char)43690;
-	char _3 = (char)0;
-	buf[0]=_1;
-	buf[1]=_2;
-	buf[2]=_3;
-
-	/* copy buffer to emul */
-	printk("copying pattern %s", buf);
-	memcpy((void *) (addr + 256), (void *) &buf, sizeof(buf));
-	printk("pattern at loc(%lu):%s", (unsigned long)(addr+256), buf);
-
-	return 0;
-}
-
-/*set up correct permissions*/
-static int axmem_uevent(struct device *dev, struct kobj_uevent_env *env)
-{
-	add_uevent_var(env, "DEVMODE=%#o", 0666);
-	return 0;
-}
 
 void chardev_init(void)
 {
-	/*register the character device and get a major number */
-	axdev.maj = register_chrdev(0, "emul_mem", &(ax_fops));
-	if (axdev.maj < 0){
-		printk(KERN_ALERT "Registering char device failed with %d\n", axdev.maj);
-	}
-
-	/*number of openers*/
-	axdev.openers=0;
+	int err, devno = MKDEV(axdev.maj,0); /* only one dev */
 
 	/*create character device*/
-	cdev_init((struct cdev *)&axdev.cdev,&(ax_fops) );
+	cdev_init(&(axdev.cdev), &(ax_fops) );
 	axdev.cdev.owner = THIS_MODULE;
-	cdev_add( &axdev.cdev, MKDEV(axdev.maj,0), 1);
+	err = cdev_add( &(axdev.cdev), devno , 1);
 
-	/* create class for sysfs*/
-	axdev_class = class_create(THIS_MODULE, "emul_mem");
-	/*set rw_access using callback*/
-	axdev_class->dev_uevent = axmem_uevent;
-	/*create /dev/emul_mem*/
-	device_create(axdev_class,NULL,MKDEV(axdev.maj,0),NULL,"emul_mem");
-
-	printk(KERN_INFO "dev at: /dev/%s major num: %d\n", "emul_mem", axdev.maj);
+	if (err)
+		printk(KERN_NOTICE "Error %d adding memdev%d", err, index);
 }
 /*entry and exit*/
 static int mem_enter(void)
 {
+	int result, i;
+	dev_t dev = 0;
 	printk(KERN_INFO "MEM INIT");
 
+	result = alloc_chrdev_region(&dev, 0, 0, "emul_mem");
+	emul_major = MAJOR(dev);
+
+	if (result < 0) {
+		printk(KERN_WARNING "emul_mem: can't get major %d\n", emul_major);
+		return result;
+	}
+
 	/* use memremap on BIOS skipped Axdimm addresses */
-	addr = kzalloc(64, GFP_KERNEL);
+	if ( nr_bytes == 0)
+		addr = kmalloc(1024, GFP_KERNEL);
+	else
+		addr = kmalloc(nr_bytes, GFP_KERNEL);
+
+	if (! addr ){
+		result = -ENOMEM;
+		goto fail;
+	}
 
 	chardev_init();
 
 	/*set visible kernel param*/
 	emul_addr=(ulong )addr;
 
-
-	switch (test)
-	{
-		case 0:
-			break;
-		case 1:
-			copy_pattern();	
-			break;
-		case 2:
-			copy_char();	
-			break;
-		default:
-			break;
-	}
-
 	return 0;
+
+fail:
+	/*cleanup*/
+	return result;
 }
 static void mem_exit(void)
 {
