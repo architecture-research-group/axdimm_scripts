@@ -9,8 +9,9 @@ static ssize_t write_mem(struct file *file, const char __user *buf,size_t count,
 /* device store*/
 struct ax_dev{
 	struct cdev cdev;
+	size_t space;
 	int maj;
-	int openers;
+	void * addr;
 } axdev;
 
 
