@@ -35,6 +35,7 @@ __used __section("__versions") = {
 	{ 0x37a0cba, "kfree" },
 	{ 0xd5f10699, "cdev_add" },
 	{ 0x4240b5cb, "cdev_init" },
+	{ 0x14fc13d4, "remap_pfn_range" },
 	{ 0xc5850110, "printk" },
 	{ 0x3d58fb01, "param_ops_uint" },
 	{ 0x97651e6c, "vmemmap_base" },
@@ -46,4 +47,4 @@ __used __section("__versions") = {
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "545DCA7506B950D40B44139");
+MODULE_INFO(srcversion, "155144F5EE657D40E18D743");

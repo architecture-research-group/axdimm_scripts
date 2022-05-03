@@ -12,6 +12,7 @@
 #include <linux/kernel.h>
 #include <linux/uaccess.h>
 #include <linux/fcntl.h>
+#include <linux/mm.h>
 
 #include "rw_test.h"
 
@@ -27,24 +28,32 @@
 #include <linux/mm.h>
 MODULE_LICENSE("GPL");
 
+/* major number */
 int emul_major;
 
-static uint nr_bytes = 0;
-module_param(nr_bytes,  uint , 0644);
+static uint reg_data[16];
+
+static uint nr_records = 0;
+
+/*not volatile, kmalloc'd system mem*/
+void * rec_buf;
 
 static int mmap_mem(struct file *file, struct vm_area_struct *vma)
 {
-	//size_t size = vma->vm_end - vma->vm_start;
-
-	/* Remap-pfn-range will mark the range VM_IO */
-	printk (KERN_INFO "Performing memory mapping\n");
+	int ret;
 	/*
-	if (vm_iomap_memory(vma,
-				(phys_addr_t)addr,
-			    4096)) {
-		return -EAGAIN;
-	}
+		obtain page frame number of kmalloc'd memory
 	*/
+	unsigned long pfn = virt_to_phys((void *)rec_buf) >> PAGE_SHIFT;
+
+	/*
+		vma size is <= kmalloc'd mem
+	*/
+	if ( vma->vm_end - vma->vm_start < sizeof(rec_buf) )
+		return -EIO;
+	
+	printk (KERN_INFO "Performing memory mapping\n");
+	ret = remap_pfn_range(vma, vma->vm_start, pfn, vma->vm_end - vma->vm_start, vma->vm_page_prot);
 	return 0;
 }
 
@@ -100,7 +109,7 @@ static void mem_exit(void)
 	dev_t devno = MKDEV(axdev.maj, 0);
 
 	/*unmap kernel to emul phys*/
-	kfree(axdev.addr);
+	kfree(rec_buf);
 
 	unregister_chrdev_region(devno, 1);
 
@@ -122,13 +131,10 @@ static int mem_enter(void)
 		return result;
 	}
 
-	/* use memremap on BIOS skipped Axdimm addresses */
-	if ( nr_bytes == 0)
-		axdev.addr = kmalloc(1024, GFP_KERNEL);
-	else
-		axdev.addr = kmalloc(nr_bytes, GFP_KERNEL);
+	/* allocate record buffer */
+	rec_buf = kmalloc(nr_records, GFP_KERNEL);
 
-	if (! axdev.addr ){
+	if (! rec_buf ){
 		result = -ENOMEM;
 		goto fail;
 	}

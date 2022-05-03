@@ -957,9 +957,6 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/device/driver.h \
   arch/x86/include/asm/device.h \
   include/linux/pm_wakeup.h \
-  /home/n869p538/axdimm_modules/dram_module/rw_test.h \
-  arch/x86/include/asm/fpu/api.h \
-    $(wildcard include/config/X86_DEBUG_FPU) \
   include/linux/mm.h \
     $(wildcard include/config/HAVE_ARCH_MMAP_RND_BITS) \
     $(wildcard include/config/HAVE_ARCH_MMAP_RND_COMPAT_BITS) \
@@ -1007,6 +1004,8 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   arch/x86/include/asm/pgtable.h \
     $(wildcard include/config/DEBUG_WX) \
   arch/x86/include/asm/fpu/xstate.h \
+  arch/x86/include/asm/fpu/api.h \
+    $(wildcard include/config/X86_DEBUG_FPU) \
   include/asm-generic/pgtable_uffd.h \
   arch/x86/include/asm/pgtable_64.h \
   arch/x86/include/asm/fixmap.h \
@@ -1028,6 +1027,7 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/vm_event_item.h \
     $(wildcard include/config/MEMORY_BALLOON) \
     $(wildcard include/config/BALLOON_COMPACTION) \
+  /home/n869p538/axdimm_modules/dram_module/rw_test.h \
 
 /home/n869p538/axdimm_modules/dram_module/rw_test.o: $(deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o)
 

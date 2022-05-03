@@ -11,7 +11,6 @@ struct ax_dev{
 	struct cdev cdev;
 	size_t space;
 	int maj;
-	void * addr;
 } axdev;
 
 
