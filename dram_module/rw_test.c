@@ -121,7 +121,7 @@ static int mem_enter(void)
 {
 	int result;
 	dev_t dev = 0;
-	printk(KERN_INFO "MEM INIT");
+	printk(KERN_INFO "MEM INIT\n");
 
 	result = alloc_chrdev_region(&dev, 0, 0, "emul_mem");
 	axdev.maj = MAJOR(dev);
@@ -136,6 +136,7 @@ static int mem_enter(void)
 
 	if (! rec_buf ){
 		result = -ENOMEM;
+		printk("could not allocate record buf\n");
 		goto fail;
 	}
 
