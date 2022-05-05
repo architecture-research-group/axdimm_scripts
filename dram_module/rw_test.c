@@ -132,7 +132,7 @@ static int mem_enter(void)
 	}
 
 	/* allocate record buffer */
-	rec_buf = kmalloc(nr_records, GFP_KERNEL);
+	rec_buf = kmalloc(4096, GFP_KERNEL);
 
 	if (! rec_buf ){
 		result = -ENOMEM;

@@ -11,6 +11,8 @@
 #define AX_SIZE 0x800000000
 #define AX_MOD_PARAM "/dev/emul_mem"
 
+int ax_fd = -1;
+
 unsigned long k_addr;
 unsigned long u_addr;
 
@@ -32,7 +34,7 @@ int test_ax_cpy(unsigned long r_addr)
 }
 
 unsigned long do_ax_mmap(){
-	int devfd, ret;
+	int ret;
 	size_t u_addr;
 	char * testbuf;
 
@@ -40,14 +42,13 @@ unsigned long do_ax_mmap(){
 	for (int i = 0; i < 100; i++){ 
 		sprintf(&(testbuf[i]), "%c", 'F');
 	}
-	devfd = open(AX_MOD_PARAM, O_RDWR);
 
-	u_addr = (size_t) mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED_VALIDATE, devfd, 0);
+	u_addr = (size_t) mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED_VALIDATE, ax_fd, 0);
 
 	memcpy((void *)u_addr, testbuf, sizeof(testbuf));
 	printf("AxDIMM User Start: 0x%lx\n", u_addr);
 
-	if ((int)u_addr == MAP_FAILED)
+	if ((unsigned long)u_addr == MAP_FAILED)
 		return -1;
 	else
 		return u_addr;
@@ -55,16 +56,27 @@ unsigned long do_ax_mmap(){
 
 unsigned long do_ax_read(){
 	char * buf = (char *)malloc(sizeof(char));
-	int devfd = open(AX_MOD_PARAM, O_RDWR);
-	read(devfd, buf, 1);
+	if (ax_fd != -1){
+		read(ax_fd, buf, 1);
+	}
+	else {
+		printf("no char dev\n");
+		exit(1);
+	}
 	printf("read: %s\n", buf);
 }
 
 unsigned long do_ax_write(){
-	int devfd = open(AX_MOD_PARAM, O_RDWR);
 	char * buf = (char *)malloc(sizeof(char));
 	sprintf(buf, "%c", 'F');
-	write(devfd, buf, 1);
+	if (ax_fd != -1){
+		write(ax_fd, buf, 1);
+	}
+	else {
+		printf("no char dev\n");
+		exit(1);
+	}
+
 }
 
 int main()
@@ -72,6 +84,12 @@ int main()
 
 	int test=1;
 	size_t u_ax;
+	ax_fd = open(AX_MOD_PARAM, O_RDWR);
+	if (ax_fd < 0)
+	{
+		printf("no char dev\n");
+		exit(1);
+	}
 	switch (test)
 	{
 		case 0:
@@ -97,6 +115,7 @@ int main()
 		default:
 			break;
 	}
+	close(ax_fd);
 
 
 }

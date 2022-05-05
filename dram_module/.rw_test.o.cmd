@@ -1,18 +1,20 @@
-cmd_/home/n869p538/axdimm_modules/dram_module/rw_test.o := gcc -Wp,-MD,/home/n869p538/axdimm_modules/dram_module/.rw_test.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/7/include  -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h -Iubuntu/include  -D__KERNEL__ -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -fshort-wchar -Werror-implicit-function-declaration -Werror=return-type -Wno-format-security -std=gnu89 -fno-PIE -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mskip-rax-setup -mtune=generic -mno-red-zone -mcmodel=kernel -funit-at-a-time -DCONFIG_X86_X32_ABI -DCONFIG_AS_CFI=1 -DCONFIG_AS_CFI_SIGNAL_FRAME=1 -DCONFIG_AS_CFI_SECTIONS=1 -DCONFIG_AS_FXSAVEQ=1 -DCONFIG_AS_SSSE3=1 -DCONFIG_AS_CRC32=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -DCONFIG_AS_AVX512=1 -DCONFIG_AS_SHA1_NI=1 -DCONFIG_AS_SHA256_NI=1 -pipe -Wno-sign-compare -fno-asynchronous-unwind-tables -mindirect-branch=thunk-extern -mindirect-branch-register -fno-jump-tables -fno-delete-null-pointer-checks -Wno-frame-address -Wno-format-truncation -Wno-format-overflow -Wno-int-in-bool-context -O2 --param=allow-store-data-races=0 -DCC_HAVE_ASM_GOTO -Wframe-larger-than=1024 -fstack-protector-strong -Wno-unused-but-set-variable -Wno-unused-const-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -mrecord-mcount -mfentry -DCC_USING_FENTRY -Wdeclaration-after-statement -Wno-pointer-sign -Wno-array-bounds -Wno-stringop-overflow -Wno-restrict -Wno-maybe-uninitialized -fno-strict-overflow -fno-merge-all-constants -fmerge-constants -fno-stack-check -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -O0 -mpreferred-stack-boundary=4 -mavx2  -DMODULE  -DKBUILD_BASENAME='"rw_test"'  -DKBUILD_MODNAME='"rw_test"' -c -o /home/n869p538/axdimm_modules/dram_module/.tmp_rw_test.o /home/n869p538/axdimm_modules/dram_module/rw_test.c
+cmd_/home/seed/axdimm_modules/dram_module/rw_test.o := gcc -Wp,-MD,/home/seed/axdimm_modules/dram_module/.rw_test.o.d  -nostdinc -isystem /usr/lib/gcc/x86_64-linux-gnu/9/include  -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/kconfig.h -Iubuntu/include  -include ./include/linux/compiler_types.h -D__KERNEL__ -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE -Werror=implicit-function-declaration -Werror=implicit-int -Wno-format-security -std=gnu89 -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mskip-rax-setup -mtune=generic -mno-red-zone -mcmodel=kernel -DCONFIG_X86_X32_ABI -DCONFIG_AS_CFI=1 -DCONFIG_AS_CFI_SIGNAL_FRAME=1 -DCONFIG_AS_CFI_SECTIONS=1 -DCONFIG_AS_SSSE3=1 -DCONFIG_AS_AVX=1 -DCONFIG_AS_AVX2=1 -DCONFIG_AS_AVX512=1 -DCONFIG_AS_SHA1_NI=1 -DCONFIG_AS_SHA256_NI=1 -Wno-sign-compare -fno-asynchronous-unwind-tables -mindirect-branch=thunk-extern -mindirect-branch-register -fno-jump-tables -fno-delete-null-pointer-checks -Wno-frame-address -Wno-format-truncation -Wno-format-overflow -Wno-address-of-packed-member -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fstack-protector-strong -Wno-unused-but-set-variable -Wimplicit-fallthrough -Wno-unused-const-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -mrecord-mcount -mfentry -DCC_USING_FENTRY -flive-patching=inline-clone -Wdeclaration-after-statement -Wvla -Wno-pointer-sign -Wno-stringop-truncation -Wno-array-bounds -Wno-stringop-overflow -Wno-restrict -Wno-maybe-uninitialized -fno-strict-overflow -fno-merge-all-constants -fmerge-constants -fno-stack-check -fconserve-stack -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -fmacro-prefix-map=./= -fcf-protection=none -Wno-packed-not-aligned -O0 -mpreferred-stack-boundary=4 -mavx2  -DMODULE  -DKBUILD_BASENAME='"rw_test"' -DKBUILD_MODNAME='"rw_test"' -c -o /home/seed/axdimm_modules/dram_module/rw_test.o /home/seed/axdimm_modules/dram_module/rw_test.c
 
-source_/home/n869p538/axdimm_modules/dram_module/rw_test.o := /home/n869p538/axdimm_modules/dram_module/rw_test.c
+source_/home/seed/axdimm_modules/dram_module/rw_test.o := /home/seed/axdimm_modules/dram_module/rw_test.c
 
-deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
+deps_/home/seed/axdimm_modules/dram_module/rw_test.o := \
+  include/linux/kconfig.h \
+    $(wildcard include/config/cpu/big/endian.h) \
+    $(wildcard include/config/booger.h) \
+    $(wildcard include/config/foo.h) \
   include/linux/compiler_types.h \
     $(wildcard include/config/have/arch/compiler/h.h) \
     $(wildcard include/config/enable/must/check.h) \
-    $(wildcard include/config/enable/warn/deprecated.h) \
-  include/linux/compiler-gcc.h \
-    $(wildcard include/config/arch/supports/optimized/inlining.h) \
     $(wildcard include/config/optimize/inlining.h) \
+    $(wildcard include/config/cc/has/asm/inline.h) \
+  include/linux/compiler_attributes.h \
+  include/linux/compiler-gcc.h \
     $(wildcard include/config/retpoline.h) \
-    $(wildcard include/config/arm64.h) \
-    $(wildcard include/config/gcov/kernel.h) \
     $(wildcard include/config/arch/use/builtin/bswap.h) \
   include/linux/io.h \
     $(wildcard include/config/mmu.h) \
@@ -22,12 +24,11 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/types.h \
     $(wildcard include/config/have/uid16.h) \
     $(wildcard include/config/uid16.h) \
-    $(wildcard include/config/lbdaf.h) \
     $(wildcard include/config/arch/dma/addr/t/64bit.h) \
     $(wildcard include/config/phys/addr/t/64bit.h) \
     $(wildcard include/config/64bit.h) \
   include/uapi/linux/types.h \
-  arch/x86/include/uapi/asm/types.h \
+  arch/x86/include/generated/uapi/asm/types.h \
   include/uapi/asm-generic/types.h \
   include/asm-generic/int-ll64.h \
   include/uapi/asm-generic/int-ll64.h \
@@ -37,11 +38,13 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/uapi/linux/posix_types.h \
   include/linux/stddef.h \
   include/uapi/linux/stddef.h \
+  include/linux/compiler_types.h \
   arch/x86/include/asm/posix_types.h \
     $(wildcard include/config/x86/32.h) \
   arch/x86/include/uapi/asm/posix_types_64.h \
   include/uapi/asm-generic/posix_types.h \
   include/linux/init.h \
+    $(wildcard include/config/have/arch/prel32/relocations.h) \
     $(wildcard include/config/strict/kernel/rwx.h) \
     $(wildcard include/config/strict/module/rwx.h) \
   include/linux/compiler.h \
@@ -50,7 +53,6 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/stack/validation.h) \
     $(wildcard include/config/kasan.h) \
   arch/x86/include/asm/barrier.h \
-    $(wildcard include/config/x86/ppro/fence.h) \
   arch/x86/include/asm/alternative.h \
     $(wildcard include/config/smp.h) \
   include/linux/stringify.h \
@@ -74,26 +76,29 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/debug/atomic/sleep.h) \
     $(wildcard include/config/prove/locking.h) \
     $(wildcard include/config/arch/has/refcount.h) \
-    $(wildcard include/config/lock/down/kernel.h) \
     $(wildcard include/config/panic/timeout.h) \
     $(wildcard include/config/tracing.h) \
     $(wildcard include/config/ftrace/mcount/record.h) \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h \
+  include/linux/limits.h \
+  include/uapi/linux/limits.h \
   include/linux/linkage.h \
   include/linux/export.h \
-    $(wildcard include/config/have/underscore/symbol/prefix.h) \
-    $(wildcard include/config/modules.h) \
     $(wildcard include/config/modversions.h) \
     $(wildcard include/config/module/rel/crcs.h) \
+    $(wildcard include/config/modules.h) \
     $(wildcard include/config/trim/unused/ksyms.h) \
     $(wildcard include/config/unused/symbols.h) \
   arch/x86/include/asm/linkage.h \
     $(wildcard include/config/x86/alignment/16.h) \
   include/linux/bitops.h \
   include/linux/bits.h \
+  include/linux/const.h \
+  include/uapi/linux/const.h \
   arch/x86/include/asm/bitops.h \
     $(wildcard include/config/x86/cmov.h) \
   arch/x86/include/asm/rmwcc.h \
+    $(wildcard include/config/cc/has/asm/goto.h) \
   include/asm-generic/bitops/find.h \
     $(wildcard include/config/generic/find/first/bit.h) \
   include/asm-generic/bitops/sched.h \
@@ -106,18 +111,19 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/x86/cmpxchg64.h) \
     $(wildcard include/config/x86/use/3dnow.h) \
     $(wildcard include/config/matom.h) \
-    $(wildcard include/config/x86/5level.h) \
     $(wildcard include/config/paravirt.h) \
   arch/x86/include/asm/disabled-features.h \
     $(wildcard include/config/x86/intel/mpx.h) \
+    $(wildcard include/config/x86/smap.h) \
     $(wildcard include/config/x86/intel/umip.h) \
     $(wildcard include/config/x86/intel/memory/protection/keys.h) \
+    $(wildcard include/config/x86/5level.h) \
     $(wildcard include/config/page/table/isolation.h) \
   include/asm-generic/bitops/const_hweight.h \
+  include/asm-generic/bitops-instrumented.h \
   include/asm-generic/bitops/le.h \
   arch/x86/include/uapi/asm/byteorder.h \
   include/linux/byteorder/little_endian.h \
-    $(wildcard include/config/cpu/big/endian.h) \
   include/uapi/linux/byteorder/little_endian.h \
   include/linux/swab.h \
   include/uapi/linux/swab.h \
@@ -131,6 +137,7 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/printk.h \
     $(wildcard include/config/message/loglevel/default.h) \
     $(wildcard include/config/console/loglevel/default.h) \
+    $(wildcard include/config/console/loglevel/quiet.h) \
     $(wildcard include/config/early/printk.h) \
     $(wildcard include/config/printk/nmi.h) \
     $(wildcard include/config/printk.h) \
@@ -141,7 +148,6 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/arch/has/cache/line/size.h) \
   include/uapi/linux/kernel.h \
   include/uapi/linux/sysinfo.h \
-  include/uapi/linux/const.h \
   arch/x86/include/asm/cache.h \
     $(wildcard include/config/x86/l1/cache/shift.h) \
     $(wildcard include/config/x86/internode/cache/shift.h) \
@@ -149,15 +155,17 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/dynamic_debug.h \
     $(wildcard include/config/jump/label.h) \
   include/linux/jump_label.h \
+    $(wildcard include/config/have/arch/jump/label/relative.h) \
   arch/x86/include/asm/jump_label.h \
   include/linux/build_bug.h \
+  arch/x86/include/asm/div64.h \
+  include/asm-generic/div64.h \
   include/linux/err.h \
-  arch/x86/include/uapi/asm/errno.h \
+  arch/x86/include/generated/uapi/asm/errno.h \
   include/uapi/asm-generic/errno.h \
   include/uapi/asm-generic/errno-base.h \
   arch/x86/include/asm/io.h \
     $(wildcard include/config/amd/mem/encrypt.h) \
-    $(wildcard include/config/xen.h) \
     $(wildcard include/config/mtrr.h) \
     $(wildcard include/config/x86/pat.h) \
   include/linux/string.h \
@@ -172,6 +180,7 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   arch/x86/include/asm/page_types.h \
     $(wildcard include/config/physical/start.h) \
     $(wildcard include/config/physical/align.h) \
+    $(wildcard include/config/dynamic/physical/mask.h) \
   include/linux/mem_encrypt.h \
     $(wildcard include/config/arch/has/mem/encrypt.h) \
   arch/x86/include/asm/mem_encrypt.h \
@@ -181,7 +190,7 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/apm_bios.h \
   include/uapi/linux/apm_bios.h \
   include/uapi/linux/ioctl.h \
-  arch/x86/include/uapi/asm/ioctl.h \
+  arch/x86/include/generated/uapi/asm/ioctl.h \
   include/asm-generic/ioctl.h \
   include/uapi/asm-generic/ioctl.h \
   include/linux/edd.h \
@@ -192,10 +201,10 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/x86.h) \
   include/uapi/video/edid.h \
   arch/x86/include/asm/page_64_types.h \
-    $(wildcard include/config/kasan/extra.h) \
-    $(wildcard include/config/randomize/memory.h) \
+    $(wildcard include/config/dynamic/memory/layout.h) \
     $(wildcard include/config/randomize/base.h) \
   arch/x86/include/asm/kaslr.h \
+    $(wildcard include/config/randomize/memory.h) \
   arch/x86/include/asm/page_64.h \
     $(wildcard include/config/debug/virtual.h) \
     $(wildcard include/config/flatmem.h) \
@@ -223,19 +232,15 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/no/generic/pci/ioport/map.h) \
     $(wildcard include/config/generic/pci/iomap.h) \
   arch/x86/include/asm/paravirt.h \
+    $(wildcard include/config/paravirt/xxl.h) \
     $(wildcard include/config/paravirt/spinlocks.h) \
     $(wildcard include/config/debug/entry.h) \
   arch/x86/include/asm/nospec-branch.h \
   include/linux/static_key.h \
   arch/x86/include/asm/alternative-asm.h \
   arch/x86/include/asm/msr-index.h \
-    $(wildcard include/config/control.h) \
-    $(wildcard include/config/tdp/nominal.h) \
-    $(wildcard include/config/tdp/level/1.h) \
-    $(wildcard include/config/tdp/level/2.h) \
-    $(wildcard include/config/tdp/control.h) \
   arch/x86/include/asm/segment.h \
-    $(wildcard include/config/cc/stackprotector.h) \
+    $(wildcard include/config/stackprotector.h) \
     $(wildcard include/config/xen/pv.h) \
     $(wildcard include/config/x86/32/lazy/gs.h) \
   arch/x86/include/asm/paravirt_types.h \
@@ -255,77 +260,34 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/threads.h \
     $(wildcard include/config/base/small.h) \
   include/linux/bitmap.h \
-  arch/x86/include/asm/frame.h \
-    $(wildcard include/config/frame/pointer.h) \
-  include/xen/xen.h \
-    $(wildcard include/config/xen/pvh.h) \
-    $(wildcard include/config/xen/dom0.h) \
-  include/xen/interface/xen.h \
-  arch/x86/include/asm/xen/interface.h \
-  arch/x86/include/asm/xen/interface_64.h \
-  arch/x86/include/asm/pvclock-abi.h \
-  arch/x86/include/asm/xen/hypervisor.h \
-  arch/x86/include/asm/processor.h \
-    $(wildcard include/config/vm86.h) \
-    $(wildcard include/config/x86/debugctlmsr.h) \
-    $(wildcard include/config/cpu/sup/amd.h) \
-  arch/x86/include/asm/processor-flags.h \
-  arch/x86/include/uapi/asm/processor-flags.h \
-  arch/x86/include/asm/math_emu.h \
-  arch/x86/include/asm/ptrace.h \
-  arch/x86/include/uapi/asm/ptrace.h \
-  arch/x86/include/uapi/asm/ptrace-abi.h \
-  include/asm-generic/ptrace.h \
-  arch/x86/include/uapi/asm/sigcontext.h \
-  arch/x86/include/asm/current.h \
-  arch/x86/include/asm/percpu.h \
-    $(wildcard include/config/x86/64/smp.h) \
-  include/asm-generic/percpu.h \
-    $(wildcard include/config/debug/preempt.h) \
-    $(wildcard include/config/have/setup/per/cpu/area.h) \
-  include/linux/percpu-defs.h \
-    $(wildcard include/config/debug/force/weak/per/cpu.h) \
-  arch/x86/include/asm/msr.h \
-    $(wildcard include/config/tracepoints.h) \
-  arch/x86/include/asm/msr-index.h \
-  arch/x86/include/asm/cpumask.h \
-  arch/x86/include/uapi/asm/msr.h \
+  include/linux/atomic.h \
   arch/x86/include/asm/atomic.h \
   arch/x86/include/asm/cmpxchg.h \
   arch/x86/include/asm/cmpxchg_64.h \
   arch/x86/include/asm/atomic64_64.h \
-  include/linux/tracepoint-defs.h \
-  include/linux/atomic.h \
+  include/asm-generic/atomic-instrumented.h \
+  include/linux/atomic-fallback.h \
     $(wildcard include/config/generic/atomic64.h) \
   include/asm-generic/atomic-long.h \
-  arch/x86/include/asm/special_insns.h \
-  arch/x86/include/asm/fpu/types.h \
-  arch/x86/include/asm/unwind_hints.h \
-  arch/x86/include/asm/orc_types.h \
-  include/linux/personality.h \
-  include/uapi/linux/personality.h \
-  include/linux/math64.h \
-    $(wildcard include/config/arch/supports/int128.h) \
-  arch/x86/include/asm/div64.h \
-  include/asm-generic/div64.h \
-  include/linux/irqflags.h \
-    $(wildcard include/config/trace/irqflags.h) \
-    $(wildcard include/config/irqsoff/tracer.h) \
-    $(wildcard include/config/preempt/tracer.h) \
-    $(wildcard include/config/trace/irqflags/support.h) \
-  arch/x86/include/asm/irqflags.h \
-    $(wildcard include/config/debug/lock/alloc.h) \
+  arch/x86/include/asm/frame.h \
+    $(wildcard include/config/frame/pointer.h) \
   include/asm-generic/io.h \
     $(wildcard include/config/virt/to/bus.h) \
+  arch/x86/include/generated/asm/mmiowb.h \
+  include/asm-generic/mmiowb.h \
+    $(wildcard include/config/mmiowb.h) \
   include/linux/logic_pio.h \
     $(wildcard include/config/indirect/pio.h) \
   include/linux/fwnode.h \
   include/linux/vmalloc.h \
   include/linux/spinlock.h \
     $(wildcard include/config/debug/spinlock.h) \
-    $(wildcard include/config/preempt.h) \
+    $(wildcard include/config/preemption.h) \
+    $(wildcard include/config/debug/lock/alloc.h) \
   include/linux/preempt.h \
     $(wildcard include/config/preempt/count.h) \
+    $(wildcard include/config/debug/preempt.h) \
+    $(wildcard include/config/trace/preempt/toggle.h) \
     $(wildcard include/config/preempt/notifiers.h) \
   include/linux/list.h \
     $(wildcard include/config/debug/list.h) \
@@ -333,19 +295,59 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/illegal/pointer/value.h) \
     $(wildcard include/config/page/poisoning/zero.h) \
   arch/x86/include/asm/preempt.h \
+  arch/x86/include/asm/percpu.h \
+    $(wildcard include/config/x86/64/smp.h) \
+  include/asm-generic/percpu.h \
+    $(wildcard include/config/have/setup/per/cpu/area.h) \
+  include/linux/percpu-defs.h \
+    $(wildcard include/config/debug/force/weak/per/cpu.h) \
   include/linux/thread_info.h \
     $(wildcard include/config/thread/info/in/task.h) \
     $(wildcard include/config/have/arch/within/stack/frames.h) \
     $(wildcard include/config/hardened/usercopy.h) \
   include/linux/restart_block.h \
-    $(wildcard include/config/compat.h) \
-  include/linux/errno.h \
-  include/uapi/linux/errno.h \
+  include/linux/time64.h \
+  include/linux/math64.h \
+    $(wildcard include/config/arch/supports/int128.h) \
+  include/uapi/linux/time.h \
+  include/uapi/linux/time_types.h \
+  arch/x86/include/asm/current.h \
   arch/x86/include/asm/thread_info.h \
+    $(wildcard include/config/vm86.h) \
+    $(wildcard include/config/compat.h) \
     $(wildcard include/config/ia32/emulation.h) \
   arch/x86/include/asm/cpufeature.h \
     $(wildcard include/config/x86/feature/names.h) \
-    $(wildcard include/config/x86/fast/feature/tests.h) \
+  arch/x86/include/asm/processor.h \
+    $(wildcard include/config/kvm.h) \
+    $(wildcard include/config/x86/debugctlmsr.h) \
+    $(wildcard include/config/cpu/sup/amd.h) \
+    $(wildcard include/config/xen.h) \
+  arch/x86/include/asm/processor-flags.h \
+  arch/x86/include/uapi/asm/processor-flags.h \
+  arch/x86/include/asm/math_emu.h \
+  arch/x86/include/asm/ptrace.h \
+  arch/x86/include/uapi/asm/ptrace.h \
+  arch/x86/include/uapi/asm/ptrace-abi.h \
+  arch/x86/include/uapi/asm/sigcontext.h \
+  arch/x86/include/asm/msr.h \
+    $(wildcard include/config/tracepoints.h) \
+  arch/x86/include/asm/msr-index.h \
+  arch/x86/include/asm/cpumask.h \
+  arch/x86/include/uapi/asm/msr.h \
+  include/linux/tracepoint-defs.h \
+  arch/x86/include/asm/special_insns.h \
+  arch/x86/include/asm/fpu/types.h \
+  arch/x86/include/asm/unwind_hints.h \
+  arch/x86/include/asm/orc_types.h \
+  include/linux/personality.h \
+  include/uapi/linux/personality.h \
+  include/linux/irqflags.h \
+    $(wildcard include/config/trace/irqflags.h) \
+    $(wildcard include/config/irqsoff/tracer.h) \
+    $(wildcard include/config/preempt/tracer.h) \
+    $(wildcard include/config/trace/irqflags/support.h) \
+  arch/x86/include/asm/irqflags.h \
   include/linux/bottom_half.h \
   include/linux/spinlock_types.h \
   include/linux/lockdep.h \
@@ -358,6 +360,7 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   arch/x86/include/asm/qrwlock.h \
   include/asm-generic/qrwlock.h \
   include/linux/rwlock.h \
+    $(wildcard include/config/preempt.h) \
   include/linux/spinlock_api_smp.h \
     $(wildcard include/config/inline/spin/lock.h) \
     $(wildcard include/config/inline/spin/lock/bh.h) \
@@ -405,24 +408,36 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/rcu/boost.h) \
     $(wildcard include/config/arch/weak/release/acquire.h) \
   include/linux/rcutree.h \
+  include/linux/overflow.h \
   include/linux/module.h \
     $(wildcard include/config/sysfs.h) \
     $(wildcard include/config/modules/tree/lookup.h) \
     $(wildcard include/config/livepatch.h) \
     $(wildcard include/config/module/sig.h) \
     $(wildcard include/config/kallsyms.h) \
+    $(wildcard include/config/tree/srcu.h) \
+    $(wildcard include/config/bpf/events.h) \
     $(wildcard include/config/event/tracing.h) \
     $(wildcard include/config/module/unload.h) \
     $(wildcard include/config/constructors.h) \
+    $(wildcard include/config/function/error/injection.h) \
   include/linux/stat.h \
   arch/x86/include/uapi/asm/stat.h \
   include/uapi/linux/stat.h \
   include/linux/time.h \
     $(wildcard include/config/arch/uses/gettimeoffset.h) \
   include/linux/seqlock.h \
-  include/linux/time64.h \
-  include/uapi/linux/time.h \
   include/linux/time32.h \
+  include/linux/timex.h \
+  include/uapi/linux/timex.h \
+  include/uapi/linux/param.h \
+  arch/x86/include/generated/uapi/asm/param.h \
+  include/asm-generic/param.h \
+    $(wildcard include/config/hz.h) \
+  include/uapi/asm-generic/param.h \
+  arch/x86/include/asm/timex.h \
+  arch/x86/include/asm/tsc.h \
+    $(wildcard include/config/x86/tsc.h) \
   include/linux/uidgid.h \
     $(wildcard include/config/multiuser.h) \
     $(wildcard include/config/user/ns.h) \
@@ -436,26 +451,25 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/zone/device.h) \
     $(wildcard include/config/numa.h) \
     $(wildcard include/config/pm/sleep.h) \
-    $(wildcard include/config/memory/isolation.h) \
-    $(wildcard include/config/compaction.h) \
+    $(wildcard include/config/contig/alloc.h) \
     $(wildcard include/config/cma.h) \
   include/linux/mmdebug.h \
     $(wildcard include/config/debug/vm.h) \
     $(wildcard include/config/debug/vm/pgflags.h) \
   include/linux/mmzone.h \
     $(wildcard include/config/force/max/zoneorder.h) \
+    $(wildcard include/config/memory/isolation.h) \
+    $(wildcard include/config/shuffle/page/allocator.h) \
     $(wildcard include/config/zsmalloc.h) \
     $(wildcard include/config/memcg.h) \
     $(wildcard include/config/memory/hotplug.h) \
+    $(wildcard include/config/compaction.h) \
+    $(wildcard include/config/transparent/hugepage.h) \
     $(wildcard include/config/flat/node/mem/map.h) \
     $(wildcard include/config/page/extension.h) \
-    $(wildcard include/config/no/bootmem.h) \
-    $(wildcard include/config/numa/balancing.h) \
     $(wildcard include/config/deferred/struct/page/init.h) \
-    $(wildcard include/config/transparent/hugepage.h) \
     $(wildcard include/config/have/memory/present.h) \
     $(wildcard include/config/have/memoryless/nodes.h) \
-    $(wildcard include/config/need/node/memmap/size.h) \
     $(wildcard include/config/have/memblock/node/map.h) \
     $(wildcard include/config/need/multiple/nodes.h) \
     $(wildcard include/config/have/arch/early/pfn/to/nid.h) \
@@ -473,25 +487,43 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/hugetlb/page.h) \
     $(wildcard include/config/hugetlb/page/size/variable.h) \
   include/linux/page-flags-layout.h \
+    $(wildcard include/config/numa/balancing.h) \
+    $(wildcard include/config/kasan/sw/tags.h) \
   include/generated/bounds.h \
-  include/linux/memory_hotplug.h \
-    $(wildcard include/config/arch/has/add/pages.h) \
-    $(wildcard include/config/have/arch/nodedata/extension.h) \
-    $(wildcard include/config/have/bootmem/info/node.h) \
+  include/linux/mm_types.h \
+    $(wildcard include/config/have/aligned/struct/page.h) \
+    $(wildcard include/config/userfaultfd.h) \
+    $(wildcard include/config/swap.h) \
+    $(wildcard include/config/have/arch/compat/mmap/bases.h) \
+    $(wildcard include/config/membarrier.h) \
+    $(wildcard include/config/aio.h) \
+    $(wildcard include/config/mmu/notifier.h) \
+    $(wildcard include/config/arch/want/batched/unmap/tlb/flush.h) \
+  include/linux/mm_types_task.h \
+    $(wildcard include/config/split/ptlock/cpus.h) \
+    $(wildcard include/config/arch/enable/split/pmd/ptlock.h) \
+  arch/x86/include/asm/tlbbatch.h \
+  include/linux/auxvec.h \
+  include/uapi/linux/auxvec.h \
+  arch/x86/include/uapi/asm/auxvec.h \
+  include/linux/rwsem.h \
+    $(wildcard include/config/rwsem/spin/on/owner.h) \
+    $(wildcard include/config/debug/rwsems.h) \
+  include/linux/osq_lock.h \
+  include/linux/completion.h \
+  include/linux/uprobes.h \
+    $(wildcard include/config/uprobes.h) \
+  include/linux/errno.h \
+  include/uapi/linux/errno.h \
+  arch/x86/include/asm/uprobes.h \
   include/linux/notifier.h \
   include/linux/mutex.h \
     $(wildcard include/config/mutex/spin/on/owner.h) \
     $(wildcard include/config/debug/mutexes.h) \
-  include/linux/osq_lock.h \
   include/linux/debug_locks.h \
     $(wildcard include/config/debug/locking/api/selftests.h) \
-  include/linux/rwsem.h \
-    $(wildcard include/config/rwsem/spin/on/owner.h) \
-    $(wildcard include/config/rwsem/generic/spinlock.h) \
-  arch/x86/include/asm/rwsem.h \
   include/linux/srcu.h \
     $(wildcard include/config/tiny/srcu.h) \
-    $(wildcard include/config/tree/srcu.h) \
     $(wildcard include/config/srcu.h) \
   include/linux/workqueue.h \
     $(wildcard include/config/debug/objects/work.h) \
@@ -499,19 +531,10 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/wq/watchdog.h) \
   include/linux/timer.h \
     $(wildcard include/config/debug/objects/timers.h) \
+    $(wildcard include/config/preempt/rt.h) \
     $(wildcard include/config/no/hz/common.h) \
   include/linux/ktime.h \
   include/linux/jiffies.h \
-  include/linux/timex.h \
-  include/uapi/linux/timex.h \
-  include/uapi/linux/param.h \
-  arch/x86/include/uapi/asm/param.h \
-  include/asm-generic/param.h \
-    $(wildcard include/config/hz.h) \
-  include/uapi/asm-generic/param.h \
-  arch/x86/include/asm/timex.h \
-  arch/x86/include/asm/tsc.h \
-    $(wildcard include/config/x86/tsc.h) \
   include/generated/timeconst.h \
   include/linux/timekeeping.h \
   include/linux/timekeeping32.h \
@@ -523,7 +546,18 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/rcu_node_tree.h \
     $(wildcard include/config/rcu/fanout.h) \
     $(wildcard include/config/rcu/fanout/leaf.h) \
-  include/linux/completion.h \
+  arch/x86/include/asm/mmu.h \
+    $(wildcard include/config/modify/ldt/syscall.h) \
+  include/linux/page-flags.h \
+    $(wildcard include/config/arch/uses/pg/uncached.h) \
+    $(wildcard include/config/memory/failure.h) \
+    $(wildcard include/config/idle/page/tracking.h) \
+    $(wildcard include/config/thp/swap.h) \
+    $(wildcard include/config/ksm.h) \
+  include/linux/memory_hotplug.h \
+    $(wildcard include/config/arch/has/add/pages.h) \
+    $(wildcard include/config/have/arch/nodedata/extension.h) \
+    $(wildcard include/config/have/bootmem/info/node.h) \
   arch/x86/include/asm/mmzone.h \
   arch/x86/include/asm/mmzone_64.h \
   arch/x86/include/asm/smp.h \
@@ -554,8 +588,6 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   arch/x86/include/asm/topology.h \
     $(wildcard include/config/sched/mc/prio.h) \
   include/asm-generic/topology.h \
-  arch/x86/include/asm/mmu.h \
-    $(wildcard include/config/modify/ldt/syscall.h) \
   arch/x86/include/asm/realmode.h \
     $(wildcard include/config/acpi/sleep.h) \
   arch/x86/include/uapi/asm/vsyscall.h \
@@ -566,6 +598,7 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/x86/thermal/vector.h) \
     $(wildcard include/config/x86/mce/threshold.h) \
     $(wildcard include/config/x86/mce/amd.h) \
+    $(wildcard include/config/x86/hv/callback/vector.h) \
     $(wildcard include/config/hyperv.h) \
   arch/x86/include/asm/io_apic.h \
   arch/x86/include/asm/irq_vectors.h \
@@ -573,11 +606,13 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/topology.h \
     $(wildcard include/config/use/percpu/numa/node/id.h) \
     $(wildcard include/config/sched/smt.h) \
-  include/linux/smp.h \
-    $(wildcard include/config/up/late/init.h) \
+  include/linux/arch_topology.h \
+    $(wildcard include/config/generic/arch/topology.h) \
   include/linux/percpu.h \
     $(wildcard include/config/need/per/cpu/embed/first/chunk.h) \
     $(wildcard include/config/need/per/cpu/page/first/chunk.h) \
+  include/linux/smp.h \
+    $(wildcard include/config/up/late/init.h) \
   include/linux/sysctl.h \
     $(wildcard include/config/sysctl.h) \
   include/uapi/linux/sysctl.h \
@@ -586,28 +621,9 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/x86/x32/abi.h) \
   arch/x86/include/asm/user.h \
   arch/x86/include/asm/user_64.h \
-  arch/x86/include/uapi/asm/auxvec.h \
+  arch/x86/include/asm/fsgsbase.h \
   arch/x86/include/asm/vdso.h \
     $(wildcard include/config/x86/x32.h) \
-  include/linux/mm_types.h \
-    $(wildcard include/config/have/cmpxchg/double.h) \
-    $(wildcard include/config/have/aligned/struct/page.h) \
-    $(wildcard include/config/userfaultfd.h) \
-    $(wildcard include/config/have/arch/compat/mmap/bases.h) \
-    $(wildcard include/config/membarrier.h) \
-    $(wildcard include/config/aio.h) \
-    $(wildcard include/config/mmu/notifier.h) \
-    $(wildcard include/config/arch/want/batched/unmap/tlb/flush.h) \
-    $(wildcard include/config/hmm.h) \
-  include/linux/mm_types_task.h \
-    $(wildcard include/config/split/ptlock/cpus.h) \
-    $(wildcard include/config/arch/enable/split/pmd/ptlock.h) \
-  arch/x86/include/asm/tlbbatch.h \
-  include/linux/auxvec.h \
-  include/uapi/linux/auxvec.h \
-  include/linux/uprobes.h \
-    $(wildcard include/config/uprobes.h) \
-  arch/x86/include/asm/uprobes.h \
   include/uapi/linux/elf.h \
   include/uapi/linux/elf-em.h \
   include/linux/kobject.h \
@@ -618,7 +634,9 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/kernfs.h) \
   include/linux/idr.h \
   include/linux/radix-tree.h \
-    $(wildcard include/config/radix/tree/multiorder.h) \
+  include/linux/xarray.h \
+    $(wildcard include/config/xarray/multi.h) \
+  include/linux/kconfig.h \
   include/linux/kobject_ns.h \
   include/linux/kref.h \
   include/linux/refcount.h \
@@ -629,6 +647,8 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/ia64.h) \
     $(wildcard include/config/ppc64.h) \
   include/linux/rbtree_latch.h \
+  include/linux/error-injection.h \
+  include/asm-generic/error-injection.h \
   arch/x86/include/asm/module.h \
     $(wildcard include/config/unwinder/orc.h) \
     $(wildcard include/config/m486.h) \
@@ -669,25 +689,30 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/schedstats.h) \
     $(wildcard include/config/fair/group/sched.h) \
     $(wildcard include/config/rt/group/sched.h) \
+    $(wildcard include/config/uclamp/task.h) \
+    $(wildcard include/config/uclamp/buckets/count.h) \
     $(wildcard include/config/cgroup/sched.h) \
     $(wildcard include/config/blk/dev/io/trace.h) \
-    $(wildcard include/config/slob.h) \
+    $(wildcard include/config/psi.h) \
     $(wildcard include/config/compat/brk.h) \
     $(wildcard include/config/cgroups.h) \
     $(wildcard include/config/arch/has/scaled/cputime.h) \
     $(wildcard include/config/virt/cpu/accounting/gen.h) \
-    $(wildcard include/config/posix/timers.h) \
+    $(wildcard include/config/posix/cputimers.h) \
+    $(wildcard include/config/keys.h) \
     $(wildcard include/config/sysvipc.h) \
     $(wildcard include/config/detect/hung/task.h) \
+    $(wildcard include/config/audit.h) \
     $(wildcard include/config/auditsyscall.h) \
     $(wildcard include/config/rt/mutexes.h) \
     $(wildcard include/config/ubsan.h) \
     $(wildcard include/config/block.h) \
     $(wildcard include/config/task/xacct.h) \
     $(wildcard include/config/cpusets.h) \
-    $(wildcard include/config/intel/rdt.h) \
+    $(wildcard include/config/x86/cpu/resctrl.h) \
     $(wildcard include/config/futex.h) \
     $(wildcard include/config/perf/events.h) \
+    $(wildcard include/config/rseq.h) \
     $(wildcard include/config/task/delay/acct.h) \
     $(wildcard include/config/fault/injection.h) \
     $(wildcard include/config/latencytop.h) \
@@ -696,18 +721,19 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
     $(wildcard include/config/bcache.h) \
     $(wildcard include/config/vmap/stack.h) \
     $(wildcard include/config/security.h) \
+    $(wildcard include/config/gcc/plugin/stackleak.h) \
+    $(wildcard include/config/arch/task/struct/on/stack.h) \
+    $(wildcard include/config/debug/rseq.h) \
   include/uapi/linux/sched.h \
   include/linux/pid.h \
   include/linux/rculist.h \
+    $(wildcard include/config/prove/rcu/list.h) \
   include/linux/sem.h \
   include/uapi/linux/sem.h \
   include/linux/ipc.h \
-  include/linux/rhashtable.h \
-  include/linux/jhash.h \
-  include/linux/unaligned/packed_struct.h \
-  include/linux/list_nulls.h \
+  include/linux/rhashtable-types.h \
   include/uapi/linux/ipc.h \
-  arch/x86/include/uapi/asm/ipcbuf.h \
+  arch/x86/include/generated/uapi/asm/ipcbuf.h \
   include/uapi/asm-generic/ipcbuf.h \
   arch/x86/include/uapi/asm/sembuf.h \
   include/linux/shm.h \
@@ -719,11 +745,12 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/kcov.h \
   include/uapi/linux/kcov.h \
   include/linux/plist.h \
-    $(wildcard include/config/debug/pi/list.h) \
+    $(wildcard include/config/debug/plist.h) \
   include/linux/hrtimer.h \
     $(wildcard include/config/high/res/timers.h) \
     $(wildcard include/config/time/low/res.h) \
     $(wildcard include/config/timerfd.h) \
+  include/linux/hrtimer_defs.h \
   include/linux/timerqueue.h \
   include/linux/seccomp.h \
     $(wildcard include/config/seccomp.h) \
@@ -742,11 +769,12 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/uapi/linux/unistd.h \
   include/linux/resource.h \
   include/uapi/linux/resource.h \
-  arch/x86/include/uapi/asm/resource.h \
+  arch/x86/include/generated/uapi/asm/resource.h \
   include/asm-generic/resource.h \
   include/uapi/asm-generic/resource.h \
   include/linux/latencytop.h \
   include/linux/sched/prio.h \
+  include/linux/sched/types.h \
   include/linux/signal_types.h \
     $(wildcard include/config/old/sigaction.h) \
   include/uapi/linux/signal.h \
@@ -757,27 +785,37 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/uapi/asm-generic/siginfo.h \
   include/linux/task_io_accounting.h \
     $(wildcard include/config/task/io/accounting.h) \
-  include/linux/cgroup.h \
-    $(wildcard include/config/cgroup/cpuacct.h) \
-    $(wildcard include/config/sock/cgroup/data.h) \
-    $(wildcard include/config/cgroup/net/prio.h) \
-    $(wildcard include/config/cgroup/net/classid.h) \
-    $(wildcard include/config/cgroup/data.h) \
-  include/uapi/linux/cgroupstats.h \
-  include/uapi/linux/taskstats.h \
+  include/linux/posix-timers.h \
+    $(wildcard include/config/posix/timers.h) \
+  include/linux/alarmtimer.h \
+  include/uapi/linux/rseq.h \
+  include/linux/slab.h \
+    $(wildcard include/config/debug/slab.h) \
+    $(wildcard include/config/failslab.h) \
+    $(wildcard include/config/memcg/kmem.h) \
+    $(wildcard include/config/have/hardened/usercopy/allocator.h) \
+    $(wildcard include/config/slab.h) \
+    $(wildcard include/config/slub.h) \
+    $(wildcard include/config/slob.h) \
+  include/linux/percpu-refcount.h \
+  include/linux/kasan.h \
+    $(wildcard include/config/kasan/generic.h) \
   include/linux/fs.h \
+    $(wildcard include/config/read/only/thp/for/fs.h) \
     $(wildcard include/config/fs/posix/acl.h) \
     $(wildcard include/config/cgroup/writeback.h) \
     $(wildcard include/config/ima.h) \
+    $(wildcard include/config/file/locking.h) \
     $(wildcard include/config/fsnotify.h) \
     $(wildcard include/config/fs/encryption.h) \
+    $(wildcard include/config/fs/verity.h) \
     $(wildcard include/config/epoll.h) \
-    $(wildcard include/config/file/locking.h) \
     $(wildcard include/config/quota.h) \
     $(wildcard include/config/blk/dev/loop.h) \
     $(wildcard include/config/fs/dax.h) \
     $(wildcard include/config/mandatory/file/locking.h) \
     $(wildcard include/config/migration.h) \
+    $(wildcard include/config/io/uring.h) \
   include/linux/wait_bit.h \
   include/linux/kdev_t.h \
   include/uapi/linux/kdev_t.h \
@@ -798,8 +836,9 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/uapi/linux/capability.h \
   include/linux/semaphore.h \
   include/linux/fcntl.h \
+    $(wildcard include/config/arch/32bit/off/t.h) \
   include/uapi/linux/fcntl.h \
-  arch/x86/include/uapi/asm/fcntl.h \
+  arch/x86/include/generated/uapi/asm/fcntl.h \
   include/uapi/asm-generic/fcntl.h \
   include/uapi/linux/fiemap.h \
   include/linux/migrate_mode.h \
@@ -810,8 +849,11 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/uuid.h \
   include/uapi/linux/uuid.h \
   include/linux/errseq.h \
+  include/linux/ioprio.h \
+  include/linux/sched/rt.h \
+  include/linux/iocontext.h \
+  include/linux/fs_types.h \
   include/uapi/linux/fs.h \
-  include/uapi/linux/limits.h \
   include/linux/quota.h \
     $(wildcard include/config/quota/netlink/interface.h) \
   include/linux/percpu_counter.h \
@@ -822,95 +864,33 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/projid.h \
   include/uapi/linux/quota.h \
   include/linux/nfs_fs_i.h \
-  include/linux/seq_file.h \
-  include/linux/cred.h \
-    $(wildcard include/config/debug/credentials.h) \
-    $(wildcard include/config/keys.h) \
-  include/linux/key.h \
-  include/linux/assoc_array.h \
-    $(wildcard include/config/associative/array.h) \
-  include/linux/selinux.h \
-    $(wildcard include/config/security/selinux.h) \
-  include/linux/sched/user.h \
-    $(wildcard include/config/fanotify.h) \
-    $(wildcard include/config/posix/mqueue.h) \
-    $(wildcard include/config/bpf/syscall.h) \
-    $(wildcard include/config/net.h) \
-  include/linux/ns_common.h \
-  include/linux/nsproxy.h \
-  include/linux/user_namespace.h \
-    $(wildcard include/config/inotify/user.h) \
-    $(wildcard include/config/persistent/keyrings.h) \
-  include/linux/kernel_stat.h \
-  include/linux/interrupt.h \
-    $(wildcard include/config/irq/forced/threading.h) \
-    $(wildcard include/config/generic/irq/probe.h) \
-    $(wildcard include/config/irq/timings.h) \
-  include/linux/irqreturn.h \
-  include/linux/irqnr.h \
-  include/uapi/linux/irqnr.h \
-  include/linux/hardirq.h \
-  include/linux/ftrace_irq.h \
-    $(wildcard include/config/ftrace/nmi/enter.h) \
-    $(wildcard include/config/hwlat/tracer.h) \
-  include/linux/vtime.h \
-    $(wildcard include/config/virt/cpu/accounting.h) \
-    $(wildcard include/config/irq/time/accounting.h) \
-  include/linux/context_tracking_state.h \
-    $(wildcard include/config/context/tracking.h) \
-  arch/x86/include/asm/irq.h \
-  arch/x86/include/asm/sections.h \
-  include/asm-generic/sections.h \
-  arch/x86/include/asm/extable.h \
-  include/linux/cgroup-defs.h \
-  include/linux/percpu-refcount.h \
-  include/linux/u64_stats_sync.h \
-  include/linux/bpf-cgroup.h \
-    $(wildcard include/config/cgroup/bpf.h) \
-  include/uapi/linux/bpf.h \
-    $(wildcard include/config/efficient/unaligned/access.h) \
-  include/uapi/linux/bpf_common.h \
-  include/linux/cgroup_subsys.h \
-    $(wildcard include/config/cgroup/device.h) \
-    $(wildcard include/config/cgroup/freezer.h) \
-    $(wildcard include/config/cgroup/perf.h) \
-    $(wildcard include/config/cgroup/hugetlb.h) \
-    $(wildcard include/config/cgroup/pids.h) \
-    $(wildcard include/config/cgroup/rdma.h) \
-    $(wildcard include/config/cgroup/debug.h) \
-  include/linux/slab.h \
-    $(wildcard include/config/debug/slab.h) \
-    $(wildcard include/config/failslab.h) \
-    $(wildcard include/config/have/hardened/usercopy/allocator.h) \
-    $(wildcard include/config/slab.h) \
-    $(wildcard include/config/slub.h) \
-  include/linux/kmemleak.h \
-    $(wildcard include/config/debug/kmemleak.h) \
-  include/linux/kasan.h \
   include/linux/cdev.h \
   include/linux/device.h \
     $(wildcard include/config/debug/devres.h) \
     $(wildcard include/config/generic/msi/irq/domain.h) \
     $(wildcard include/config/pinctrl.h) \
     $(wildcard include/config/generic/msi/irq.h) \
+    $(wildcard include/config/dma/declare/coherent.h) \
     $(wildcard include/config/dma/cma.h) \
+    $(wildcard include/config/arch/has/sync/dma/for/device.h) \
+    $(wildcard include/config/arch/has/sync/dma/for/cpu.h) \
+    $(wildcard include/config/arch/has/sync/dma/for/cpu/all.h) \
     $(wildcard include/config/of.h) \
     $(wildcard include/config/devtmpfs.h) \
     $(wildcard include/config/sysfs/deprecated.h) \
   include/linux/ioport.h \
+    $(wildcard include/config/io/strict/devmem.h) \
   include/linux/klist.h \
-  include/linux/pinctrl/devinfo.h \
-    $(wildcard include/config/pm.h) \
-  include/linux/pinctrl/consumer.h \
-  include/linux/pinctrl/pinctrl-state.h \
   include/linux/pm.h \
     $(wildcard include/config/vt/console/sleep.h) \
+    $(wildcard include/config/pm.h) \
     $(wildcard include/config/pm/clk.h) \
     $(wildcard include/config/pm/generic/domains.h) \
   include/linux/ratelimit.h \
   arch/x86/include/asm/device.h \
     $(wildcard include/config/intel/iommu.h) \
     $(wildcard include/config/amd/iommu.h) \
+    $(wildcard include/config/sta2x11.h) \
     $(wildcard include/config/x86/dev/dma/ops.h) \
     $(wildcard include/config/pci/domains.h) \
   include/linux/pm_wakeup.h \
@@ -918,45 +898,48 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   arch/x86/include/asm/uaccess.h \
     $(wildcard include/config/x86/intel/usercopy.h) \
   arch/x86/include/asm/smap.h \
-    $(wildcard include/config/x86/smap.h) \
+  arch/x86/include/asm/extable.h \
   arch/x86/include/asm/uaccess_64.h \
   include/linux/mm.h \
     $(wildcard include/config/have/arch/mmap/rnd/bits.h) \
     $(wildcard include/config/have/arch/mmap/rnd/compat/bits.h) \
     $(wildcard include/config/arch/uses/high/vma/flags.h) \
+    $(wildcard include/config/arch/has/pkeys.h) \
     $(wildcard include/config/ppc.h) \
     $(wildcard include/config/parisc.h) \
-    $(wildcard include/config/metag.h) \
+    $(wildcard include/config/sparc64.h) \
     $(wildcard include/config/stack/growsup.h) \
-    $(wildcard include/config/device/private.h) \
-    $(wildcard include/config/device/public.h) \
     $(wildcard include/config/shmem.h) \
-    $(wildcard include/config/have/memblock.h) \
+    $(wildcard include/config/arch/has/pte/devmap.h) \
+    $(wildcard include/config/dev/pagemap/ops.h) \
+    $(wildcard include/config/device/private.h) \
+    $(wildcard include/config/pci/p2pdma.h) \
     $(wildcard include/config/debug/vm/rb.h) \
     $(wildcard include/config/page/poisoning.h) \
+    $(wildcard include/config/init/on/alloc/default/on.h) \
+    $(wildcard include/config/init/on/free/default/on.h) \
     $(wildcard include/config/debug/pagealloc.h) \
+    $(wildcard include/config/arch/has/set/direct/map.h) \
     $(wildcard include/config/hibernation.h) \
     $(wildcard include/config/hugetlbfs.h) \
   include/linux/page_ext.h \
-    $(wildcard include/config/idle/page/tracking.h) \
   include/linux/stacktrace.h \
     $(wildcard include/config/stacktrace.h) \
-    $(wildcard include/config/user/stacktrace/support.h) \
+    $(wildcard include/config/arch/stackwalk.h) \
+    $(wildcard include/config/have/reliable/stacktrace.h) \
   include/linux/stackdepot.h \
   include/linux/page_ref.h \
     $(wildcard include/config/debug/page/ref.h) \
-  include/linux/page-flags.h \
-    $(wildcard include/config/arch/uses/pg/uncached.h) \
-    $(wildcard include/config/memory/failure.h) \
-    $(wildcard include/config/swap.h) \
-    $(wildcard include/config/thp/swap.h) \
-    $(wildcard include/config/ksm.h) \
   include/linux/memremap.h \
+  include/linux/sizes.h \
   arch/x86/include/asm/pgtable.h \
     $(wildcard include/config/debug/wx.h) \
     $(wildcard include/config/have/arch/transparent/hugepage/pud.h) \
     $(wildcard include/config/have/arch/soft/dirty.h) \
     $(wildcard include/config/arch/enable/thp/migration.h) \
+  arch/x86/include/asm/fpu/xstate.h \
+  arch/x86/include/asm/fpu/api.h \
+    $(wildcard include/config/x86/debug/fpu.h) \
   arch/x86/include/asm/pgtable_64.h \
   arch/x86/include/asm/pgtable-invert.h \
   include/asm-generic/pgtable.h \
@@ -971,67 +954,81 @@ deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o := \
   include/linux/vm_event_item.h \
     $(wildcard include/config/memory/balloon.h) \
     $(wildcard include/config/balloon/compaction.h) \
-  /home/n869p538/axdimm_modules/dram_module/rw_test.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/x86intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/ia32intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/mmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/xmmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/mm_malloc.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/emmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/pmmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/tmmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/ammintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/smmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/popcntintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/wmmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/immintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avxintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx2intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512fintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512erintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512pfintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512cdintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512bwintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512dqintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vlbwintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vldqintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512ifmaintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512ifmavlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vbmiintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vbmivlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx5124fmapsintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx5124vnniwintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/avx512vpopcntdqintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/shaintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/lzcntintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/bmiintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/bmi2intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/fmaintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/f16cintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/rtmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/xtestintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/mm3dnow.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/prfchwintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/fma4intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/xopintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/lwpintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/tbmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/rdseedintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/fxsrintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/xsaveintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/xsaveoptintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/sgxintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/adxintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/clwbintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/clflushoptintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/xsavesintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/xsavecintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/mwaitxintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/clzerointrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/7/include/pkuintrin.h \
-  arch/x86/include/asm/fpu/api.h \
+  /home/seed/axdimm_modules/dram_module/rw_test.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/x86intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/ia32intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/immintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/mmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/xmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/mm_malloc.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/emmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/pmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/tmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/smmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/popcntintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/wmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/fxsrintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/xsaveoptintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavesintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/xsavecintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avxintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx2intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512fintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512erintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512pfintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512cdintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bwintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512dqintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vlbwintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vldqintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmaintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512ifmavlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmiintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmivlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124fmapsintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx5124vnniwintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vbmi2vlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnniintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vnnivlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512vpopcntdqvlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/avx512bitalgintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/shaintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/lzcntintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/bmiintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/bmi2intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/fmaintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/f16cintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/rtmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/xtestintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/cetintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/gfniintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/vaesintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/vpclmulqdqintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/movdirintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/sgxintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/pconfigintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/waitpkgintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/cldemoteintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/rdseedintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/prfchwintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/adxintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/clwbintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/clflushoptintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/wbnoinvdintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/pkuintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/mm3dnow.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/fma4intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/ammintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/xopintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/lwpintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/tbmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/mwaitxintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/9/include/clzerointrin.h \
 
-/home/n869p538/axdimm_modules/dram_module/rw_test.o: $(deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o)
+/home/seed/axdimm_modules/dram_module/rw_test.o: $(deps_/home/seed/axdimm_modules/dram_module/rw_test.o)
 
-$(deps_/home/n869p538/axdimm_modules/dram_module/rw_test.o):
+$(deps_/home/seed/axdimm_modules/dram_module/rw_test.o):
