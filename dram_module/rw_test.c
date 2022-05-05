@@ -124,7 +124,7 @@ static int mem_enter(void)
 	printk(KERN_INFO "MEM INIT");
 
 	result = alloc_chrdev_region(&dev, 0, 0, "emul_mem");
-	emul_major = MAJOR(dev);
+	axdev.maj = MAJOR(dev);
 
 	if (result < 0) {
 		printk(KERN_WARNING "emul_mem: can't get major %d\n", emul_major);
