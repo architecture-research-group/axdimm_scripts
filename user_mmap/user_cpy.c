@@ -16,7 +16,7 @@ int ax_fd = -1;
 unsigned long k_addr;
 unsigned long u_addr;
 
-int test_ax_cpy(unsigned long r_addr)
+int test_ax_cpy(void * r_addr)
 {
 	char cpy_s, cpy_d;
 	cpy_s='s';
@@ -33,25 +33,30 @@ int test_ax_cpy(unsigned long r_addr)
 		return -1;
 }
 
-unsigned long do_ax_mmap(){
+void * do_ax_mmap(){
 	int ret;
-	size_t u_addr;
+	char * u_addr;
 	char * testbuf;
 
-	testbuf= (char *)malloc(sizeof(char) * 100);
-	for (int i = 0; i < 100; i++){ 
-		sprintf(&(testbuf[i]), "%c", 'F');
+	testbuf= (char *)malloc(sizeof(char) * 1024);
+	for (int i = 0; i < 1024; i++){ 
+		sprintf(&(testbuf[i]), "%c", 'A');
 	}
 
-	u_addr = (size_t) mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED_VALIDATE, ax_fd, 0);
+	u_addr = mmap(NULL, 1024, PROT_READ|PROT_WRITE, MAP_SHARED, ax_fd, 0);
 
-	memcpy((void *)u_addr, testbuf, sizeof(testbuf));
-	printf("AxDIMM User Start: 0x%lx\n", u_addr);
 
-	if ((unsigned long)u_addr == MAP_FAILED)
-		return -1;
-	else
+	if ((unsigned long)u_addr > 0)
+	{
+		printf("at test buffer: %li\n",(unsigned long)*(char *)testbuf);
+		memcpy((void *)u_addr, testbuf, sizeof(testbuf));
+		printf("at memory-mapped address: %li",(unsigned long)*(char *) u_addr);
 		return u_addr;
+	}
+	else{
+		printf("mmap failed\n");
+		return NULL;
+	}
 }
 
 unsigned long do_ax_read(){
@@ -82,12 +87,12 @@ unsigned long do_ax_write(){
 int main()
 {
 
-	int test=1;
-	size_t u_ax;
+	int test=0;
+	char * u_ax;
 	ax_fd = open(AX_MOD_PARAM, O_RDWR);
 	if (ax_fd < 0)
 	{
-		printf("no char dev\n");
+		printf("char dev could not be opened\n");
 		exit(1);
 	}
 	switch (test)
@@ -95,7 +100,7 @@ int main()
 		case 0:
 			/*call mmap test*/
 			u_ax = do_ax_mmap();
-			if (u_ax < 0){
+			if (u_ax == NULL){
 				printf("Mapping unsuccessful\n");
 				return -1;
 			}

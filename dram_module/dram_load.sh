@@ -1,14 +1,13 @@
 #!/bin/sh
 module="rw_test"
 device="emul_mem"
-mode="664"
+mode="666"
 
 # invoke insmod with all arguments we got
 # and use a pathname, as newer modutils don't look in . by default
 if [ ! -f "./$module.ko" ]; then
 	sudo dmesg -C
-	sudo dmesg -D
-	make
+	sudo dmesg -D make
 fi
 
 if [ -z "$(sudo lsmod | grep $module)" ]; then

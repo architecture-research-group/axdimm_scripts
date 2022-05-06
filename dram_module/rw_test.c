@@ -30,30 +30,30 @@ MODULE_LICENSE("GPL");
 
 /* major number */
 int emul_major;
+int emul_minor;
 
-static uint reg_data[16];
-
-static uint nr_records = 0;
+struct ax_dev * axdev;
 
 /*not volatile, kmalloc'd system mem*/
 void * rec_buf;
 
 static int mmap_mem(struct file *file, struct vm_area_struct *vma)
 {
-	int ret;
-	/*
-		obtain page frame number of kmalloc'd memory
-	*/
+	int size;
+	/*obtain page frame number of kmalloc'd memory*/
 	unsigned long pfn = virt_to_phys((void *)rec_buf) >> PAGE_SHIFT;
 
-	/*
-		vma size is <= kmalloc'd mem
-	*/
-	if ( vma->vm_end - vma->vm_start < sizeof(rec_buf) )
+	size = vma->vm_end - vma->vm_start;
+	if ( size > 1024 )
 		return -EIO;
 	
-	printk (KERN_INFO "Performing memory mapping\n");
-	ret = remap_pfn_range(vma, vma->vm_start, pfn, vma->vm_end - vma->vm_start, vma->vm_page_prot);
+	 if (remap_pfn_range(vma, vma->vm_start, pfn, size, vma->vm_page_prot) < 0)
+	{
+		printk("remap page range failed\n");
+		return -EAGAIN;
+	}
+	vma->vm_flags &= ~(VM_IO); /*Just ram*/
+
 	return 0;
 }
 
@@ -71,32 +71,39 @@ static ssize_t read_mem(struct file *file, char __user *buf,size_t count, loff_t
 {
 
 	printk(KERN_INFO "read call\n");
-	return count;
+	return 0;
+}
+
+static int release_mem(struct inode * inodep, struct file * filp)
+{
+	return 0;
 }
 
 static ssize_t write_mem(struct file *file, const char __user *buf,size_t count, loff_t *offset)
 {
 
 	printk(KERN_INFO "write call\n");
-	return count;
+	return 0;
 }
 
 /*file operations*/
 static const struct file_operations ax_fops = {
 	.mmap	= mmap_mem,
 	.open	= open_mem,
+	.release= release_mem,
 	.read	= read_mem,
 	.write  = write_mem,
 };
 
 void chardev_init(void)
 {
-	int err, devno = MKDEV(axdev.maj,0); /* only one dev */
+	int err, devno;
+        devno = MKDEV(emul_major,0); /* only one dev */
 
 	/*create character device*/
-	cdev_init(&(axdev.cdev), &(ax_fops) );
-	axdev.cdev.owner = THIS_MODULE;
-	err = cdev_add( &(axdev.cdev), devno , 1);
+	cdev_init(&(axdev->cdev), &(ax_fops) );
+	axdev->cdev.owner = THIS_MODULE;
+	err = cdev_add( &(axdev->cdev), devno , 1);
 
 	if (err)
 		printk(KERN_NOTICE "Error %d adding memdev", err);
@@ -106,10 +113,13 @@ void chardev_init(void)
 
 static void mem_exit(void)
 {
-	dev_t devno = MKDEV(axdev.maj, 0);
+	dev_t devno = MKDEV(emul_major, 0);
 
-	/*unmap kernel to emul phys*/
-	kfree(rec_buf);
+	/*remove axdev*/
+	cdev_del(&(axdev->cdev));
+	/*unmap record buffer */
+	if (rec_buf) /* could be here after failure to alloc -- must check*/
+		kfree(rec_buf);
 
 	unregister_chrdev_region(devno, 1);
 
@@ -117,26 +127,33 @@ static void mem_exit(void)
 
 }
 
+
 static int mem_enter(void)
 {
 	int result;
 	dev_t dev = 0;
 	printk(KERN_INFO "MEM INIT\n");
 
-	result = alloc_chrdev_region(&dev, 0, 0, "emul_mem");
-	axdev.maj = MAJOR(dev);
+	/* dynamic major number */
+	/* ask for 1 minor dev num starting at base 0 for dev "emul_mem"*/
+	result = alloc_chrdev_region(&dev, 0, 1, "emul_mem");
+	emul_major = MAJOR(dev);
 
 	if (result < 0) {
-		printk(KERN_WARNING "emul_mem: can't get major %d\n", emul_major);
+		printk(KERN_WARNING "emul_mem: minor number allocation failed" );
 		return result;
 	}
 
-	/* allocate record buffer */
-	rec_buf = kmalloc(4096, GFP_KERNEL);
+	/*allocate device*/
+	axdev = kmalloc( sizeof(struct ax_dev), GFP_KERNEL );
+	memset(axdev, 0, sizeof(struct ax_dev));
+
+	/* allocate record buffer: 16KB max */
+	rec_buf = kmalloc(1024, GFP_KERNEL);
 
 	if (! rec_buf ){
 		result = -ENOMEM;
-		printk("could not allocate record buf\n");
+		printk("Could not allocate record buffer\n");
 		goto fail;
 	}
 

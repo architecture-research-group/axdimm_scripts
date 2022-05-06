@@ -6,12 +6,7 @@
 #include <linux/kthread.h>
 #include <asm/atomic.h>
 #include <linux/slab.h>
-#include <linux/fs.h>
-#include <linux/cdev.h>
-#include <linux/device.h>
-#include <linux/kernel.h>
-
-#include "rw_test.h"
+//#include <sys/time.h>
 
 /*memcpy_avx */
 #define _MM_MALLOC_H_INCLUDED 1
@@ -22,74 +17,25 @@
 #include <xmmintrin.h>
 #include <asm/fpu/api.h>
 
-#include <linux/mm.h>
 MODULE_LICENSE("GPL");
 
 /*kaddr of start of AxDIMM Phyus*/
 static ulong axdimm_addr = 0;
 module_param(axdimm_addr,  ulong , 0644);
 
-static uint test = 0;
+static uint test = 1;
 module_param(test, uint, 0644);
 
 volatile void *addr;
 
-
 atomic_t t = ATOMIC_INIT(0);
 
-static int mmap_mem(struct file *file, struct vm_area_struct *vma)
-{
-	size_t size = vma->vm_end - vma->vm_start;
-
-	/* Remap-pfn-range will mark the range VM_IO */
-	printk (KERN_INFO "Performing memory mapping\n");
-	if (vm_iomap_memory(vma,
-				(phys_addr_t)addr,
-			    4096)) {
-		return -EAGAIN;
-	}
-	return 0;
-}
-
-static int open_mem(struct inode *inode, struct file *filp){
-	axdev.openers++;
-	printk( KERN_INFO "Num openers: %d\n", axdev.openers );
-	return 0;
-}
-
-static ssize_t read_mem(struct file *file, char __user *buf,size_t count, loff_t *offset)
-{
-	/*assume enough space in physical memory
-	  and retrieve all bytes from axdimm*/
-	if (count <= 0)
-		return 0;
-
-	/* this is just dram, no need for memcpy_fromio*/
-	/* read data from my_data->buffer to user buffer */
-
-	if (copy_to_user(buf, addr, count))
-		return -EFAULT;
-
-	*offset += count;
-	return count;
-}
-
-static ssize_t write_mem(struct file *file, const char __user *buf,size_t count, loff_t *offset)
-{
-	printk(KERN_INFO "write: at addr loc(%llu) %c", (phys_addr_t) addr, *(char *)addr);
-	copy_from_user((void *)&addr, buf, 1);
-
-	return count;
-}
-
-
-/*test functions */
 int copy_char(void)
 {
-	char c = 'F';
-	printk("copying char %c\n", c);
-	memcpy( (void *) (addr) , (void *) &c, sizeof(c));
-	printk("char at loc(%lu):%c\n", (unsigned long)addr, *(char *)addr);
+	char c = 'c';
+	printk("copying char %c", c);
+	memcpy( (void *) (addr + 256) , (void *) &c, sizeof(c));
+	printk("char at loc(%lu):%c", (unsigned long)addr, c);
 	return 0;
 }
 int copy_pattern(void)
@@ -110,63 +56,20 @@ int copy_pattern(void)
 
 	return 0;
 }
-
-/*set up correct permissions*/
-static int axmem_uevent(struct device *dev, struct kobj_uevent_env *env)
+static int mem_init(void)
 {
-	add_uevent_var(env, "DEVMODE=%#o", 0666);
-	return 0;
-}
-
-void chardev_init(void)
-{
-	/*register the character device and get a major number */
-	axdev.maj = register_chrdev(0, "ax_mem", &(ax_fops));
-	if (axdev.maj < 0){
-		printk(KERN_ALERT "Registering char device failed with %d\n", axdev.maj);
-	}
-
-	/*number of openers*/
-	axdev.openers=0;
-
-	/*create character device*/
-	cdev_init((struct cdev *)&axdev.cdev,&(ax_fops) );
-	axdev.cdev.owner = THIS_MODULE;
-	cdev_add( &axdev.cdev, MKDEV(axdev.maj,0), 1);
-
-	/* create class for sysfs*/
-	axdev_class = class_create(THIS_MODULE, "ax_mem");
-	/*set rw_access using callback*/
-	axdev_class->dev_uevent = axmem_uevent;
-	/*create /dev/ax_mem*/
-	device_create(axdev_class,NULL,MKDEV(axdev.maj,0),NULL,"ax_mem");
-
-	printk(KERN_INFO "dev at: /dev/%s major num: %d\n", "ax_mem", axdev.maj);
-}
-/*entry and exit*/
-static int mem_enter(void)
-{
-	printk(KERN_INFO "MEM INIT");
-
-	/* use memremap on BIOS skipped Axdimm addresses */
+	printk("MEM INIT");
 	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WC);
-
-	chardev_init();
-
-	/*set visible kernel param*/
 	axdimm_addr=(ulong )addr;
-
-
 	switch (test)
 	{
 		case 0:
+			copy_char();	
 			break;
 		case 1:
 			copy_pattern();	
 			break;
 		case 2:
-			copy_char();	
-			break;
 		default:
 			break;
 	}
@@ -175,22 +78,9 @@ static int mem_enter(void)
 }
 static void mem_exit(void)
 {
-	/*unregister character device*/
-
-	device_destroy(axdev_class, MKDEV(axdev.maj,0));
-	class_unregister(axdev_class);
-	class_destroy(axdev_class);
-	unregister_chrdev_region(MKDEV(axdev.maj, 0), MINORMASK);
-	printk(KERN_INFO "Unregistered char device\n");
-
-	/*unmap kernel to axdimm phys*/
 	memunmap( (void*)addr);
-	printk(KERN_INFO "Unmapped AxDIMM Phys\n");
-
 	printk("Module exit\n");
-
 }
 
-
-module_init(mem_enter);
+module_init(mem_init);
 module_exit(mem_exit);

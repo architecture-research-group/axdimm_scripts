@@ -8,10 +8,10 @@ static ssize_t write_mem(struct file *file, const char __user *buf,size_t count,
 
 /* device store*/
 struct ax_dev{
-	struct cdev cdev;
+	struct cdev cdev; /*character structure device*/
+	void * rec_buf;
 	size_t space;
-	int maj;
-} axdev;
+};
 
 
 #endif

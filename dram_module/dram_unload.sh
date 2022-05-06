@@ -15,4 +15,5 @@ fi
 
 # Remove stale nodes
 
+echo "removing device $device"
 sudo rm -f /dev/${device}  
