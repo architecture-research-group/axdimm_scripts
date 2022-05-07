@@ -9,7 +9,7 @@
 #include <stdlib.h>
 
 #define AX_SIZE 0x800000000
-#define AX_MOD_PARAM "/dev/emul_mem"
+#define AX_MOD_PARAM "/dev/scullc0"
 
 int ax_fd = -1;
 
@@ -95,6 +95,7 @@ int main()
 		printf("char dev could not be opened\n");
 		exit(1);
 	}
+	
 	switch (test)
 	{
 		case 0:

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-module=emul_mem
+module=scullc0
 
 if [ ! -z "$(ls /dev | grep $module)" ]; then
 	sudo dmesg -C
