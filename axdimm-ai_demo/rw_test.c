@@ -26,16 +26,22 @@ module_param(axdimm_addr,  ulong , 0644);
 static uint test = 1;
 module_param(test, uint, 0644);
 
+static uint offset = 0;
+module_param(offset, uint, 0644);
+
+static char uchar = 'c';
+module_param(uchar, byte, 0644);
+
 volatile void *addr;
 
 atomic_t t = ATOMIC_INIT(0);
 
 int copy_char(void)
 {
-	char c = 'c';
-	printk("copying char %c", c);
-	memcpy( (void *) (addr + 256) , (void *) &c, sizeof(c));
-	printk("char at loc(%lu):%c", (unsigned long)addr, c);
+	char c = uchar;
+	printk(KERN_INFO "copying char %c\n", c);
+	memcpy( (void *) (addr + offset) , (void *) &c, sizeof(c));
+	printk( KERN_INFO "char at phys(0x%llx):%c\n", virt_to_phys(addr+offset), *(char*)(addr + offset));
 	return 0;
 }
 int copy_pattern(void)

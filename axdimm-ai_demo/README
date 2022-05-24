@@ -1,11 +1,11 @@
-use run.sh script to test
-./run.sh
+use install.sh script to test
+./install.sh
 
-copies single char (2 bytes) to memory at offset 256
+copies single char (2 bytes) to memory at specified offset parameter
 -- character "c" is written to the memory location
 
-to perform char copy test:
-sudo ./run.sh test=2
+to perform char copy test: (copy an 'A' to offset 256
+sudo ./install.sh test=0 offset=256 char=65
 
 to perform recognizable data copy test (128 1's 128 0's 128 alternating):
-sudo ./run.sh test=1
+sudo ./install.sh test=1
