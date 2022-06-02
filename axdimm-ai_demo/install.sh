@@ -10,6 +10,7 @@ if [ -z "$(sudo lsmod | grep $module)" ]; then
 	sudo insmod rw_test.ko $*
 	sudo dmesg | tee install.out
 else 
+	echo "already installed... uninstalling..."
 	sudo dmesg -C
 	sudo dmesg -D
 	make clean

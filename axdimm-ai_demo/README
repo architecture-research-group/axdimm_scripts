@@ -1,11 +1,20 @@
+tests: 1-charcopy 2-stringcopy 3-readtest
+
 use install.sh script to test
-./install.sh
+./install.sh test=0
 
+CHARTEST:
 copies single char (2 bytes) to memory at specified offset parameter
--- character "c" is written to the memory location
-
 to perform char copy test: (copy an 'A' to offset 256
-sudo ./install.sh test=0 offset=256 char=65
+sudo ./install.sh test=0 offset=256 uchar=65
+QUICKLY GENERATE TABLE: ./char_offset_test.sh
 
-to perform recognizable data copy test (128 1's 128 0's 128 alternating):
-sudo ./install.sh test=1
+STRINGTEST:
+copies string of length < 1024 byes (Kernel imposed limit) to offset:
+sudo ./install.sh test=1 offset=256 string="hello"
+QUICKLY GENERATE TABLE: ./string_offset_test.sh
+
+READTEST:
+reads specified bytes at offset given (bounds checking is performed)
+sudo ./install.sh test=2 rdlen=10 offset=256
+QUICKLY GENERATE TABLE: ./read_offset_test.sh

@@ -32,6 +32,12 @@ module_param(offset, uint, 0644);
 static char uchar = 'c';
 module_param(uchar, byte, 0644);
 
+static char * str;
+module_param(str, charp, 0644);
+
+static uint rdlen;
+module_param(rdlen, uint, 0644);
+
 volatile void *addr;
 
 atomic_t t = ATOMIC_INIT(0);
@@ -41,7 +47,16 @@ int copy_char(void)
 	char c = uchar;
 	printk(KERN_INFO "copying char %c\n", c);
 	memcpy( (void *) (addr + offset) , (void *) &c, sizeof(c));
-	printk( KERN_INFO "char at phys(0x%llx):%c\n", virt_to_phys(addr+offset), *(char*)(addr + offset));
+	printk( KERN_INFO "CHAR_WRITE: char at phys(0x%llx):%c\n", virt_to_phys(addr+offset), *(char*)(addr + offset));
+	return 0;
+}
+int copy_string(void)
+{
+	if ( offset + strlen(str) > 0x8FFFFFFFF )
+		return -ENOMEM;
+	memcpy( (void *) (addr + offset) , (void *) str, strlen(str));
+	printk(KERN_INFO "STRING_WRITE: string at phys (0x%llx):%s\n",  virt_to_phys(addr + offset), str);
+	//printk( KERN_INFO "char at phys(0x%llx):%c\n", virt_to_phys(addr+offset), *(char*)(addr + offset));
 	return 0;
 }
 int copy_pattern(void)
@@ -62,10 +77,23 @@ int copy_pattern(void)
 
 	return 0;
 }
+int read_offset(void){
+	char * buf;
+	if( offset < 0x000000000 || offset > 0x800000000){
+		printk(KERN_INFO "Requested address (0x%llx) is out of bounds\n", virt_to_phys(addr + offset));
+		return -ENOMEM;	
+	}
+	buf = (char *)kmalloc( sizeof(char) * rdlen, GFP_KERNEL );
+	memcpy( (void *)buf, (void *)(addr + offset), rdlen);
+	printk(KERN_INFO "READ: string at phys(0x%llx):%s\n", virt_to_phys(addr + offset), buf );
+	return 0;
+
+}
 static int mem_init(void)
 {
-	printk("MEM INIT");
 	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WC);
+	printk(KERN_INFO "MEM INIT: AxDIMM addresses 0x100000000-0x8FFFFFFFF mapped to kernel address %px\n", addr );
+
 	axdimm_addr=(ulong )addr;
 	switch (test)
 	{
@@ -73,9 +101,11 @@ static int mem_init(void)
 			copy_char();	
 			break;
 		case 1:
-			copy_pattern();	
+			copy_string();	
 			break;
 		case 2:
+			read_offset();
+			break;
 		default:
 			break;
 	}
