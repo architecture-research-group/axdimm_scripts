@@ -8,7 +8,7 @@ echo "offset,physical_address,char" >  $off_file
 
 # make sure module is uninstalled before starting
 if [ ! -z "$(sudo lsmod | grep rw_test)" ]; then
-	sudo rmmod rw_test.ko
+	./install.sh
 fi
 
 
