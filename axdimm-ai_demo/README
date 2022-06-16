@@ -11,10 +11,10 @@ QUICKLY GENERATE TABLE: ./char_offset_test.sh
 
 STRINGTEST:
 copies string of length < 1024 byes (Kernel imposed limit) to offset:
-./install.sh test=1 offset=256 string="hello"
+./install.sh test=1 offset=256 str="hello"
 QUICKLY GENERATE TABLE: ./string_offset_test.sh
 
 READTEST:
-reads specified bytes at offset given (bounds checking is performed)
+reads specified number of bytes (rdlen bytes) at offset given (bounds checking is performed)
 ./install.sh test=2 rdlen=10 offset=256
 QUICKLY GENERATE TABLE: ./read_offset_test.sh
