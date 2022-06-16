@@ -17,7 +17,7 @@ else
 	sudo dmesg -D
 	make -s clean
 	sudo dmesg -E
-	sudo rmmod rw_test.ko &> /dev/null
+	sudo rmmod -f rw_test.ko &> /dev/null
 	[ "$?" != "0" ] && echo "[Fatal]: module improperly loaded/unloaded -- reboot to uninstall"
 	sudo dmesg | tee uninstall.out
 fi

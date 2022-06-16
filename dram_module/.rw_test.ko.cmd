@@ -1,1 +1,0 @@
-cmd_/home/seed/axdimm_modules/dram_module/rw_test.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000  --build-id  -T ./scripts/module-common.lds -o /home/seed/axdimm_modules/dram_module/rw_test.ko /home/seed/axdimm_modules/dram_module/rw_test.o /home/seed/axdimm_modules/dram_module/rw_test.mod.o;  true
