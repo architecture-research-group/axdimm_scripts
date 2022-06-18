@@ -1,7 +1,7 @@
 #!/bin/sh
 module="scullc"
 device="scullc"
-mode="664"
+mode="666"
 
 # Group: since distributions do it differently, look for wheel or use staff
 if grep '^staff:' /etc/group > /dev/null; then
@@ -15,7 +15,9 @@ rm -f /dev/${device}?
 
 # invoke insmod with all arguments we got
 # and use a pathname, as newer modutils don't look in . by default
+dmesg -C
 insmod ./$module.ko $* || exit 1
+dmesg | tee ins.out
 
 major=`cat /proc/devices | awk "\\$2==\"$module\" {print \\$1}"`
 

@@ -7,14 +7,17 @@ CHARTEST:
 copies single char (2 bytes) to memory at specified offset parameter
 to perform char copy test: (copy an 'A' to offset 256
 ./install.sh test=0 offset=256 uchar=65
-QUICKLY GENERATE TABLE: ./char_offset_test.sh
+QUICKLY RUN TESTS AND GENERATE TABLE: ./char_offset_test.sh
 
 STRINGTEST:
 copies string of length < 1024 byes (Kernel imposed limit) to offset:
 ./install.sh test=1 offset=256 str="hello"
-QUICKLY GENERATE TABLE: ./string_offset_test.sh
+QUICKLY RUN TESTS AND GENERATE TABLE: ./string_offset_test.sh
 
 READTEST:
 reads specified number of bytes (rdlen bytes) at offset given (bounds checking is performed)
 ./install.sh test=2 rdlen=10 offset=256
-QUICKLY GENERATE TABLE: ./read_offset_test.sh
+QUICKLY RUN TESTS AND GENERATE TABLE: ./read_offset_test.sh
+
+Modifying addresses can be done by changing the offsets in the array in addresses.sh. 
+This prevents having to manually insert and remove the kernel module and gives an interface to modify the offsets for writin to AxDIMM.

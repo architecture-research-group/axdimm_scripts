@@ -22,7 +22,12 @@ obj-m	:= scullc.o
 
 else
 
-KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+
+ifneq ("$(VM_KERNEL)", "")
+  KERNELDIR ?= /lib/modules/$(VM_KERNEL)/build
+else
+  KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+endif
 PWD       := $(shell pwd)
 
 modules:
@@ -34,6 +39,9 @@ endif
 install:
 	install -d $(INSTALLDIR)
 	install -c $(TARGET).o $(INSTALLDIR)
+
+mmap: mmap.c
+	gcc -g -o mmap mmap.c
 
 clean:
 	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .tmp_versions *.mod modules.order *.symvers scull-shared/scull-async.o

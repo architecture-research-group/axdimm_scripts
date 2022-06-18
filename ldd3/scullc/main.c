@@ -32,6 +32,7 @@
 #include <linux/version.h>
 #include <linux/mutex.h>
 #include <linux/mm.h>		/*remap_page_pfn*/
+#include <linux/io.h>		/*memremap*/
 #include "scull-shared/scull-async.h"
 #include "scullc.h"		/* local definitions */
 #include "access_ok_version.h"
@@ -58,7 +59,9 @@ void scullc_cleanup(void);
 struct kmem_cache *scullc_cache;
 
 
-
+/* result of memremap */
+void * addr;
+#define ST_PHYS 0x100000000
 
 
 #ifdef SCULLC_USE_PROC /* don't waste space if unused */
@@ -402,11 +405,12 @@ static int mmap_scull(struct file *file, struct vm_area_struct *vma)
 
 	if (remap_pfn_range(vma,
 			    vma->vm_start,
-		            vma->vm_pgoff,
+		            ST_PHYS >> PAGE_SHIFT,
 			    size,
 			    vma->vm_page_prot)){
     		return -EAGAIN;
 	}
+	printk(KERN_INFO "performing mmap\n" );
 	return 0;	
 
 }
@@ -494,6 +498,8 @@ int scullc_init(void)
 		return result;
 
 	
+	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WC);
+	printk( KERN_INFO "mapping 0x100000000-0x9fffffff\n");
 	/* 
 	 * allocate the devices -- we can't have them static, as the number
 	 * can be specified at load time
@@ -543,6 +549,7 @@ void scullc_cleanup(void)
 		scullc_trim(scullc_devices + i);
 	}
 	kfree(scullc_devices);
+	memunmap( (void*)addr);
 
 	if (scullc_cache)
 		kmem_cache_destroy(scullc_cache);
