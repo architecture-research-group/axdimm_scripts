@@ -21,3 +21,9 @@ QUICKLY RUN TESTS AND GENERATE TABLE: ./read_offset_test.sh
 
 Modifying addresses can be done by changing the offsets in the array in addresses.sh. 
 This prevents having to manually insert and remove the kernel module and gives an interface to modify the offsets for writin to AxDIMM.
+
+
+Physical Address Mapping Reconstruction:
+./map_phys.sh to begin the test. When prompted export a csv file with the same name as the prompt (ie "exported 6.csv?" should prompt you to export a csv file to /tmp (on Castor/Pollux) named 6.csv) 
+
+The script will fetch the file and output data related to the Write CAS command in which the data was found.

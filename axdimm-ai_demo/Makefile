@@ -1,4 +1,4 @@
-obj-m += rw_test3.o
+obj-m += rw_test.o
 
 ccflags-y := -O0 -mpreferred-stack-boundary=4 -mavx2 #-ftree-vectorize
 
