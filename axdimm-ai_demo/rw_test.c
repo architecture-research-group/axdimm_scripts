@@ -26,6 +26,12 @@ module_param(test, uint, 0644);
 static uint offset = 0;
 module_param(offset, uint, 0644);
 
+static uint offset2 = 0;
+module_param(offset2, uint, 0644);
+
+static uint offset3 = 0;
+module_param(offset3, uint, 0644);
+
 static char uchar = 'c';
 module_param(uchar, byte, 0644);
 
@@ -47,6 +53,26 @@ int copy_char(void)
 	printk( KERN_INFO "CHAR_WRITE: char at phys(0x%llx):%c\n", virt_to_phys(addr+offset), *(char*)(addr + offset));
 	return 0;
 }
+
+int copy_two_char(void)
+{
+	char c = uchar;
+	void * w_addr = (void *) ( (u64) addr | (u64)(addr + offset) | (u64)(addr + offset2) );
+	printk(KERN_INFO "copying char %c\n", c);
+	memcpy( (void *) w_addr , (void *) &c, sizeof(c));
+	printk( KERN_INFO "multi_char_write: char at phys(0x%llx):%c\n", virt_to_phys(w_addr), *(char*)(addr + offset));
+	return 0;
+}
+int copy_three_char(void)
+{
+	char c = uchar;
+	void * w_addr = (void *) ( (u64) addr | (u64)(addr + offset) | (u64)(addr + offset2) | (u64) (addr + offset3) );
+	printk(KERN_INFO "copying char %c\n", c);
+	memcpy( (void *) w_addr , (void *) &c, sizeof(c));
+	printk( KERN_INFO "multi_char_write: char at phys(0x%llx):%c\n", virt_to_phys(w_addr), *(char*)(addr + offset) );
+	return 0;
+}
+
 int copy_string(void)
 {
 	if ( offset + strlen(str) > 0x8FFFFFFFF )
@@ -106,6 +132,12 @@ static int mem_init(void)
 			break;
 		case 2:
 			read_offset();
+			break;
+		case 3:
+			copy_two_char();	
+			break;
+		case 4:
+			copy_three_char();	
 			break;
 		default:
 			break;
