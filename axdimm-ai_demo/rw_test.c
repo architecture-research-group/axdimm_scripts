@@ -20,9 +20,6 @@
 MODULE_LICENSE("GPL");
 
 /*kaddr of start of AxDIMM Phyus*/
-static ulong axdimm_addr = 0;
-module_param(axdimm_addr,  ulong , 0644);
-
 static uint test = 1;
 module_param(test, uint, 0644);
 
@@ -32,7 +29,7 @@ module_param(offset, uint, 0644);
 static char uchar = 'c';
 module_param(uchar, byte, 0644);
 
-static char * str;
+static char * str = "Uninit";
 module_param(str, charp, 0644);
 
 static uint rdlen;
@@ -92,9 +89,13 @@ int read_offset(void){
 static int mem_init(void)
 {
 	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WC);
+	if ( ! addr ){
+		printk(KERN_INFO "[Fatal]: Could not map AxDIMM address space \n");
+		return -ENOMEM;
+	}
 	printk(KERN_INFO "MEM INIT: AxDIMM addresses 0x100000000-0x8FFFFFFFF mapped to kernel address %px\n", addr );
 
-	axdimm_addr=(ulong )addr;
+
 	switch (test)
 	{
 		case 0:

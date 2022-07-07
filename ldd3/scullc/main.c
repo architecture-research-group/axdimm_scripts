@@ -498,8 +498,8 @@ int scullc_init(void)
 		return result;
 
 	
-	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WC);
-	printk( KERN_INFO "mapping 0x100000000-0x9fffffff\n");
+	addr = memremap(0x100000000, 0x40000000, MEMREMAP_WC);
+	printk( KERN_INFO "mapping 0x100000000-0x13fffffff\n");
 	/* 
 	 * allocate the devices -- we can't have them static, as the number
 	 * can be specified at load time
