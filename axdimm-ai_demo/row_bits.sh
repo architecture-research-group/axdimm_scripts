@@ -1,6 +1,6 @@
 #!/bin/bash
 
-high_bits=( "28" )
+high_bits=( "32" "31" "29" "26" "25" "24" "28" )
 
 copyChar=69
 
