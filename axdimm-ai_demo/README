@@ -24,6 +24,57 @@ This prevents having to manually insert and remove the kernel module and gives a
 
 
 Physical Address Mapping Reconstruction:
+
+DEPRECATED (use address_dram_map.sh instead with .tcl script -- source script.tcl in Vivado console -- to rearm ILAs instead)
 ./map_phys.sh to begin the test. When prompted export a csv file with the same name as the prompt (ie "exported 6.csv?" should prompt you to export a csv file to /tmp (on Castor/Pollux) named 6.csv) 
 
 The script will fetch the file and output data related to the Write CAS command in which the data was found.
+
+example tcl script:
+```
+for {set i 0} {$i < 10000000} {incr i} {
+        puts "Initiating ILA, iteration $i"
+		run_hw_ila [get_hw_ilas -of_objects [get_hw_devices xczu19_0] -filter {CELL_NAME=~"Arbiter/ila_1"}]
+		wait_on_hw_ila -timeout .0709 [get_hw_ilas -of_objects [get_hw_devices xczu19_0]  -filter {CELL_NAME=~"Arbiter/ila_1"}]
+		display_hw_ila_data [upload_hw_ila_data [get_hw_ilas -of_objects [get_hw_devices xczu19_0] -filter {CELL_NAME=~"Arbiter/ila_1"}]]
+		write_hw_ila_data -csv_file -force ./iladata_$i.csv hw_ila_data_1
+		puts "Saved ILA data, iteration $i"
+}
+```
+
+in directory containing .csv files, run: 
+```
+files=( $(ls  */*.csv | sort -t_ -g -k2) )
+addr=0x100000000
+tokens=$( LC_CTYPE=C printf "%x%x%x%x%x" $(printf '%d' "'o" ) $(printf '%d' "'l" ) $(printf '%d' "'l" ) $(printf '%d' "'e" ) $(printf '%d' "'h" ) ) 
+echo "PhysAddr,BG,BA,COL,ROW"
+for i in "${files[@]}";
+do
+		file=$( echo $i | grep -Eo '[0-9]+' )
+		bits=$( grep $tokens $i | awk -F, '{print $8}' )
+		data=$( grep $tokens $i | awk -F, '{print $12}'| grep -Eo "((3[0-9])|0A)+$tokens" )
+		[ -z "$data" ] && continue
+		iter=$( echo $data | grep -Eo "((3[0-9])|0A)+" | head -n 1 )
+		hex_off=0
+		digits=($( echo $iter | sed -E 's/(..)/\1 /g'))
+		ctr=0
+		interval=""
+		for d in "${digits[@]}"; do
+				r_d=$(( 0x$d - 0x30 ))
+				interval+=$r_d
+				hex_off=$( printf "0x%X" $(( hex_off  + $(( $r_d * $(( 16 ** ctr )) ))  )) )
+				ctr=$(( ctr +  1 ))
+				#echo $hex_off
+		done
+		#>&2 echo "$(echo $interval | rev)"
+		hex_add=$(( hex_off * 64 ))
+
+		col=$( echo $bits | cut -b 22-31)
+		row=$( echo $bits | cut -b 5-21)
+		ba=$( echo $bits | cut -b 3-4)
+		bgr=$( echo $bits | cut -b 1-2)
+		echo "\"$(printf "0x%X\n" $(($addr + $hex_add)) )\",\"$bgr\",\"$ba\",\"$col\",\"$row\"";
+		ctr=$(( ctr + 1 ))
+		#addr=$(echo "ibase=16; obase=16; $addr + $hex_off " | bc )
+done | sort -g -k1 -t,
+```
