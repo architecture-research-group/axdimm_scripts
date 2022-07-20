@@ -1,5 +1,6 @@
 *.csv
-*.txt
+/*.txt
+/axdimm-ai_demo/*.txt
 *.symvers
 *.swp
 *.swo
