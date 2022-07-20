@@ -21,6 +21,7 @@
 # include <sys/shm.h>
 # include <stdint.h>
 # include <string.h>
+# include <x86intrin.h>
 
 //ins
 #define B64 (63 << 1) 
@@ -97,13 +98,14 @@
 
 #define PG_SZ 4096
 
-void write_dev_dram(uint64_t base, uint64_t offset, char * data, uint64_t size){
+/*
+void read_dev_dram(uint64_t base, uint64_t offset, uint64_t size){
 	int rd_fd;
 	uint64_t approx_tgt = offset / PG_SZ;
 
 	if ((rd_fd = open("/dev/mem", O_RDWR)) < 0)
 	{
-		printf("Error: could not open RDIMM character device\n");
+		printf("Error: could not open /dev/mem character device\n");
 		exit(-1);
 	}
 
@@ -117,8 +119,33 @@ void write_dev_dram(uint64_t base, uint64_t offset, char * data, uint64_t size){
 		exit(-1);
 	}
 
+	memcpy( (void *) ( approx_loc + (offset % PG_SZ) ), (void *) data, size );
+	_mm_clflush( approx_loc );
+}
+*/
+void write_dev_dram(uint64_t base, uint64_t offset, char * data, uint64_t size){
+	int rd_fd;
+	uint64_t approx_tgt = offset / PG_SZ;
+
+	if ((rd_fd = open("/dev/mem", O_RDWR)) < 0)
+	{
+		printf("Error: could not open RDIMM character device\n");
+		exit(-1);
+	}
+
+	printf( "writing 'a' to memory address: 0x%016lx \n", base + offset);
+
+	char * approx_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + (approx_tgt * PG_SZ) );
+
+	if (approx_loc == -1)
+	{
+		printf("could not mmap\n");
+		exit(-1);
+	}
+
 	//approx_loc[ tgt % PG_SZ ] = 'a'; /* write to actual memory address */
 	memcpy( (void *) ( approx_loc + (offset % PG_SZ) ), (void *) data, size );
+	_mm_clflush( approx_loc );
 }
 int main()
 {

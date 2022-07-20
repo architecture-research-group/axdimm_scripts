@@ -20,7 +20,7 @@ do
 	| grep -Eo '\(0x[0-9a-zA-Z]+\):[A-Za-z]+' | tee str.out | grep -Eo '0x[0-9a-zA-Z]+' ) #install
 	char=$(grep -Eo ':[A-Z0-9a-z]+' str.out | sed 's/://g')
 	echo "${i},${phys},${char}" >> $off_file
-	./install.sh >/dev/null #uninstall
+	./uninstall.sh >/dev/null #uninstall
 done
 
 echo "table in $off_file"
