@@ -98,9 +98,9 @@
 
 #define PG_SZ 4096
 
-/*
 void read_dev_dram(uint64_t base, uint64_t offset, uint64_t size){
 	int rd_fd;
+	char * rd_data = (char *)malloc(sizeof(char) * size);
 	uint64_t approx_tgt = offset / PG_SZ;
 
 	if ((rd_fd = open("/dev/mem", O_RDWR)) < 0)
@@ -109,7 +109,7 @@ void read_dev_dram(uint64_t base, uint64_t offset, uint64_t size){
 		exit(-1);
 	}
 
-	printf( "writing 'a' to memory address: 0x%016lx \n", base + offset);
+	printf( "reading memory address: 0x%016lx \n", base + offset);
 
 	char * approx_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, approx_tgt * PG_SZ );
 
@@ -119,11 +119,12 @@ void read_dev_dram(uint64_t base, uint64_t offset, uint64_t size){
 		exit(-1);
 	}
 
-	memcpy( (void *) ( approx_loc + (offset % PG_SZ) ), (void *) data, size );
-	_mm_clflush( approx_loc );
+	memcpy( (void *) rd_data, (void *) ( approx_loc + (offset % PG_SZ) ), 1 );
+	printf( "read: %s\n", rd_data);
+	return;
 }
-*/
-void write_dev_dram(uint64_t base, uint64_t offset, char * data, uint64_t size){
+
+void write_dev_dram(uint64_t base, int offset, char * data, uint64_t size){
 	int rd_fd;
 	uint64_t approx_tgt = offset / PG_SZ;
 
@@ -147,16 +148,19 @@ void write_dev_dram(uint64_t base, uint64_t offset, char * data, uint64_t size){
 	memcpy( (void *) ( approx_loc + (offset % PG_SZ) ), (void *) data, size );
 	_mm_clflush( approx_loc );
 }
-int main()
+int main(int argc, char ** argv)
 {
+	
+	if (argc != 2)
+	{
+		printf( "no offset\n" );
+		exit (-1);
+	}
 	uint64_t base=0x100000000;
-	uint64_t tgt=B9; /*write to this memory location*/
+	uint64_t tgt=B8; /*write to this memory location*/
 	uint64_t size=sizeof(char) * 8;
 	char * data = (char *) malloc(size);
 	data[0]='a';
 	write_dev_dram(base, tgt, data, size );
-
-	/* get as close as possible to desired memory location */
-	/* map a single page containing desired offset into userspace */
-
+	read_dev_dram(base, tgt, size );
 }
