@@ -1,8 +1,5 @@
 kernel module tests: 1-charcopy 2-stringcopy 3-readtest
 
-use install.sh script to test
-./install.sh test=0
-
 CHARTEST:
 copies single char (2 bytes) to memory at specified offset parameter
 to perform char copy test: (copy an 'A' to offset 256
@@ -18,6 +15,10 @@ READTEST:
 reads specified number of bytes (rdlen bytes) at offset given (bounds checking is performed)
 ./install.sh test=2 rdlen=10 offset=256
 QUICKLY RUN TESTS AND GENERATE TABLE: ./read_offset_test.sh (only reads a single byte at the offset)
+
+READ_WRITE_512_Bits:
+change string using `export string=somestr` (should be 7 characters as string is null-terminated within kernel module)
+./w_r_offset_test.sh
 
 Modifying addresses can be done by changing the offsets in the array in addresses.sh. 
 This prevents having to manually insert and remove the kernel module and gives an interface to modify the offsets for writin to AxDIMM.

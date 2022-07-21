@@ -2,8 +2,8 @@
 
 source addresses.sh
 [ -z "$offs" ] && offs=( "256" "511" )
-off_file=string_table.txt
-string=ABCDEFG
+off_file=rw_table.txt
+[ -z "$string" ] && string=ABCDEFG
 
 
 echo "offset,physical_address,char" >  $off_file
