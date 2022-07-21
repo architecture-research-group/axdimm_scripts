@@ -157,7 +157,7 @@ int main(int argc, char ** argv)
 		exit (-1);
 	}
 	uint64_t base=0x100000000;
-	uint64_t tgt=B8; /*write to this memory location*/
+	uint64_t tgt=B9; /*write to this memory location*/
 	uint64_t size=sizeof(char) * 8;
 	char * data = (char *) malloc(size);
 	data[0]='a';

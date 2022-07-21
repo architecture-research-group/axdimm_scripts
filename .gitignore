@@ -11,3 +11,4 @@
 *.order
 *.mod.c
 *.out
+/addr_mapping/!(*.c)

@@ -1,4 +1,4 @@
-tests: 1-charcopy 2-stringcopy 3-readtest
+kernel module tests: 1-charcopy 2-stringcopy 3-readtest
 
 use install.sh script to test
 ./install.sh test=0

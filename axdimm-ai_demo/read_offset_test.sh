@@ -16,11 +16,11 @@ for i in "${offs[@]}";
 do
 	ctr=$(( $ctr + 1 ))
 	[[ "$ctr" -gt "25" ]] && ctr=0
-	phys=$( ./install.sh \test=2 rdlen=8 offset=$i | grep 'READ'\
+	phys=$( ./install.sh \test=2 rdlen=8 offset=$i | grep 'READ' | tail -n 1 \
 	| grep -Eo '\(0x[0-9a-zA-Z]+\):.*' | tee str.out | grep -Eo '0x[0-9a-zA-Z]+' ) #install
 	char=$(grep -Eo ':.*' str.out | sed 's/://g')
-	echo "${i},${phys},${char}" >> $off_file
-	./uninstall.sh #uninstall
+	echo "${i},${phys},${char}" | tee -a $off_file
+	./uninstall.sh >/dev/null #uninstall
 done
 
 echo "table in $off_file"

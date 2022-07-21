@@ -89,13 +89,13 @@ int read_offset(void){
 	}
 	buf = (char *)kmalloc( sizeof(char) * rdlen, GFP_KERNEL );
 	memcpy( (void *)buf, (void *)(addr + offset), rdlen);
-	printk(KERN_INFO "READ: string at phys(0x%llx):%s\n", virt_to_phys(addr + offset), buf );
+	printk(KERN_INFO "READ: string at phys(0x%llx):%02x\n", virt_to_phys(addr + offset), buf );
 	return 0;
 
 }
 static int mem_init(void)
 {
-	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WC);
+	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WT);
 	if ( ! addr ){
 		printk(KERN_INFO "[Fatal]: Could not map AxDIMM address space \n");
 		return -ENOMEM;

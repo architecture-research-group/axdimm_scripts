@@ -1,0 +1,2 @@
+axdimm-ai_demo: kernel module and test scripts for reading/writing axdimm
+user_space_axdimm_rw_test: user-space program for reading/writing axdimm using /dev/mem character device

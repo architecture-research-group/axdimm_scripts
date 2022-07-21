@@ -16,10 +16,10 @@ for i in "${offs[@]}";
 do
 	ctr=$(( $ctr + 1 ))
 	[[ "$ctr" -gt "25" ]] && ctr=0
-	phys=$( ./install.sh \test=0 uchar=$(( 65 + $ctr )) offset=$i | grep 'CHAR_WRITE'\
-	| grep -Eo '\(0x[0-9a-zA-Z]+\):[A-Za-z]+' | tee str.out | grep -Eo '0x[0-9a-zA-Z]+' ) #install
+	phys=$( ./install.sh \test=0 uchar=$(( 65 + $ctr )) offset=$i | grep 'CHAR_WRITE' | tail -n 1 \
+	| grep -Eo '\(0x[0-9a-zA-Z]+\):[A-Za-z]+' | tee str.out | grep -Eo '0x[0-9a-zA-Z]+'  ) #install
 	char=$(grep -Eo ':[A-Z0-9a-z]+' str.out | sed 's/://g')
-	echo "${i},${phys},${char}" >> $off_file
+	echo "${i},${phys},${char}" | tee -a $off_file
 	./uninstall.sh >/dev/null #uninstall
 done
 
