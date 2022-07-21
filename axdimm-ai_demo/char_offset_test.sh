@@ -12,7 +12,7 @@ if [ ! -z "$(sudo lsmod | grep rw_test)" ]; then
 fi
 
 
-ctr=15
+ctr=4
 for i in "${offs[@]}";
 do
 	ctr=$(( $ctr + 1 ))
