@@ -125,7 +125,7 @@ void read_dev_dram(uint64_t base, uint64_t offset, uint64_t size){
 	return;
 }
 
-void write_dev_dram(uint64_t base, int offset, char * data, int size){
+void write_dev_dram(uint64_t base, uint64_t offset, char * data, int size){
 	int rd_fd;
 	int approx_tgt = offset / PG_SZ;
 
@@ -137,7 +137,7 @@ void write_dev_dram(uint64_t base, int offset, char * data, int size){
 
 	printf( "writing 'a' to memory address: 0x%016lx \n", base + offset);
 
-	char * approx_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + (approx_tgt * PG_SZ) );
+	char * approx_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + offset );
 
 	if (approx_loc == -1)
 	{

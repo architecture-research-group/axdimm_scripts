@@ -36,7 +36,7 @@ module_param(offset3, ulong, 0644);
 static char uchar = 'c';
 module_param(uchar, byte, 0644);
 
-static char * str = "Uninit";
+static char * str = "AAAAAAA";
 module_param(str, charp, 0644);
 
 static uint rdlen;
@@ -68,6 +68,38 @@ int copy_string(void)
 	printk(KERN_INFO "STRING_WRITE: string at phys (0x%llx):%s\n",  virt_to_phys(addr + offset), str);
 	return 0;
 }
+
+int write_read(void)
+{
+	void * w_addr = (void *) ( (u64) addr | (u64)(addr + offset) | (u64)(addr + offset2) );
+	char * buf;
+
+	if(rdlen > 7)
+	{
+		printk(KERN_INFO "Data length > 512 bits\n");
+		return -ENOMEM;
+	}
+
+	memcpy( (void *) (w_addr) , (void *) str, strlen(str) );
+	flush_cache_vmap((unsigned long)w_addr, (unsigned long) (w_addr + 8));
+	_mm_clflush(w_addr);
+
+	printk(KERN_INFO "STRING_WRITE: string at phys (0x%llx):%s\n",  virt_to_phys(w_addr), str);
+	
+	if( offset < 0x000000000 || offset > 0x800000000){
+		printk(KERN_INFO "Requested address (0x%llx) is out of bounds\n", virt_to_phys(w_addr));
+		return -ENOMEM;	
+	}
+
+	buf = (char *)kmalloc( sizeof(char) * rdlen, GFP_KERNEL );
+	flush_cache_vmap((unsigned long)w_addr, (unsigned long) (w_addr + rdlen));
+	_mm_clflush(w_addr);
+	memcpy( (void *)buf, (void *)(w_addr), rdlen);
+	printk(KERN_INFO "STRING_READ: string at phys(0x%llx):%s\n", virt_to_phys(addr + offset), buf );
+	return 0;
+
+}
+
 int read_offset(void){
 	char * buf;
 	void * w_addr = (void *) ( (u64) addr | (u64)(addr + offset) | (u64)(addr + offset2) );
@@ -103,6 +135,9 @@ static int mem_module_init(void)
 			break;
 		case 2:
 			read_offset();
+			break;
+		case 3:
+			write_read();
 			break;
 		default:
 			break;
