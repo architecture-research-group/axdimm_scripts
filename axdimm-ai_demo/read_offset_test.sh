@@ -8,15 +8,13 @@ echo "offset,physical_address,char" >  $off_file
 
 # make sure module is uninstalled before starting
 if [ ! -z "$(sudo lsmod | grep rw_test)" ]; then
-	./install.sh
+	./uninstall.sh >/dev/null #uninstall
 fi
 
 
 for i in "${offs[@]}";
 do
-	ctr=$(( $ctr + 1 ))
-	[[ "$ctr" -gt "25" ]] && ctr=0
-	phys=$( ./install.sh \test=2 rdlen=8 offset=$i | grep 'READ' | tail -n 1 \
+	phys=$( ./install.sh \test=2 rdlen=1 offset=$i | grep 'READ' | tail -n 1 \
 	| grep -Eo '\(0x[0-9a-zA-Z]+\):.*' | tee str.out | grep -Eo '0x[0-9a-zA-Z]+' ) #install
 	char=$(grep -Eo ':.*' str.out | sed 's/://g')
 	echo "${i},${phys},${char}" | tee -a $off_file

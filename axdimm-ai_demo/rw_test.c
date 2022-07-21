@@ -6,6 +6,7 @@
 #include <linux/kthread.h>
 #include <asm/atomic.h>
 #include <linux/slab.h>
+#include <asm/cacheflush.h>
 //#include <sys/time.h>
 
 /*memcpy_avx */
@@ -52,6 +53,8 @@ int copy_char(void)
 	printk(KERN_INFO "copying char %c\n", c);
 	memcpy( (void *) (w_addr) , (void *) &c, sizeof(c));
 	printk( KERN_INFO "CHAR_WRITE: char at phys(0x%llx):%c\n", virt_to_phys(w_addr), *(char*)(w_addr));
+	flush_cache_vmap((unsigned long)w_addr, (unsigned long) (w_addr + 1));
+	_mm_clflush(w_addr);
 	return 0;
 }
 
@@ -60,42 +63,29 @@ int copy_string(void)
 {
 	void * w_addr = (void *) ( (u64) addr | (u64)(addr + offset) | (u64)(addr + offset2) );
 	memcpy( (void *) (w_addr) , (void *) str, strlen(str));
+	flush_cache_vmap((unsigned long)w_addr, (unsigned long) (w_addr + 8));
+	_mm_clflush(w_addr);
 	printk(KERN_INFO "STRING_WRITE: string at phys (0x%llx):%s\n",  virt_to_phys(addr + offset), str);
-	return 0;
-}
-int copy_pattern(void)
-{
-	/* allocate buffer with signal */
-	char * buf = (char *)kmalloc( sizeof(char) * 3, GFP_KERNEL);
-	char _1 = (char)65535;
-	char _2 = (char)43690;
-	char _3 = (char)0;
-	buf[0]=_1;
-	buf[1]=_2;
-	buf[2]=_3;
-
-	/* copy buffer to axdimm */
-	printk("copying pattern %s", buf);
-	memcpy((void *) (addr + 256), (void *) &buf, sizeof(buf));
-	printk("pattern at loc(%lu):%s", (unsigned long)(addr+256), buf);
-
 	return 0;
 }
 int read_offset(void){
 	char * buf;
+	void * w_addr = (void *) ( (u64) addr | (u64)(addr + offset) | (u64)(addr + offset2) );
 	if( offset < 0x000000000 || offset > 0x800000000){
 		printk(KERN_INFO "Requested address (0x%llx) is out of bounds\n", virt_to_phys(addr + offset));
 		return -ENOMEM;	
 	}
 	buf = (char *)kmalloc( sizeof(char) * rdlen, GFP_KERNEL );
-	memcpy( (void *)buf, (void *)(addr + offset), rdlen);
-	printk(KERN_INFO "READ: string at phys(0x%llx):%02x\n", virt_to_phys(addr + offset), buf );
+	flush_cache_vmap((unsigned long)w_addr, (unsigned long) (w_addr + rdlen));
+	_mm_clflush(w_addr);
+	memcpy( (void *)buf, (void *)(w_addr), rdlen);
+	printk(KERN_INFO "READ: string at phys(0x%llx):%s\n", virt_to_phys(addr + offset), buf );
 	return 0;
 
 }
-static int mem_init(void)
+static int mem_module_init(void)
 {
-	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WT);
+	addr = memremap(0x100000000, 0x800000000, MEMREMAP_WB);
 	if ( ! addr ){
 		printk(KERN_INFO "[Fatal]: Could not map AxDIMM address space \n");
 		return -ENOMEM;
@@ -126,5 +116,5 @@ static void mem_exit(void)
 	printk("Module exit\n");
 }
 
-module_init(mem_init);
+module_init(mem_module_init);
 module_exit(mem_exit);

@@ -8,10 +8,11 @@ echo "offset,physical_address,char" >  $off_file
 
 # make sure module is uninstalled before starting
 if [ ! -z "$(sudo lsmod | grep rw_test)" ]; then
-	./install.sh
+	./uninstall.sh >/dev/null
 fi
 
 
+ctr=15
 for i in "${offs[@]}";
 do
 	ctr=$(( $ctr + 1 ))
