@@ -26,6 +26,46 @@
 //ins
 #define PG_SZ 4096
 
+void read_write(uint64_t base, uint64_t offset, char * data, int size)
+{
+	int rd_fd;
+	char * rd_data = (char *)malloc(sizeof(char) * size);
+	uint64_t pg_off = offset / PG_SZ;
+
+	if ((rd_fd = open("/dev/mem", O_RDWR)) < 0)
+	{
+		printf("Error: could not open RDIMM character device\n");
+		exit(-1);
+	}
+
+
+	char * pg_al_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + (pg_off * PG_SZ) );
+
+	if (pg_al_loc == -1)
+	{
+		printf("could not mmap\n");
+		exit(-1);
+	}
+
+
+	printf( "writing %s to memory address: 0x%016lx \n", data,  base + offset);
+	memcpy( (void *) ( pg_al_loc + (offset %PG_SZ) ), (void *) data, size );
+
+    /* flush cache lines of all data */
+	_mm_clflush( pg_al_loc + (offset%PG_SZ) );
+    for (int i=0; i<size; i+=64){
+        _mm_clflush( pg_al_loc + (offset%PG_SZ) + (i * 64) );
+    }
+    _mm_clflush( pg_al_loc + (offset%PG_SZ) + 64);
+
+
+	printf( "reading %d bytes from memory address: 0x%016lx \n", size,  base + offset);
+	memcpy( (void *) rd_data, (void *) ( pg_al_loc + (offset % PG_SZ) ) , size );
+	printf( "data: %s\n", rd_data);
+	return;
+
+}
+
 void read_dev_dram(uint64_t base, uint64_t offset, int size){
 	int rd_fd;
 	char * rd_data = (char *)malloc(sizeof(char) * size);
@@ -50,7 +90,11 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
 
 
 	_mm_clflush( pg_al_loc + (offset%PG_SZ) );
-	memcpy( (void *) rd_data, (void *) ( pg_al_loc + offset) , size );
+    for (int i=0; i<size; i+=64){
+        _mm_clflush( pg_al_loc + (offset%PG_SZ) + (i * 64) );
+    }
+    _mm_clflush( pg_al_loc + (offset%PG_SZ) + 64);
+	memcpy( (void *) rd_data, (void *) ( pg_al_loc + (offset % PG_SZ) ) , size );
 	printf( "data: %s\n", rd_data);
 	return;
 }
@@ -94,7 +138,8 @@ int main(int argc, char ** argv)
 	char *wr_data;
     int do_write=0;
     int do_read=0;
-	int size=sizeof(char) * 8;
+	int size=0;
+
 
 	int opt;
 	while ((opt = getopt(argc, argv, "rwo:s:p:")) != -1) {
@@ -105,7 +150,6 @@ int main(int argc, char ** argv)
 	   		break;
 	   case 's':
             size=atoi(optarg);
-            printf("size:%d\n", size);
 	   		break;
 	   case 'r':
            do_read=1;
@@ -122,10 +166,6 @@ int main(int argc, char ** argv)
 		   exit(EXIT_FAILURE);
 	   }
 	}
-    /*
-	char * data = (char *) malloc(size);
-	data[0]='a';
-    */
 
     if (do_write)
         write_dev_dram(base, offset, wr_data, size );
