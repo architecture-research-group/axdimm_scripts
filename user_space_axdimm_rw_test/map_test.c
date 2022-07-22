@@ -101,33 +101,7 @@
 void read_dev_dram(uint64_t base, uint64_t offset, uint64_t size){
 	int rd_fd;
 	char * rd_data = (char *)malloc(sizeof(char) * size);
-	uint64_t approx_tgt = offset / PG_SZ;
-
-	if ((rd_fd = open("/dev/mem", O_RDWR)) < 0)
-	{
-		printf("Error: could not open /dev/mem character device\n");
-		exit(-1);
-	}
-
-	printf( "reading memory address: 0x%016lx \n", base + offset);
-
-	char * approx_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, approx_tgt * PG_SZ );
-
-	if (approx_loc == -1)
-	{
-		printf("could not mmap\n");
-		exit(-1);
-	}
-
-	_mm_clflush( approx_loc );
-	memcpy( (void *) rd_data, (void *) ( approx_loc + (offset % PG_SZ) ), 1 );
-	printf( "read: %s\n", rd_data);
-	return;
-}
-
-void write_dev_dram(uint64_t base, uint64_t offset, char * data, int size){
-	int rd_fd;
-	int approx_tgt = offset / PG_SZ;
+	uint64_t pg_off = offset / PG_SZ;
 
 	if ((rd_fd = open("/dev/mem", O_RDWR)) < 0)
 	{
@@ -135,19 +109,46 @@ void write_dev_dram(uint64_t base, uint64_t offset, char * data, int size){
 		exit(-1);
 	}
 
-	printf( "writing 'a' to memory address: 0x%016lx \n", base + offset);
 
-	char * approx_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + offset );
+	char * pg_al_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + (pg_off * PG_SZ) );
 
-	if (approx_loc == -1)
+	if (pg_al_loc == -1)
 	{
 		printf("could not mmap\n");
 		exit(-1);
 	}
 
-	//approx_loc[ tgt % PG_SZ ] = 'a'; /* write to actual memory address */
-	memcpy( (void *) ( approx_loc + (offset % PG_SZ) ), (void *) data, size );
-	_mm_clflush( approx_loc );
+	printf( "reading memory address: 0x%016lx \n", base + offset);
+
+
+	_mm_clflush( pg_al_loc + (offset % PG_SZ) );
+	memcpy( (void *) rd_data, (void *) ( pg_al_loc + (offset % PG_SZ) ), 1 );
+	printf( "read: %s\n", rd_data);
+	return;
+}
+
+void write_dev_dram(uint64_t base, uint64_t offset, char * data, int size){
+	int rd_fd;
+	uint64_t pg_off = offset / PG_SZ;
+
+	if ((rd_fd = open("/dev/mem", O_RDWR)) < 0)
+	{
+		printf("Error: could not open RDIMM character device\n");
+		exit(-1);
+	}
+
+
+	char * pg_al_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + (pg_off * PG_SZ) );
+
+	if (pg_al_loc == -1)
+	{
+		printf("could not mmap\n");
+		exit(-1);
+	}
+	printf( "writing 'a' to memory address: 0x%016lx \n", base + offset);
+
+	_mm_clflush( pg_al_loc + (offset % PG_SZ) );
+	memcpy( (void *) ( pg_al_loc + (offset % PG_SZ) ), (void *) data, size );
 }
 int main(int argc, char ** argv)
 {
