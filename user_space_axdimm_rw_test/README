@@ -1,4 +1,7 @@
-Usage: ./map_test [-r offset] [-w offset] [-s size] [-p string]
+Usage: ./map_test [-r] [-w] [-s size] [-p string] [-o offset]
+-r: perform read -- use -o and -s flags to select offset and size of data to read
+-w: perform write -- use -o and -p flags to select offset and string to write
+
 string: string to write in write case
 size: size to read in read case
 offset: decimal offset from base address of smartDIMM
