@@ -74,7 +74,7 @@ int write_read(void)
 	void * w_addr = (void *) ( (u64) addr | (u64)(addr + offset) | (u64)(addr + offset2) );
 	char * buf;
 
-	if(rdlen > 7)
+	if(rdlen > 64)
 	{
 		printk(KERN_INFO "Data length > 512 bits\n");
 		return -ENOMEM;

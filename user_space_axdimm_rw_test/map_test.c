@@ -95,7 +95,23 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
     }
     _mm_clflush( pg_al_loc + (offset%PG_SZ) + 64);
 	memcpy( (void *) rd_data, (void *) ( pg_al_loc + (offset % PG_SZ) ) , size );
-	printf( "data: %s\n", rd_data);
+	printf( "data: %02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\n", 
+		*(uint8_t *)rd_data, *(uint8_t *)&rd_data[1], *(uint8_t *)&rd_data[2],*(uint8_t *)&rd_data[3],
+		*(uint8_t *)&rd_data[4], *(uint8_t *)&rd_data[5], *(uint8_t *)&rd_data[6],*(uint8_t *)&rd_data[7],
+		*(uint8_t *)&rd_data[8], *(uint8_t *)&rd_data[9], *(uint8_t *)&rd_data[10],*(uint8_t *)&rd_data[11],
+		*(uint8_t *)&rd_data[12], *(uint8_t *)&rd_data[13], *(uint8_t *)&rd_data[14],*(uint8_t *)&rd_data[15],
+		*(uint8_t *)&rd_data[16], *(uint8_t *)&rd_data[17], *(uint8_t *)&rd_data[18],*(uint8_t *)&rd_data[19],
+		*(uint8_t *)&rd_data[20], *(uint8_t *)&rd_data[21], *(uint8_t *)&rd_data[22],*(uint8_t *)&rd_data[23],
+		*(uint8_t *)&rd_data[24], *(uint8_t *)&rd_data[25], *(uint8_t *)&rd_data[26],*(uint8_t *)&rd_data[27],
+		*(uint8_t *)&rd_data[28], *(uint8_t *)&rd_data[29], *(uint8_t *)&rd_data[30],*(uint8_t *)&rd_data[31],
+		*(uint8_t *)&rd_data[32], *(uint8_t *)&rd_data[33], *(uint8_t *)&rd_data[34],*(uint8_t *)&rd_data[35],
+		*(uint8_t *)&rd_data[36], *(uint8_t *)&rd_data[37], *(uint8_t *)&rd_data[38],*(uint8_t *)&rd_data[39],
+		*(uint8_t *)&rd_data[40], *(uint8_t *)&rd_data[41], *(uint8_t *)&rd_data[42],*(uint8_t *)&rd_data[43],
+		*(uint8_t *)&rd_data[44], *(uint8_t *)&rd_data[45], *(uint8_t *)&rd_data[46],*(uint8_t *)&rd_data[47],
+		*(uint8_t *)&rd_data[48], *(uint8_t *)&rd_data[49], *(uint8_t *)&rd_data[50],*(uint8_t *)&rd_data[51],
+		*(uint8_t *)&rd_data[52], *(uint8_t *)&rd_data[53], *(uint8_t *)&rd_data[54],*(uint8_t *)&rd_data[55],
+		*(uint8_t *)&rd_data[56], *(uint8_t *)&rd_data[57], *(uint8_t *)&rd_data[58],*(uint8_t *)&rd_data[59],
+		*(uint8_t *)&rd_data[60], *(uint8_t *)&rd_data[61], *(uint8_t *)&rd_data[62],*(uint8_t *)&rd_data[63]);
 	return;
 }
 
@@ -132,7 +148,7 @@ int main(int argc, char ** argv)
 {
 	
 
-	uint64_t base=0x800000000;
+	uint64_t base=0x100000000;
 	uint64_t offset=( 9 << 1 ) ; /*write to this memory location*/
 
 	char *wr_data;
