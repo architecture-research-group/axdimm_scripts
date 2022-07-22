@@ -1,1 +1,4 @@
-sudo ./map_test 256
+Usage: ./map_test [-r offset] [-w offset] [-s size] [-p string]
+string: string to write in write case
+size: size to read in read case
+offset: decimal offset from base address of smartDIMM
