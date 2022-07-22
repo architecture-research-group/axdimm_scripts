@@ -39,7 +39,7 @@ void read_write(uint64_t base, uint64_t offset, char * data, int size)
 	}
 
 
-	char * pg_al_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + (pg_off * PG_SZ) );
+	char * pg_al_loc = (char *) mmap(NULL, PG_SZ*2, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + (pg_off * PG_SZ) );
 
 	if (pg_al_loc == -1)
 	{
@@ -78,7 +78,7 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
 	}
 
 
-	char * pg_al_loc = (char *) mmap(NULL, PG_SZ, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + (pg_off * PG_SZ) );
+	char * pg_al_loc = (char *) mmap(NULL, PG_SZ*2, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, rd_fd, base + (pg_off * PG_SZ) );
 
 	if (pg_al_loc == -1)
 	{
@@ -132,7 +132,7 @@ int main(int argc, char ** argv)
 {
 	
 
-	uint64_t base=0x100000000;
+	uint64_t base=0x800000000;
 	uint64_t offset=( 9 << 1 ) ; /*write to this memory location*/
 
 	char *wr_data;
@@ -167,6 +167,8 @@ int main(int argc, char ** argv)
 	   }
 	}
 
+	//read_write(base, offset, wr_data, size);
+	//exit(0);
     if (do_write)
         write_dev_dram(base, offset, wr_data, size );
     if (do_read)
