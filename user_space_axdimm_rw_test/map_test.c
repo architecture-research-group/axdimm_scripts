@@ -100,6 +100,14 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
     _mm_clflush( pg_al_loc + (offset%PG_SZ) + 64);
 	memcpy( (void *) rd_data, (void *) ( pg_al_loc + (offset % PG_SZ) ) , size );
 	printf( "data hex:\n" );
+	int ctr=0;
+	while (ctr < size){
+		printf( "%02x" , *(uint8_t *)&rd_data[ctr] );
+		ctr += 1;
+	}	
+	printf("\n");
+	//
+	/*
 	printf( "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\n", 
 		*(uint8_t *)rd_data, *(uint8_t *)&rd_data[1], *(uint8_t *)&rd_data[2],*(uint8_t *)&rd_data[3],
 		*(uint8_t *)&rd_data[4], *(uint8_t *)&rd_data[5], *(uint8_t *)&rd_data[6],*(uint8_t *)&rd_data[7],
@@ -117,12 +125,14 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
 		*(uint8_t *)&rd_data[52], *(uint8_t *)&rd_data[53], *(uint8_t *)&rd_data[54],*(uint8_t *)&rd_data[55],
 		*(uint8_t *)&rd_data[56], *(uint8_t *)&rd_data[57], *(uint8_t *)&rd_data[58],*(uint8_t *)&rd_data[59],
 		*(uint8_t *)&rd_data[60], *(uint8_t *)&rd_data[61], *(uint8_t *)&rd_data[62],*(uint8_t *)&rd_data[63]);
+		*/
 	for (int i=0; i<w.ws_col; i++){
 		printf("-");
 	}
 	printf("\n");
 
 	printf( "data ascii:\n" );
+	/*
 	printf( "%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 
 		*(uint8_t *)rd_data, *(uint8_t *)&rd_data[1], *(uint8_t *)&rd_data[2],*(uint8_t *)&rd_data[3],
 		*(char *)&rd_data[4], *(char *)&rd_data[5], *(char *)&rd_data[6],*(char *)&rd_data[7],
@@ -140,6 +150,13 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
 		*(char *)&rd_data[52], *(char *)&rd_data[53], *(char *)&rd_data[54],*(char *)&rd_data[55],
 		*(char *)&rd_data[56], *(char *)&rd_data[57], *(char *)&rd_data[58],*(char *)&rd_data[59],
 		*(char *)&rd_data[60], *(char *)&rd_data[61], *(char *)&rd_data[62],*(char *)&rd_data[63]);
+		*/
+	ctr=0;
+	while (ctr < size){
+		printf( "%c" , *(char *)&rd_data[ctr] );
+		ctr += 2;
+	}	
+	printf("\n");
 	for (int i=0; i<w.ws_col; i++){
 		printf("-");
 	}
