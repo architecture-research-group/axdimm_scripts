@@ -3,5 +3,5 @@ Usage: ./map_test [-r] [-w] [-s size] [-p string] [-o offset]
 -w: perform write -- use -o and -p flags to select offset and string to write
 
 string: string to write in write case
-size: size to read in read case
+size: size of data to read in read case (max of 64 bytes)
 offset: decimal offset from base address of smartDIMM

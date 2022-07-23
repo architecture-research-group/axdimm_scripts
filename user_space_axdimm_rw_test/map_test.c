@@ -19,6 +19,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <sys/shm.h>
+# include <sys/ioctl.h>
 # include <stdint.h>
 # include <string.h>
 # include <x86intrin.h>
@@ -70,6 +71,9 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
 	int rd_fd;
 	char * rd_data = (char *)malloc(sizeof(char) * size);
 	uint64_t pg_off = offset / PG_SZ;
+	struct winsize w;	
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+
 
 	if ((rd_fd = open("/dev/mem", O_RDWR)) < 0)
 	{
@@ -95,6 +99,10 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
     }
     _mm_clflush( pg_al_loc + (offset%PG_SZ) + 64);
 	memcpy( (void *) rd_data, (void *) ( pg_al_loc + (offset % PG_SZ) ) , size );
+	for (int i=0; i<w.ws_col; i++){
+		printf("-");
+	}
+	printf("\n");
 	printf( "data: %02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\n", 
 		*(uint8_t *)rd_data, *(uint8_t *)&rd_data[1], *(uint8_t *)&rd_data[2],*(uint8_t *)&rd_data[3],
 		*(uint8_t *)&rd_data[4], *(uint8_t *)&rd_data[5], *(uint8_t *)&rd_data[6],*(uint8_t *)&rd_data[7],
@@ -112,6 +120,32 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
 		*(uint8_t *)&rd_data[52], *(uint8_t *)&rd_data[53], *(uint8_t *)&rd_data[54],*(uint8_t *)&rd_data[55],
 		*(uint8_t *)&rd_data[56], *(uint8_t *)&rd_data[57], *(uint8_t *)&rd_data[58],*(uint8_t *)&rd_data[59],
 		*(uint8_t *)&rd_data[60], *(uint8_t *)&rd_data[61], *(uint8_t *)&rd_data[62],*(uint8_t *)&rd_data[63]);
+
+	for (int i=0; i<w.ws_col; i++){
+		printf("-");
+	}
+	printf("\n");
+	printf( "data ascii: %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 
+		*(uint8_t *)rd_data, *(uint8_t *)&rd_data[1], *(uint8_t *)&rd_data[2],*(uint8_t *)&rd_data[3],
+		*(char *)&rd_data[4], *(char *)&rd_data[5], *(char *)&rd_data[6],*(char *)&rd_data[7],
+		*(char *)&rd_data[8], *(char *)&rd_data[9], *(char *)&rd_data[10],*(char *)&rd_data[11],
+		*(char *)&rd_data[12], *(char *)&rd_data[13], *(char *)&rd_data[14],*(char *)&rd_data[15],
+		*(char *)&rd_data[16], *(char *)&rd_data[17], *(char *)&rd_data[18],*(char *)&rd_data[19],
+		*(char *)&rd_data[20], *(char *)&rd_data[21], *(char *)&rd_data[22],*(char *)&rd_data[23],
+		*(char *)&rd_data[24], *(char *)&rd_data[25], *(char *)&rd_data[26],*(char *)&rd_data[27],
+		*(char *)&rd_data[28], *(char *)&rd_data[29], *(char *)&rd_data[30],*(char *)&rd_data[31],
+		*(char *)&rd_data[32], *(char *)&rd_data[33], *(char *)&rd_data[34],*(char *)&rd_data[35],
+		*(char *)&rd_data[36], *(char *)&rd_data[37], *(char *)&rd_data[38],*(char *)&rd_data[39],
+		*(char *)&rd_data[40], *(char *)&rd_data[41], *(char *)&rd_data[42],*(char *)&rd_data[43],
+		*(char *)&rd_data[44], *(char *)&rd_data[45], *(char *)&rd_data[46],*(char *)&rd_data[47],
+		*(char *)&rd_data[48], *(char *)&rd_data[49], *(char *)&rd_data[50],*(char *)&rd_data[51],
+		*(char *)&rd_data[52], *(char *)&rd_data[53], *(char *)&rd_data[54],*(char *)&rd_data[55],
+		*(char *)&rd_data[56], *(char *)&rd_data[57], *(char *)&rd_data[58],*(char *)&rd_data[59],
+		*(char *)&rd_data[60], *(char *)&rd_data[61], *(char *)&rd_data[62],*(char *)&rd_data[63]);
+	for (int i=0; i<w.ws_col; i++){
+		printf("-");
+	}
+	printf("\n");
 	return;
 }
 
