@@ -103,7 +103,12 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
 		printf("-");
 	}
 	printf("\n");
-	printf( "data: %02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\n", 
+	printf( "data hex:\n" );
+	for (int i=0; i<w.ws_col; i++){
+		printf("-");
+	}
+	printf("\n");
+	printf( "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\n", 
 		*(uint8_t *)rd_data, *(uint8_t *)&rd_data[1], *(uint8_t *)&rd_data[2],*(uint8_t *)&rd_data[3],
 		*(uint8_t *)&rd_data[4], *(uint8_t *)&rd_data[5], *(uint8_t *)&rd_data[6],*(uint8_t *)&rd_data[7],
 		*(uint8_t *)&rd_data[8], *(uint8_t *)&rd_data[9], *(uint8_t *)&rd_data[10],*(uint8_t *)&rd_data[11],
@@ -121,11 +126,12 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
 		*(uint8_t *)&rd_data[56], *(uint8_t *)&rd_data[57], *(uint8_t *)&rd_data[58],*(uint8_t *)&rd_data[59],
 		*(uint8_t *)&rd_data[60], *(uint8_t *)&rd_data[61], *(uint8_t *)&rd_data[62],*(uint8_t *)&rd_data[63]);
 
+	printf( "data ascii:\n" );
 	for (int i=0; i<w.ws_col; i++){
 		printf("-");
 	}
 	printf("\n");
-	printf( "data ascii: %c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 
+	printf( "%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c\n", 
 		*(uint8_t *)rd_data, *(uint8_t *)&rd_data[1], *(uint8_t *)&rd_data[2],*(uint8_t *)&rd_data[3],
 		*(char *)&rd_data[4], *(char *)&rd_data[5], *(char *)&rd_data[6],*(char *)&rd_data[7],
 		*(char *)&rd_data[8], *(char *)&rd_data[9], *(char *)&rd_data[10],*(char *)&rd_data[11],
