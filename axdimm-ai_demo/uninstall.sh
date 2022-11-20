@@ -1,6 +1,6 @@
 #!/bin/bash
 
-module=rw_test
+module=rw_test_2
 
 sudo rmmod -f $module.ko &> /dev/null
 [ "$?" != "0" ] && echo "[Fatal]: module improperly loaded/unloaded -- reboot to uninstall"

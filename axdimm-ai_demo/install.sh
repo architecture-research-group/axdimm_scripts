@@ -1,6 +1,6 @@
 #!/bin/bash
 
-module=rw_test
+module=rw_test_2
 
 if [ -z "$(sudo lsmod | grep $module)" ]; then
 	sudo insmod $module.ko $* > /dev/null

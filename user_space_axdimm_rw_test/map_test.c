@@ -58,6 +58,7 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
 	printf( "reading %d bytes from memory address: 0x%016lx \n", size,  base + offset);
 
 
+	_mm_clflush( pg_al_loc );
 	if ( use_flush == 1 ){
 		_mm_clflush( pg_al_loc + (offset%PG_SZ) );
 		for (int i=0; i<size; i+=64){
@@ -65,6 +66,7 @@ void read_dev_dram(uint64_t base, uint64_t offset, int size){
 		}
 		_mm_clflush( pg_al_loc + (offset%PG_SZ) + 64);
 	}
+	_mm_clflush( pg_al_loc + offset );
 
 	memcpy( (void *) rd_data, (void *) ( pg_al_loc + (offset % PG_SZ) ) , size );
 	if ( use_fence == 1 ){
@@ -134,6 +136,7 @@ void write_dev_dram(uint64_t base, uint64_t offset, char * data, int size){
 	if ( use_fence == 1 ){
 		_mm_mfence();
 	}
+	_mm_clflush( pg_al_loc );
 	if ( use_flush == 1 ){
 		/* flush cache lines of all data */
 		_mm_clflush( pg_al_loc + (offset%PG_SZ) );
@@ -143,6 +146,7 @@ void write_dev_dram(uint64_t base, uint64_t offset, char * data, int size){
 		/* flush extra cache line in case data extends to next cache line */
 		_mm_clflush( pg_al_loc + (offset%PG_SZ) + 64);
 	}
+	_mm_clflush( pg_al_loc + offset );
 }
 int main(int argc, char ** argv)
 {
