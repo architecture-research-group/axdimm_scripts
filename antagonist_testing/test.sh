@@ -9,7 +9,7 @@ sudo pqos -a "llc:0=0-10"
 rm -f worker_log
 antagonist(){
 	#while [ "1" ]; do
-	taskset -c 0 sudo ./antagonist >> worker_log
+	taskset -c 0 sudo ./antagonist 
 	#done
 
 }
@@ -22,3 +22,5 @@ while [ "1" ]; do
 	done
 	wait
 done
+
+wait

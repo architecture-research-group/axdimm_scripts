@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
 {
 	int cdevfd=0;
 	uint64_t base=0x100000000;
-	int dst_off = base + (2 << 30);
+	int dst_off = ( 500 * 4096 ) ;
 
 	if ((cdevfd = open("/dev/mem", O_RDWR)) < 0)
 	{
@@ -46,7 +46,7 @@ int main(int argc, char ** argv)
 		printf("could not SRC MEM Char Dev\n");
 		exit(-1);
 	}
-	char * dst = (char *) mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, base + ( 1 << 4096 * 500 ) );
+	char * dst = (char *) mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, base + dst_off );
 
 
 	if (dst == -1)
