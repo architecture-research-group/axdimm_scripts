@@ -25,7 +25,7 @@
 # include <x86intrin.h>
 # include <pthread.h>
 
-#define SIZE (1<<22)
+#define SIZE (1<<26)
 
 
 int main(int argc, char ** argv)
@@ -35,6 +35,9 @@ int main(int argc, char ** argv)
 
 	int src_off = atoi(argv[1]);
 	int dst_off = atoi(argv[2]);
+
+	printf( "using src_off: 0x%x\n", src_off );
+	printf( "using dst_off: 0x%x\n", dst_off );
 
 	if ((cdevfd = open("/dev/mem", O_RDWR)) < 0)
 	{

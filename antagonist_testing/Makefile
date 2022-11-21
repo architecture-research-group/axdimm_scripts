@@ -2,6 +2,8 @@
 CC = gcc
 CFLAGS = -O0 -DDEFAULT
 
+all: antagonist worker
+
 antagonist: antagonist.c
 	$(CC) -DDEFAULT  antagonist.c -o antagonist
 
