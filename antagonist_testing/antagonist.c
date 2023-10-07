@@ -25,14 +25,14 @@
 # include <x86intrin.h>
 #include <pthread.h>
 
-#define SIZE (1<<28)
+#define SIZE (1<<27)
 
 
 int main(int argc, char ** argv)
 {
 	int cdevfd=0;
 	uint64_t base=0x100000000;
-	int dst_off = ( 500 * 4096 ) ;
+	int dst_off = ( 1024 * 4096 ) ;
 
 	if ((cdevfd = open("/dev/mem", O_RDWR)) < 0)
 	{
@@ -58,10 +58,8 @@ int main(int argc, char ** argv)
 
 	while ( 1 ){
 		memcpy( (void *) src, (void *) dst, SIZE );
-		/*
 		for ( int i = 0 ; i < SIZE - 64 ; i+=64 )
 			_mm_clflush( dst + i );
-		*/
 	}
 	
 }
