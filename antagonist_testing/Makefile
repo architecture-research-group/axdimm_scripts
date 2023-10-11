@@ -4,6 +4,9 @@ CFLAGS = -O0 -DDEFAULT
 
 all: antagonist worker
 
+sweeper: sweeper.c
+	$(CC) -DDEFAULT  sweeper.c -o sweeper
+
 antagonist: antagonist.c
 	$(CC) -DDEFAULT  antagonist.c -o antagonist
 

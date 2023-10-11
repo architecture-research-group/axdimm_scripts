@@ -25,7 +25,7 @@
 # include <x86intrin.h>
 # include <pthread.h>
 
-#define SIZE (1<<27)
+#define SIZE (1<<23)
 
 
 int main(int argc, char ** argv)
