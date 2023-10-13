@@ -1,9 +1,40 @@
 #### Physical Address Range and Cache Size SP Occupancy Sensitivity Analysis
 
-* start the antagonist in one shell
+* build the microbench
 ```
-./antagonist.sh
+make microbench
 ```
+
+* start the microbench in one shell
+```
+./microbench.sh
+```
+
+Tested: 
+No flushing
+8MB
+single microbench thread on 1 way
+single microbench thread on 4 way
+Obs: Same util across configs
+64MB
+single microbench thread on 1 way
+single microbench thread on 4 way
+Obs: Same util across configs
+
+No flushing
+1MB
+single microbench thread on 1 way
+single microbench thread on 2 way
+single microbench thread on 4 way
+single microbench thread on 8 way
+single microbench thread on 11 way
+* Observations: Restricting src and dst buffer allocations to a single way causes low SP utilization. Increasing the number of ways drives SP utilization up, though the utilization stays the same, regardless of the number of ways. We postulate that this is because the buffers are now able to fit entirely within the LLC, causing evictions to only occur when the same address's content is overwritten by the worker thread on a subsequent memcpy (presumably because the buffers fit in the LLC)
+8 microbench thread on 1 way (all copies from same src address to same dest address)
+8 microbench thread on 11 way
+* Observations: single way has low util. increasing drives util up, but the util stays the same regardless of the number of ways (presumably because the buffers fit in the LLC)
+
+No flushing
+
 
 * Configurables: 
 (1) change the size of the src/dst buffers `#define SIZE (1<<29)`

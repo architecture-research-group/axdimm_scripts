@@ -59,5 +59,8 @@ int main(int argc, char ** argv)
 	}
 
 	memcpy( (void *) src, (void *) dst, SIZE );
-	
+	for ( int i = 0 ; i < SIZE - 64 ; i+=64 ){
+		_mm_clflush( src + i );
+		_mm_clflush( dst + i );
+	}
 }

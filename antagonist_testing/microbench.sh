@@ -1,6 +1,6 @@
 #!/bin/bash
 CORES=( "1" "2" "3" "4" "5" "6" "7" "8" )
-SIZE=$(( 2 ** 20 ))
+SIZE=$(( 2 ** 21 ))
 
 sudo pqos -R
 #sudo pqos -e "llc:0=0x0001"
