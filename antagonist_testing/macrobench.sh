@@ -18,6 +18,7 @@ make microbench
 DST_BUFFERS_OFFSET=$(( SIZE * 9 ))
 SRC_BUFFERS_OFFSET=$(( SIZE ))
 rm -f worker_log
+iter=0
 while [ $iter -lt 3 ]; do 
 	for i in "${CORES[@]}"; do
 		echo "taskset -c ${i} sudo ./microbench $(( SRC_BUFFERS_OFFSET + ( SIZE * i ) )) $(( DST_BUFFERS_OFFSET + (SIZE * i ) )) | tee -a worker_log &"
