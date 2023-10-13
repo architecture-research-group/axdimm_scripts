@@ -4,6 +4,9 @@ CORES=( "1" )
 SIZE=${1}
 WAYMASK=${2}
 
+R_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd $R_PATH
+
 sudo pqos -R
 sudo pqos -e "llc:0=$WAYMASK"
 sudo pqos -a "llc:0=0-10"
