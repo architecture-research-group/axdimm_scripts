@@ -4,7 +4,7 @@ CORES=( "1"  )
 SIZE=${1}
 WAYMASK=${2}
 
-SIZE=$(( 2 ** 20 ))
+SIZE=$(( 2 ** 21 ))
 WAYMASK=0x0001
 
 R_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -21,14 +21,12 @@ make microbench
 DST_BUFFERS_OFFSET=$(( SIZE * 9 ))
 SRC_BUFFERS_OFFSET=$(( SIZE ))
 rm -f worker_log
-iter=0
-lim=1000
-while [ $iter -lt $lim ]; do 
+#lim=1000
+while [ "1" ]; do 
 	for i in "${CORES[@]}"; do
 		echo "taskset -c ${i} sudo ./microbench $(( SRC_BUFFERS_OFFSET + ( SIZE * i ) )) $(( DST_BUFFERS_OFFSET + (SIZE * i ) )) | tee -a worker_log &"
 		taskset -c ${i} sudo ./microbench $(( SRC_BUFFERS_OFFSET + ( SIZE * (i-1) ) )) $(( DST_BUFFERS_OFFSET + (SIZE * (i-1) ) )) | tee -a worker_log &
-		iter=$(( iter + 1 ))
 	done
+	wait
 done
 
-wait

@@ -25,7 +25,7 @@
 # include <x86intrin.h>
 # include <pthread.h>
 
-#define SIZE 1048576
+#define SIZE 2097152
 
 
 int main(int argc, char ** argv)
