@@ -16,6 +16,12 @@ tabulated pairs (xcel rows): (4307,8403) (4223, 8319), ...,
 * restrictions on dst buffers:
     * must have a BA of 01
 
+
+##### Address decoding
+```
+python3 main.py
+```
+
 ```
 make
 ./run.sh
