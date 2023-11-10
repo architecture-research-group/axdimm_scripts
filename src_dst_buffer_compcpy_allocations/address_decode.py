@@ -23,6 +23,8 @@ def rdcas(col_addrs, bg, ba, slot):
     bank_group = []
     bank_address = []
     column_address = []
+    row_address = []
+    
     for i in range(10):
         column_address.append(col_addr[slot*2 + i*8])
     for i in range(2):
