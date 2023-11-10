@@ -25,18 +25,22 @@
 # include <x86intrin.h>
 # include <pthread.h>
 
-#define SIZE 64
-#define BUF_1 
+#define SIZE 4096
+// Addresses matching in all fields aside from BA
+#define SRC_MATCH__1 0x1000E1A00
+#define DST_MATCH_1 0x1001E5900
 
 
 int main(int argc, char ** argv)
 {
 	int cdevfd=0;
-	uint64_t src_off=0x1000E2080;
-	uint64_t dst_off=0x1001E5E00;
 
-	printf( "using src_off: 0x%x\n", src_off );
-	printf( "using dst_off: 0x%x\n", dst_off );
+	uint64_t src_off=SRC_MATCH__1 - (SRC_MATCH__1%0x000001000); // Problem: matching addresses do not always fall on page boundaries -- need to map nearest page and copy between the specific addresses
+	uint64_t dst_off=DST_MATCH_1 - (DST_MATCH_1%0x000001000);
+
+
+	printf( "using src_off: 0x%lx\n", src_off );
+	printf( "using dst_off: 0x%lx\n", dst_off );
 
 	if ((cdevfd = open("/dev/mem", O_RDWR)) < 0)
 	{
@@ -44,8 +48,8 @@ int main(int argc, char ** argv)
 		exit(-1);
 	}
 
-	volatile char * src = (char *) mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, base + src_off);
-	volatile char * dst = (char *) mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, base + src_off);
+	volatile char * src = (char *) mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, src_off);
+	volatile char * dst = (char *) mmap(NULL, SIZE, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, dst_off);
 	
 	if (src == -1)
 	{

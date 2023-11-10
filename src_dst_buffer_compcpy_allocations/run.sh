@@ -9,7 +9,7 @@ SRC_BUFFERS_OFFSETS=( 0 $SIZE $(( SIZE * 2)) $(( SIZE * 3)) )
 DST_BUFFERS_OFFSET=( $((SIZE * 4 )) $((SIZE * 5 )) $((SIZE * 6 )) $(( SIZE * 7 )) )
 # j=0
 
-echo "taskset -c 1 sudo ./microbench $(( i )) $(( DST_BUFFERS_OFFSET[j] ))"
+echo "taskset -c 1 sudo ./microbench"
 taskset -c 1 sudo ./microbench
 # 		j=$(( j + 1 ))
 # don
