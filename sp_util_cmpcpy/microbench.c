@@ -47,12 +47,13 @@ typedef struct thread_info {
 } t_info;
 
 void * do_compcpy_loop( void * targs){
-	pthread_t tid=*(pthread_t *)(targs);
-	int cdevfd = *(int *)(targs+sizeof(t_info));
-	long unsigned int src_addr = *(long int *)(targs+sizeof(t_info)+sizeof(int));
-	long unsigned int dst_addr = *(long int *)(targs+sizeof(t_info)+sizeof(int)+sizeof(long int));
+	pthread_t tid=(*(t_info *)(targs)).thread_id;
+	int cdevfd = (*(t_info *)(targs)).cdevfd;
+	long unsigned int src_addr = (*(t_info *)(targs)).st;
+	long unsigned int dst_addr = (*(t_info *)(targs)).end;;
 
-	printf("%d-%ld-0x%lx-0x%lx\n", cdevfd, tid, src_addr, dst_addr);
+	printf("fd:%d tid:%ld src:0x%lx dst:0x%lx\n", cdevfd, tid, src_addr, dst_addr);
+	fflush(NULL);
 	return NULL;
 	
 	volatile char * src = (char *) mmap(NULL, BUF_SIZE, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, src_addr);
@@ -68,6 +69,12 @@ int main(int argc, char ** argv)
 	uint64_t src_off=SRC_MATCH__1 - (SRC_MATCH__1%PAGE_SIZE);
 	uint64_t dst_off=DST_MATCH_1 - (DST_MATCH_1%PAGE_SIZE);
 
+	if ((cdevfd = open("/dev/mem", O_RDWR)) < 0)
+	{
+		printf("Error: could not open MEM character device\n");
+		exit(-1);
+	}
+
 	t_info *targs;
 	pthread_attr_t attr;
 	pthread_t * tds;
@@ -75,6 +82,8 @@ int main(int argc, char ** argv)
 	ret = pthread_attr_init(&attr);
 	targs = malloc(sizeof(t_info)*THREADS);
 
+
+	printf("Spawning %d compcpy threads...\n", THREADS);
 	for (int i=0; i<THREADS; i++){
 		targs[i].thread_id = i;
 		targs[i].cdevfd = cdevfd;
@@ -85,6 +94,20 @@ int main(int argc, char ** argv)
 						&do_compcpy_loop, &targs[i] );
 		if (ret != 0)
 			handle_error_en(ret, "pthread_create");
+
+	}
+	printf("Joining compcpy threads...\n");
+	void *res;
+	for (int i=0; i<THREADS; i++){
+		ret = pthread_join(targs[i].thread_id, &res);
+						
+		if (ret != 0)
+			handle_error_en(ret, "pthread_create");
+
+		printf("Joined with thread %ld; returned value was %s\n",
+                       targs[i].thread_id, (char *) res);
+
+		free(res);
 
 	}
 
