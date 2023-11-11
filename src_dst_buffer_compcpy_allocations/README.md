@@ -17,8 +17,13 @@ tabulated pairs (xcel rows): (4307,8403) (4223, 8319), ...,
     * must have a BA of 01
 
 
-##### Address decoding
-```
+##### Address decoding and src/dst buffer validation
+```sh
+cd /home/a972m888/HPCA_CameraReady_Data/Emulator/vivadoScript
+# should contain: ILA.tcl  logInAndArm.sh  ResetAxdimm.tcl  vivado.jou  vivado.log -- backups of tcl and sh scripts in ./ila-scripts
+./logInAndArm.sh AddrRes trace
+
+cp /home/n869p538/AddrRes/*.csv ./ila_data
 python3 main.py
 ```
 
