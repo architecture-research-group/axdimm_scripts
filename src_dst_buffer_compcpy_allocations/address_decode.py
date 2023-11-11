@@ -6,7 +6,7 @@ bank_address = []
 column_address = []
 
 # This function performs a write operation.
-def wrcas(col_addrs, bg, ba, slot):
+def wrcas(col_addrs, bg, ba, slot, do_concat):
     bank_group.clear()
     bank_address.clear()
     column_address.clear()
@@ -23,10 +23,11 @@ def wrcas(col_addrs, bg, ba, slot):
         bank_group.append(bg_g[slot*2 + i*8])
         bank_address.append(ba_a[slot*2 + i*8])
     print ("wrcas bg:{} ba:{} col:{} row:{}".format(''.join(bank_group), ''.join(bank_address), ''.join(column_address), ''.join(row_address),))
-    # print ("concatenated: {}".format(''.join(bank_group) + ''.join(bank_address) + ''.join(column_address) + ''.join(row_address) ))
+    if do_concat:
+        print ("concatenated: {}".format(''.join(bank_group) + ''.join(bank_address) + ''.join(column_address) + ''.join(row_address) ))
 
 # This function performs a read operation.
-def rdcas(col_addrs, bg, ba, slot):
+def rdcas(col_addrs, bg, ba, slot, do_concat=False):
     # Convert col_addrs, bg, and ba to binary and append each bit to column_address, bank_group, and bank_address, respectively.
     col_addr = hex_to_bin(col_addrs)
     row_addr = hex_to_bin(col_addrs)
@@ -42,7 +43,8 @@ def rdcas(col_addrs, bg, ba, slot):
         bank_group.append(bg_g[slot*2 + i*8])
         bank_address.append(ba_a[slot*2 + i*8])
     print ("rdcas bg:{} ba:{} col:{} row:{}".format(''.join(bank_group), ''.join(bank_address), ''.join(column_address), ''.join(row_address),))
-    # print ("concatenated: {}".format(''.join(bank_group) + ''.join(bank_address) + ''.join(column_address) + ''.join(row_address) ))
+    if do_concat:
+        print ("concatenated: {}".format(''.join(bank_group) + ''.join(bank_address) + ''.join(column_address) + ''.join(row_address) ))
 
 def activate(row_addrs, bg, ba, slot):
     bank_group.clear()
@@ -61,7 +63,7 @@ def activate(row_addrs, bg, ba, slot):
         bank_address.append(ba_a[slot*2 + i*8])
 
 # This function decodes a given command.
-def command_decoder(given_row):
+def command_decoder(given_row, do_concat=False):
     # Check the given_row for the appropriate command and call the appropriate function with the appropriate parameters.
     if ((given_row[6] == 'fc' and given_row[7] == '00fc')):
         activate(given_row[3], given_row[8], given_row[9], 0)
@@ -73,14 +75,14 @@ def command_decoder(given_row):
         activate(given_row[3], given_row[8], given_row[9], 3)
     elif ( given_row[4] == '1'):  #write command
         if (given_row[7] == '00fc'):
-            wrcas(given_row[3], given_row[8], given_row[9], 0)
+            wrcas(given_row[3], given_row[8], given_row[9], 0, do_concat)
         elif (given_row[7] == '00cf'):
-            wrcas(given_row[3], given_row[8], given_row[9], 2)
+            wrcas(given_row[3], given_row[8], given_row[9], 2, do_concat)
     elif ( given_row[5] == '1'): #read command
         if (given_row[7] == '00fc'):
-            rdcas(given_row[3], given_row[8], given_row[9], 0)
+            rdcas(given_row[3], given_row[8], given_row[9], 0, do_concat)
         elif (given_row[7] == '00cf'):
-            rdcas(given_row[3], given_row[8], given_row[9], 2)
+            rdcas(given_row[3], given_row[8], given_row[9], 2, do_concat)
 
 def decode_file_addresses(csv_file):
     with open(csv_file, 'r') as file_obj:
