@@ -29,7 +29,9 @@
 #define SRC_MATCH__1 0x100100000
 #define DST_MATCH_1 0x100020000
 
-#define BUF_SIZE 0x000080000
+// #define BUF_SIZE 
+// #define BUF_SIZE 0x000080000
+#define BUF_SIZE 0x000000040
 #define PAGE_SIZE 0x000001000
 #define CACHE_LINE_SIZE 0x000000040
 int main(int argc, char ** argv)
@@ -79,7 +81,7 @@ int main(int argc, char ** argv)
 	/* Generate WrCAS to entire Dst Buf*/
 	for(int i=0; i<BUF_SIZE/sizeof(uint64_t); i+=sizeof(uint64_t)){
 		*(char *)( dst + (sizeof(uint64_t)*i) ) = (uint8_t)i;
-		__mm_clflush( (void *)(dst + (sizeof(uint64_t)*i)) )
+		_mm_clflush( (void *) (( dst + (sizeof(uint64_t)*i) ) ) );
 	}
 
 }
