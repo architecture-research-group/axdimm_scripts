@@ -26,8 +26,8 @@
 # include <pthread.h>
 
 // 1MB, 2MB
-#define SRC_MATCH__1 0x100100000
-#define DST_MATCH_1 0x100020000
+#define SRC_MATCH__1 0x100100100
+#define DST_MATCH_1 0x100210800
 
 // #define BUF_SIZE 
 // #define BUF_SIZE 0x000080000
@@ -41,8 +41,8 @@ int main(int argc, char ** argv)
 	uint64_t src_off=SRC_MATCH__1 - (SRC_MATCH__1%PAGE_SIZE);
 	uint64_t dst_off=DST_MATCH_1 - (DST_MATCH_1%PAGE_SIZE);
 
-	printf( "physical src page-aligned addr: 0x%lx\n", src_off );
-	printf( "physical dst page-aligned addr: 0x%lx\n", dst_off );
+	printf( "physical-src page-aligned-addr:0x%lx\n", src_off );
+	printf( "physical dst page-aligned-addr:0x%lx\n", dst_off );
 
 	if ((cdevfd = open("/dev/mem", O_RDWR)) < 0)
 	{
@@ -67,8 +67,12 @@ int main(int argc, char ** argv)
 	
 	int src_page_offset = (SRC_MATCH__1 % PAGE_SIZE);
 	int dst_page_offset = (DST_MATCH_1 % PAGE_SIZE);
-	printf( "physical src byte addr: 0x%lx\n", src_off + (src_page_offset % CACHE_LINE_SIZE) );
-	printf( "physical dst byte addr: 0x%lx\n", src_off + (src_page_offset % CACHE_LINE_SIZE) );
+	printf( "physical-src cache-aligned-addr:0x%lx byte-addr:0x%lx\n", 
+				src_off + (src_page_offset) + (src_page_offset%CACHE_LINE_SIZE),
+				src_off + src_page_offset );
+	printf( "physical-dst cache-aligned addr:0x%lx byte-addr:0x%lx\n", 
+				dst_off + (dst_page_offset) + (src_page_offset%CACHE_LINE_SIZE),
+				dst_off + dst_page_offset );
 
 
 	/* Generate RdCAS to entire Src Buf*/
