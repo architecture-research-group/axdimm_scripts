@@ -29,35 +29,32 @@
 
 #define THREADS 2
 
-// 1MB, 2MB
-#define SRC_MATCH__1 0x100100100
-#define DST_MATCH_1 0x100210800
-
-// #define BUF_SIZE 
-// #define BUF_SIZE 0x000080000
-#define BUF_SIZE 0x000000040
-#define PAGE_SIZE 0x000001000
-#define CACHE_LINE_SIZE 0x000000040
+/* Src Dst Buf Addresses */
+uint64_t srcs[THREADS] = {0x100100100, 0x100100100};
+uint64_t dsts[THREADS] = {0x100210800, 0x100100100};
+uint64_t sizes[THREADS] = {0x000001000, 0x000001000};
 
 typedef struct thread_info {
 	pthread_t thread_id;
 	int cdevfd;
-	long int st;
-	long int end;
+	long int src_addr;
+	long int dst_addr;
+	long int size;
 } t_info;
 
 void * do_compcpy_loop( void * targs){
 	pthread_t tid=(*(t_info *)(targs)).thread_id;
 	int cdevfd = (*(t_info *)(targs)).cdevfd;
-	long unsigned int src_addr = (*(t_info *)(targs)).st;
-	long unsigned int dst_addr = (*(t_info *)(targs)).end;;
+	long unsigned int src_addr = (*(t_info *)(targs)).src_addr;
+	long unsigned int dst_addr = (*(t_info *)(targs)).dst_addr;;
+	long unsigned int size = (*(t_info *)(targs)).size;;
 
-	printf("fd:%d tid:%ld src:0x%lx dst:0x%lx\n", cdevfd, tid, src_addr, dst_addr);
+	printf("fd:%d tid:%ld src:0x%lx dst:0x%lx size:0x%lx\n", cdevfd, tid, src_addr, dst_addr, size);
 	fflush(NULL);
 	return NULL;
 	
-	volatile char * src = (char *) mmap(NULL, BUF_SIZE, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, src_addr);
-	volatile char * dst = (char *) mmap(NULL, BUF_SIZE, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, dst_addr);
+	volatile char * src = (char *) mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, src_addr);
+	volatile char * dst = (char *) mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, dst_addr);
 }
 
 
@@ -65,9 +62,6 @@ int main(int argc, char ** argv)
 {
 	int cdevfd=0;
 	int ret;
-
-	uint64_t src_off=SRC_MATCH__1 - (SRC_MATCH__1%PAGE_SIZE);
-	uint64_t dst_off=DST_MATCH_1 - (DST_MATCH_1%PAGE_SIZE);
 
 	if ((cdevfd = open("/dev/mem", O_RDWR)) < 0)
 	{
@@ -87,8 +81,8 @@ int main(int argc, char ** argv)
 	for (int i=0; i<THREADS; i++){
 		targs[i].thread_id = i;
 		targs[i].cdevfd = cdevfd;
-		targs[i].st = SRC_MATCH__1;
-		targs[i].end = DST_MATCH_1;
+		targs[i].src_addr = srcs[i];
+		targs[i].dst_addr = dsts[i];
 
 		ret = pthread_create(&targs[i].thread_id, &attr,
 						&do_compcpy_loop, &targs[i] );
