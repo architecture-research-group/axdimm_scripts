@@ -79,10 +79,12 @@ void * do_compcpy_loop( void * targs){
 		printf("could not alloc DST Buffer on AxDIMM\n");
 		exit(-1);
 	}
-	// dst[0] = 1;
-	// return NULL;
-	for (int i=0; i<size; i+=1){ /*CompCpy*/
-		dst[i] = src[i];
+	int dst_offset=dst_page_offset;
+	int src_offset=src_page_offset;
+	for (int i=0; i<size/CACHE_LINE_SIZE; i+=CACHE_LINE_SIZE){ /*CompCpy*/
+		dst_offset += i;
+		src_offset += i;
+		dst[dst_offset] = src[src_offset];
 	}
 	// if ( (ret = memcpy(src, dst, size)) != dst ){ // memcpy discards volatile -- performance optimization of memcpy() on some platforms (including x86-64) included changing the order in which bytes were copied from src to dest.
 	// 	printf("CompCpy unsuccessful: %d\n", ret);
