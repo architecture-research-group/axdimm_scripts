@@ -30,10 +30,11 @@
 		do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
 
 #define THREADS 2
+#define ITER 100000
 /* Src Dst Buf Addresses */
 uint64_t srcs[THREADS] = {0x100100100, 0x100100100};
 uint64_t dsts[THREADS] = {0x100210800, 0x100100100};
-uint64_t sizes[THREADS] = {0x000001000, 0x000001000};
+uint64_t sizes[THREADS] = {0x000040000, 0x000001000};
 
 typedef struct thread_info {
 	pthread_t thread_id;
@@ -41,6 +42,7 @@ typedef struct thread_info {
 	long int src_addr;
 	long int dst_addr;
 	long int size;
+	long int iter;
 } t_info;
 
 void * do_compcpy_loop( void * targs){
@@ -49,6 +51,7 @@ void * do_compcpy_loop( void * targs){
 	long unsigned int src_addr = (*(t_info *)(targs)).src_addr;
 	long unsigned int dst_addr = (*(t_info *)(targs)).dst_addr;;
 	long unsigned int size = (*(t_info *)(targs)).size;;
+	long unsigned int iter = (*(t_info *)(targs)).iter;;
 	int ret;
 
 	printf("fd:%d tid:%ld src:0x%lx dst:0x%lx size:0x%lx\n", cdevfd, tid, src_addr, dst_addr, size);
@@ -66,30 +69,36 @@ void * do_compcpy_loop( void * targs){
 		printf("could not allocate SRC Buffer on AxDIMM\n");
 		exit(-1);
 	}
-
-	/* Touch application src buffer to generate RdCAS */
-	for(int i=0; i<size/sizeof(uint64_t); i+=sizeof(uint64_t)){
-		*(char *)( src + (sizeof(uint64_t)*i) ) = (uint8_t)i;
-	}
-
-	/* Application allocates dst buffer and performs CompCpy bringing dst buffer into cache*/
+	/* Application allocates dst buffer */
 	dst = (char *) mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, dst_addr_page);
 	if (dst == (void *)-1)
 	{
-		printf("could not alloc DST Buffer on AxDIMM\n");
+		// printf("could not alloc DST Buffer on AxDIMM, iter: %d\n", j);
 		exit(-1);
 	}
-	int dst_offset=dst_page_offset;
-	int src_offset=src_page_offset;
-	for (int i=0; i<size/CACHE_LINE_SIZE; i+=CACHE_LINE_SIZE){ /*CompCpy*/
-		dst_offset += i;
-		src_offset += i;
-		dst[dst_offset] = src[src_offset];
+
+	for(int j=0; j<iter; j++){
+
+		/* Touch application src buffer to generate RdCAS */
+		for(int i=0; i<size/sizeof(uint64_t); i+=sizeof(uint64_t)){
+			*(char *)( src + (sizeof(uint64_t)*i) ) = (uint8_t)i;
+		}
+		
+		int dst_offset=dst_page_offset;
+		int src_offset=src_page_offset;
+		/* performs CompCpy bringing dst buffer into cache */
+		for (int i=0; i<size/CACHE_LINE_SIZE; i+=CACHE_LINE_SIZE){ /*CompCpy*/
+			dst_offset += i;
+			src_offset += i;
+			dst[dst_offset] = src[src_offset];
+		}
+		
+		// memcpy discards volatile -- performance optimization of memcpy() on some platforms (including x86-64) included changing the order in which bytes were copied from src to dest.
+		// if ( (ret = memcpy(src, dst, size)) != dst ){ 
+		// 	printf("CompCpy unsuccessful: %d\n", ret);
+		// 	return -1;
+		// }
 	}
-	// if ( (ret = memcpy(src, dst, size)) != dst ){ // memcpy discards volatile -- performance optimization of memcpy() on some platforms (including x86-64) included changing the order in which bytes were copied from src to dest.
-	// 	printf("CompCpy unsuccessful: %d\n", ret);
-	// 	return -1;
-	// }
 	int *res = malloc(sizeof(int));
 	*res = 0;
 	return ((void *)res);
@@ -123,6 +132,7 @@ int main(int argc, char ** argv)
 		targs[i].src_addr = srcs[i];
 		targs[i].dst_addr = dsts[i];
 		targs[i].size = sizes[i];
+		targs[i].iter = ITER;
 
 		ret = pthread_create(&targs[i].thread_id, &attr,
 						&do_compcpy_loop, &targs[i] );
@@ -132,7 +142,6 @@ int main(int argc, char ** argv)
 	}
 	printf("Joining compcpy threads...\n");
 	fflush(NULL);
-		// exit(0);
 
 	void *res;
 	for (int i=0; i<THREADS; i++){
