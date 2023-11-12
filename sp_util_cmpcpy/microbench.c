@@ -61,7 +61,7 @@ void * do_compcpy_loop( void * targs){
 
 	volatile char * src = (char *) mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, src_addr_page);
 	volatile char * dst;
-	if (src == -1)
+	if (src == (void *)-1)
 	{
 		printf("could not allocate SRC Buffer on AxDIMM\n");
 		exit(-1);
@@ -74,7 +74,7 @@ void * do_compcpy_loop( void * targs){
 
 	/* Application allocates dst buffer and performs CompCpy bringing dst buffer into cache*/
 	dst = (char *) mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_FILE | MAP_SHARED, cdevfd, dst_addr_page);
-	if (dst == -1)
+	if (dst == (void *)-1)
 	{
 		printf("could not alloc DST Buffer on AxDIMM\n");
 		exit(-1);
