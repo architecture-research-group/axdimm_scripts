@@ -79,14 +79,18 @@ void * do_compcpy_loop( void * targs){
 		printf("could not alloc DST Buffer on AxDIMM\n");
 		exit(-1);
 	}
+	// dst[0] = 1;
 	// return NULL;
-	for (int i=0; i<size/sizeof(uint64_t); i+=sizeof(uint64_t)){ /*CompCpy*/
-		*(char *)( dst + dst_page_offset + (sizeof(uint64_t)*i) ) = *(char *)(src + src_page_offset + (sizeof(uint64_t)*i));
+	for (int i=0; i<size; i+=1){ /*CompCpy*/
+		dst[i] = src[i];
 	}
 	// if ( (ret = memcpy(src, dst, size)) != dst ){ // memcpy discards volatile -- performance optimization of memcpy() on some platforms (including x86-64) included changing the order in which bytes were copied from src to dest.
 	// 	printf("CompCpy unsuccessful: %d\n", ret);
 	// 	return -1;
 	// }
+	int *res = malloc(sizeof(int));
+	*res = 0;
+	return ((void *)res);
 }
 
 
@@ -135,8 +139,8 @@ int main(int argc, char ** argv)
 		if (ret != 0)
 			handle_error_en(ret, "pthread_create");
 
-		printf("Joined with thread %ld; returned value was %s\n",
-                       targs[i].thread_id, (char *) res);
+		printf("Joined with thread %ld; returned value was %d\n",
+                       targs[i].thread_id, *(int*)res);
 		fflush(NULL);
 
 		free(res);
