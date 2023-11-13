@@ -26,8 +26,8 @@
 # include <pthread.h>
 
 // 1MB, 2MB
-#define SRC_MATCH__1 0x100100100
-#define DST_MATCH_1 0x100210800
+#define SRC_MATCH__1 0x100100000
+#define DST_MATCH_1 0x100240000
 
 // #define BUF_SIZE 
 // #define BUF_SIZE 0x000080000
