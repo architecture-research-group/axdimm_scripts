@@ -7,6 +7,7 @@ make
 
 Output:
 ```
-taskset -c 1 sudo ./microbench <addr>
-
+n869p538@axdimm:issue_rdcas_wrcas$ ./run.sh 
+RdCAS: 0x2000
+WrCAS: 0x2000
 ```
