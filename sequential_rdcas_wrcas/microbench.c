@@ -24,17 +24,22 @@
 # include <string.h>
 # include <x86intrin.h>
 # include <pthread.h>
+# include <assert.h>
 
-#define SRCBUF_START 0x300000000
-#define DSTBUF_START 0x380000000
-#define BUFSIZE 32 * 1024 // 32KB Pages
+#define BUFSIZE (32 * 1024) // 32KB Pages
 #define RANGESIZE (1<<22)
+
+#define SRCBUF_START 0x300000000UL
+#define DSTBUF_START 0x380000000UL
+
 
 int main(int argc, char ** argv)
 {
 	int cdevfd=0;
-	int src_start_addr = SRCBUF_START;
-	int dst_start_addr = DSTBUF_START;
+	unsigned long int src_start_addr = SRCBUF_START;
+	unsigned long int dst_start_addr = DSTBUF_START;
+
+	assert(src_start_addr + RANGESIZE < dst_start_addr);
 
 	if ((cdevfd = open("/dev/mem", O_RDWR)) < 0)
 	{
@@ -47,16 +52,16 @@ int main(int argc, char ** argv)
 
 	if (src_range_st == -1)
 	{
-		printf("Src Buffer Range Allocation Failed\n");
+		printf("Src Buffer Range Allocation Failed:%ld\n", src_start_addr);
+		perror(":");
 		exit(-1);
 	}
 	if (dst_range_st == -1)
 	{
-		printf("Dst Buffer Range Allocation Failed\n");
+		printf("Dst Buffer Range Allocation Failed:%ld\n", dst_start_addr);
+		perror("Error:");
 		exit(-1);
 	}
-
-	exit(0);
 	
 	for (int i=0; i<RANGESIZE; i+=BUFSIZE){
 		char * src_i = (char *)(src_range_st + (i));
